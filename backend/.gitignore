@@ -1,0 +1,11 @@
+# Ignorar dependencias
+node_modules/
+
+# Variables de entorno
+.env
+
+# Logs y otros archivos temporales
+npm-debug.log
+yarn-debug.log
+yarn-error.log
+.DS_Store
