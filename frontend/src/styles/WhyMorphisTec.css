@@ -54,9 +54,3 @@
     max-width: 90%;
   }
 }
-
-@media (max-width: 480px) {
-  .tech-fact {
-    font-size: 1.1rem;
-  }
-}

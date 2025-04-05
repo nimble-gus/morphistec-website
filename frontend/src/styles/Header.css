@@ -175,6 +175,16 @@
       border-bottom: 1px solid #333;
       padding-bottom: 0.5rem;
     }
+
+        .darkmode-toggle {
+          position: absolute;
+          top: 0.7rem;
+          right: 3rem;
+          z-index: 20;
+          padding: 0;
+          background: none;
+          border: none;
+        }
   }
 
   .cta-button::before {

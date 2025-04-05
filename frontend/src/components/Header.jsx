@@ -26,7 +26,8 @@ const Header = () => {
 
         <div className="header-right">
 
-          <button onClick={() => setDarkMode(!darkMode)} aria-label="Cambiar modo oscuro">
+          <button className="darkmode-toggle" onClick={() => setDarkMode(!darkMode)} aria-label="Cambiar modo oscuro">
+            
             {darkMode ? (
               // Sol (modo claro)
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" height="24" width="24">

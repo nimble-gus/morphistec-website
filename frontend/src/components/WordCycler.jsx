@@ -30,8 +30,8 @@ const WordCycler = () => {
 
   return (
 <p className="hero-dynamic">
-  <span className="static-text">Morph is:</span><br />
-  <span className={`hero-word ${fade ? 'fade-in' : ''}`}>{words[current]}</span>
+    <span className="static-text">Morph is: </span>
+    <span className={`hero-word ${fade ? 'fade-in' : ''}`}>{words[current]}</span>
 </p>
 
   );

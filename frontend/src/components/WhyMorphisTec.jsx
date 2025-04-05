@@ -20,13 +20,19 @@ const WhyMorphisTec = () => {
 
   useEffect(() => {
     const observer = new IntersectionObserver(
-      ([entry]) => setVisible(entry.isIntersecting),
-      { threshold: 0.90 } // Mayor visibilidad para activarse (60%)
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true); // Solo se activa, nunca se desactiva
+          observer.disconnect(); // Desconectamos el observer después de activarse una vez
+        }
+      },
+      { threshold: 0.6 } // Más permisivo para móviles
     );
+  
     const currentSection = sectionRef.current;
     if (currentSection) observer.observe(currentSection);
-
-    return () => currentSection && observer.unobserve(currentSection);
+  
+    return () => observer.disconnect();
   }, []);
 
   useEffect(() => {
