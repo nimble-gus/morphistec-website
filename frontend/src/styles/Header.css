@@ -140,8 +140,7 @@
         flex: 1;
         display: flex;
         justify-content: center;
-        padding-left: 2.5rem; /* ⬅️ Ajustá este valor si querés más espacio */
-    
+        padding-left: 1.5rem; /* ⬅️ Ajustá este valor si querés más espacio */
       }
 
       .header-right {
@@ -152,7 +151,7 @@
     
       .cta-button {
         font-size: 0.85rem;
-        padding: 0.6rem 1.5rem; /* ⬅️ Aumentá el padding horizontal */
+        padding: 0.4rem 1.5rem; /* ⬅️ Aumentá el padding horizontal */
         min-width: 120px;       /* ⬅️ Evita que se encoja demasiado */
         border-radius: 25px;    /* ⬅️ Más suave, no circular */
       }
