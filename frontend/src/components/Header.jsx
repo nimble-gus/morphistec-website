@@ -12,17 +12,16 @@ const Header = () => {
 
   return (
     <>
-      <header className="header">
+        <header className="header">
         <div className="header-left">
-          <img src="/assets/logo.png" alt="MorphisTec logo" className="logo" />
+            <img src="/assets/logo.png" alt="MorphisTec logo" className="logo" />
         </div>
 
-        {/* Puedes eliminar este nav si no vas a usar links */}
         <nav className="header-center">
-  <button className="cta-button" onClick={() => setShowModal(true)}>
-    <span>Agenda una Cita</span>
-  </button>
-</nav>
+            <button className="cta-button" onClick={() => setShowModal(true)}>
+            <span>Agenda una Cita</span>
+            </button>
+        </nav>
 
         <div className="header-right">
 

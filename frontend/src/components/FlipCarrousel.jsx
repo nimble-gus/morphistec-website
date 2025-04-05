@@ -34,7 +34,7 @@ const FlipCarousel = () => {
     slidesToShow: 5, // 👈 Muestra 3 tarjetas
     slidesToScroll: 1,
     autoplay: true,
-    autoplaySpeed: 2000,
+    autoplaySpeed: 3500,
     arrows: true,
     responsive: [
       {
