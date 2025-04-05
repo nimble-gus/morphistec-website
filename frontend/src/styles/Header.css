@@ -140,7 +140,8 @@
         flex: 1;
         display: flex;
         justify-content: center;
-        padding-left: 4rem; /* ⬅️ Ajustá este valor si querés más espacio */
+        padding-left: 2.5rem; /* ⬅️ Ajustá este valor si querés más espacio */
+    
       }
 
       .header-right {
