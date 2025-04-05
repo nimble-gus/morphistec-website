@@ -1,13 +1,69 @@
+/* ------------------------------------------ */
+/*            BASE STYLES                   */
+/* ------------------------------------------ */
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  background-color: #000;
+}
+
+html, body, #root {
+  margin: 0;
+  padding: 0;
+  background-color: #000;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+
+/* ------------------------------------------ */
+/*            LIGHT MODE OVERRIDES           */
+/* ------------------------------------------ */
+body.light-mode {
+  filter: invert(1) hue-rotate(180deg);
+  overflow-x: hidden;
+}
+
+/* Excluir imágenes del filtro invertido */
+body.light-mode img[src*="about-us.jpg"],
+body.light-mode img[src*="whatsapp-icon.svg"],
+body.light-mode video[src*="hero-video.mp4"] {
+  filter: invert(1) hue-rotate(180deg);
+}
+
+
+/* ------------------------------------------ */
+/*            WHATSAPP FLOAT BUTTON          */
+/* ------------------------------------------ */
+.whatsapp-float {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 9999;
+  background-color: #25d366;
+  padding: 0.75rem;
+  border-radius: 50%;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  filter: none !important;
+}
+
+.whatsapp-float:hover {
+  transform: scale(1.1);
+}
+
+.whatsapp-float img {
+  width: 28px;
+  height: 28px;
+  display: block;
+  filter: none !important;
 }

@@ -1,0 +1,62 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+.why-section {
+  background-color: #000000a9; /* Siempre oscuro */
+  padding: 3rem 2rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 20vh;
+  opacity: 0;
+  transition: opacity 0.8s ease-in-out;
+  pointer-events: none;
+}
+
+.why-section.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+.tech-fact {
+  font-family: 'Poppins', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.85);
+  max-width: 80%;
+  transition: opacity 1s ease, transform 1s ease;
+  opacity: 0;
+  transform: translateY(10px);
+  margin: 0 auto;
+  text-align: center;
+}
+
+/* Animaciones */
+.fade-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-out {
+  opacity: 0;
+  transform: translateY(-10px);
+}
+
+/* ✅ Responsive para tablets y móviles */
+@media (max-width: 768px) {
+  .why-section {
+    height: auto;
+    padding: 2rem 1.5rem;
+  }
+
+  .tech-fact {
+    font-size: 1.3rem;
+    max-width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .tech-fact {
+    font-size: 1.1rem;
+  }
+}
