@@ -16,6 +16,7 @@ const AppointmentModal = ({ isOpen, onClose }) => {
 
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Cerrar el modal al hacer clic fuera
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (modalRef.current && !modalRef.current.contains(e.target)) {
@@ -32,11 +33,13 @@ const AppointmentModal = ({ isOpen, onClose }) => {
     };
   }, [isOpen, onClose]);
 
+  // Actualizar campos del formulario
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  // Enviar formulario
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsSubmitting(true);
@@ -99,12 +102,57 @@ const AppointmentModal = ({ isOpen, onClose }) => {
       <div className="modal-content" ref={modalRef}>
         <h2>Agendar una Cita</h2>
         <form onSubmit={handleSubmit}>
-          <input type="text" name="nombre" placeholder="Nombre" required value={formData.nombre} onChange={handleChange} />
-          <input type="text" name="empresa" placeholder="Empresa" required value={formData.empresa} onChange={handleChange} />
-          <input type="tel" name="telefono" placeholder="Teléfono" required value={formData.telefono} onChange={handleChange} />
-          <input type="email" name="correo" placeholder="Correo" required value={formData.correo} onChange={handleChange} />
-          <input type="date" name="fecha" required value={formData.fecha} onChange={handleChange} />
-          <input type="time" name="hora" required value={formData.hora} onChange={handleChange} />
+          <input
+            type="text"
+            name="nombre"
+            placeholder="Nombre"
+            required
+            value={formData.nombre}
+            onChange={handleChange}
+          />
+          <input
+            type="text"
+            name="empresa"
+            placeholder="Empresa"
+            required
+            value={formData.empresa}
+            onChange={handleChange}
+          />
+          <input
+            type="tel"
+            name="telefono"
+            placeholder="Teléfono"
+            inputMode="tel"
+            required
+            value={formData.telefono}
+            onChange={handleChange}
+          />
+          <input
+            type="email"
+            name="correo"
+            placeholder="Correo"
+            required
+            value={formData.correo}
+            onChange={handleChange}
+          />
+          <input
+            type="date"
+            name="fecha"
+            placeholder="Fecha"
+            aria-label="Fecha"
+            required
+            value={formData.fecha}
+            onChange={handleChange}
+          />
+          <input
+            type="time"
+            name="hora"
+            placeholder="Hora"
+            aria-label="Hora"
+            required
+            value={formData.hora}
+            onChange={handleChange}
+          />
           <div className="modal-buttons">
             <button type="submit" className="confirm" disabled={isSubmitting}>
               {isSubmitting ? 'Enviando...' : 'Agendar'}
