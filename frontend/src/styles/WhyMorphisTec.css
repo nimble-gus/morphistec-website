@@ -27,6 +27,7 @@
   transition: opacity 1s ease, transform 1s ease;
   opacity: 0;
   transform: translateY(10px);
+  min-height: 4.8rem;
   margin: 0 auto;
   text-align: center;
 }
@@ -50,7 +51,8 @@
   }
 
   .tech-fact {
-    font-size: 1.3rem;
+    font-size: 1.2rem;
+    min-height: 7.5rem; /* más espacio si el texto se rompe más fácil */
     max-width: 90%;
   }
 }

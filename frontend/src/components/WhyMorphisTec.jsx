@@ -2,14 +2,13 @@ import React, { useEffect, useRef, useState } from 'react';
 import '../styles/WhyMorphisTec.css';
 
 const phrases = [
-  'Deepfake detection se volvió esencial en 2023… ¿y vos validás identidad solo por DPI escaneado?',
-  'En plena pandemia, empresas migraron en días a la nube… ¿y vos aún dependés del servidor de la oficina?',
-  'SQL existe desde 1974… ¿y todavía usás Excel como base de datos?',
+  'Deepfake detection se volvió esencial en 2023… ¿Y tu equipo aún valida la identidad solo por DPI escaneado?',
+  'En plena pandemia, empresas migraron en días a la nube… ¿Y tu equipo aún depende de los servidores de la oficina?',
+  'SQL existe desde 1974… ¿Tu equipo aún usa Excel como base de datos?',
   'La automatización con IA ya es cotidiana… ¿y tu facturación sigue siendo manual?',
-  'El OCR existe desde los 70… ¿y vos digitás datos a mano desde PDFs?',
-  'Los CRM existen hace décadas… ¿y gestionás clientes con Post-its?',
-  'La IA ya clasifica documentos automáticamente… ¿y vos seguís ordenando carpetas a mano?',
-  'El OCR moderno extrae texto en segundos… ¿y vos escribís los datos desde PDFs?'
+  'El OCR existe desde los 70s… ¿Y tu equipo aún digita datos a mano desde PDFs?',
+  'Los CRM existen hace décadas… ¿y tu equipo aún gestiona clientes con Post-its?',
+  'La IA ya clasifica documentos automáticamente… ¿Tu equipo sigue ordenando carpetas a mano?',
 ];
 
 const WhyMorphisTec = () => {

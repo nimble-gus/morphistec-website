@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import '../styles/DigitalTest.css';
 
 const questions = [
-  "¿Seguís usando Excel como Base de Datos?", 
+  "¿Sigues usando Excel como Base de Datos?", 
   "¿Tu equipo pasa días limpiando datos?", 
-  "¿Digitás facturas manualmente?",
-  "¿Tus reportes se hacen en Word?",
-  "¿Sentís que necesitas tecnología?",
+  "¿Digitas facturas manualmente?",
+  "¿Tus reportes aún se hacen en Word?",
+  "¿Sientes que necesitas tecnología?",
 ];
 
 
@@ -25,9 +25,9 @@ const DigitalTest = () => {
   };
 
   const getResultMessage = () => {
-    if (score >= 4) return { title: "🧱 pre-2005", detail: "necesitás urgente una renovación" };
-    if (score >= 2) return { title: "🧪 en transición", detail: "vas por buen camino" };
-    return { title: "🚀 avanzado", detail: "pero siempre hay algo más que optimizar" };
+    if (score >= 4) return { title: "🧱 pre-2005", detail: "necesitas urgente una renovación" };
+    if (score >= 2) return { title: "🧪 En transición", detail: "vas por buen camino" };
+    return { title: "🚀 Avanzado", detail: "pero siempre hay algo más que optimizar" };
   };
 
   return (
@@ -50,7 +50,7 @@ const DigitalTest = () => {
                 {getResultMessage().title} <span className="result-detail">({getResultMessage().detail})</span>
             </span>
             </h2>
-          <p>Descubrí cómo podemos ayudarte.</p>
+          <p>Descubre cómo podemos ayudarte.</p>
             <a
             href="https://wa.me/50254164264"
             target="_blank"
