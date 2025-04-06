@@ -3,9 +3,9 @@ import Hero from './components/Hero';
 import Header from './components/Header';
 import WhyMorphisTec from './components/WhyMorphisTec';
 import HowWeDoIt from './components/HowWeDoIt';
-import FlipCarrousel from './components/FlipCarrousel';
 import Footer from './components/Footer';
 import AboutUs from './components/AboutUs';
+import DigitalTest from './components/DigitalTest';
 
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
@@ -22,7 +22,7 @@ function App() {
         <WhyMorphisTec />
         <AboutUs />
         <HowWeDoIt />
-        <FlipCarrousel />
+        <DigitalTest />
         <Footer />
       </div>
 

@@ -1,17 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap');
 
 .hero-section {
   position: relative;
   height: 95vh;
-  overflow: hidden;
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  font-family: 'Space Grotesk', sans-serif;
-  color: white;
   padding-left: 5vw;
   background-color: transparent;
+  color: white;
+  font-family: 'Poppins', sans-serif;
   z-index: 1;
+  overflow: hidden;
 }
 
 .hero-video {
@@ -35,33 +34,39 @@
 }
 
 .hero-content.left {
-  text-align: left;
   max-width: 1000px;
   padding: 3rem 5vw;
 }
 
-/* Sección dinámica */
+/* Hero Dynamic Text Group */
 .hero-dynamic {
-  min-height: 8rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  line-height: 1;
 }
 
+/* Static line */
 .static-text {
-  font-size: 4rem;
-  font-weight: 100;
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.hero-word {
-  font-size: 8rem;
+  font-size: 3rem;
   font-weight: 300;
   color: rgba(255, 255, 255, 0.6);
+  white-space: nowrap;
+}
+
+/* Dynamic line */
+.hero-word {
+  font-size: 5rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.85);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 90vw;
+  line-height: 1.2;           /* 🧬 Aumenta altura para descendentes */
+  padding-bottom: 0.2rem;     /* 🪄 Un poco de aire extra */
   opacity: 0;
   transform: translateY(30px);
-  transition: opacity 1s ease-in-out, transform 1s ease-in-out;
-  word-break: break-word;
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 .fade-in {
@@ -69,47 +74,39 @@
   transform: translateY(0);
 }
 
-/* Gradiente inferior */
+/* Gradient overlay at the bottom */
 .hero-section::after {
   content: '';
   position: absolute;
   bottom: 0;
   left: 0;
-  width: 100%;
   height: 200px;
-  background: linear-gradient(to bottom, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.856));
+  width: 100%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,0.8));
   z-index: 2;
 }
 
-/* Responsive */
+/* Responsive rules */
 @media (max-width: 768px) {
-  .hero-title {
-    font-size: 2.5rem;
-  }
-
-  .static-text {
-    font-size: 2rem;
-  }
-
-  .hero-word {
-    font-size: 4rem;
-  }
-
   .hero-content.left {
     padding: 2rem;
   }
 
-  .hero-dynamic {
-    min-height: 6rem;
+  .static-text {
+    font-size: 1.6rem;
+  }
+
+  .hero-word {
+    font-size: 2.6rem;
   }
 }
 
 @media (max-width: 480px) {
-  .hero-title {
-    font-size: 2rem;
+  .static-text {
+    font-size: 1.4rem;
   }
 
-  .hero-subtitle {
-    font-size: 1rem;
+  .hero-word {
+    font-size: 2.1rem;
   }
 }
