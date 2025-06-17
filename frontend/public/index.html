@@ -3,23 +3,20 @@
   <head>
     <meta charset="utf-8" />
 
-    <!-- Favicon personalizado -->
+    <!-- Favicon -->
     <link rel="icon" href="%PUBLIC_URL%/assets/logo2.png" />
 
     <!-- Responsive -->
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 
     <!-- Tipografías -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=Montserrat:wght@700&display=swap" rel="stylesheet" />
 
-    <!-- Tema para navegador -->
-    <meta name="theme-color" content="#000000" />
-
-    <!-- SEO Meta Description -->
-    <meta
-      name="description"
-      content="MorphisTec | Tu partner tecnológico en automatización, OCR, ecommerce y centralización de datos. Tecnología a la medida sin complicaciones."
-    />
+    <!-- SEO fallback (solo por si JS falla) -->
+    <meta name="description" content="Sitio web de MorphisTec" />
+    <meta name="robots" content="index, follow" />
+    <meta name="keywords" content="tecnología, automatización, ecommerce, inteligencia artificial, Guatemala" />
+    <link rel="canonical" href="https://morphistec.com" />
 
     <!-- iOS Touch Icon -->
     <link rel="apple-touch-icon" href="%PUBLIC_URL%/logo192.png" />
@@ -27,21 +24,8 @@
     <!-- Web App Manifest -->
     <link rel="manifest" href="%PUBLIC_URL%/manifest.json" />
 
-    <!-- Open Graph -->
-    <meta property="og:title" content="MorphisTec | Tu partner tecnológico" />
-    <meta property="og:description" content="Soluciones inteligentes para empresas que buscan automatizar, digitalizar y escalar sin complicaciones." />
-    <meta property="og:image" content="%PUBLIC_URL%/assets/logo2.png" />
-    <meta property="og:url" content="https://morphistec.com" />
-    <meta property="og:type" content="website" />
-
-    <!-- Twitter Card -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="MorphisTec | Tu partner tecnológico" />
-    <meta name="twitter:description" content="Automatización, OCR, ecommerce, dashboards, y más. MorphisTec es tu aliado digital." />
-    <meta name="twitter:image" content="%PUBLIC_URL%/assets/logo2.png" />
-
-    <!-- Título de la pestaña -->
-    <title>MorphisTec | Tu partner tecnológico</title>
+    <!-- Title fallback (se sobrescribe por Helmet) -->
+    <title>MorphisTec</title>
   </head>
 
   <body>
