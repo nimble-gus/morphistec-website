@@ -1,13 +1,10 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import '../styles/Header.css';
 import AppointmentModal from './AppointmentModal';
 
-interface HeaderProps {
-  // Props removed - no longer needed
-}
-
-const Header: React.FC<HeaderProps> = () => {
+const Header: React.FC = () => {
   const [showModal, setShowModal] = useState(false);
 
   return (
@@ -15,7 +12,7 @@ const Header: React.FC<HeaderProps> = () => {
         <header className="header">
         <div className="header-left">
             <Link href="/">
-                <img src="/assets/logo.png" alt="MorphisTec logo" className="logo" />
+                <Image src="/assets/logo.png" alt="Oktae.tech logo" width={40} height={40} className="logo" />
             </Link>
         </div>
 

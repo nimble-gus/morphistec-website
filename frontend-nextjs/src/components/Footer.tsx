@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import '../styles/Footer.css';
 import { Instagram, Linkedin, Mail } from 'lucide-react';
 
@@ -8,7 +9,7 @@ const Footer: React.FC = () => {
     <footer className="footer">
       <div className="footer-top">
         <div className="footer-brand">
-          <img src="/assets/logo.png" alt="Oktae.tech" className="footer-logo" />
+          <Image src="/assets/logo.png" alt="Oktae.tech" width={50} height={50} className="footer-logo" />
           <p>Tecnología a tu medida</p>
           <p>Resultados sin complicaciones.</p>
         </div>

@@ -85,7 +85,7 @@ const AppointmentModal: React.FC<AppointmentModalProps> = ({ isOpen, onClose }) 
       });
 
       onClose();
-    } catch (error) {
+    } catch {
       Swal.fire({
         icon: 'error',
         title: '¡Error!',
