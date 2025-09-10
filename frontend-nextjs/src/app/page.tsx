@@ -1,17 +1,16 @@
+'use client';
+
 import React, { useState } from 'react';
-import Hero from './components/Hero';
-import Header from './components/Header';
-import WhyMorphisTec from './components/WhyMorphisTec';
-import HowWeDoIt from './components/HowWeDoIt';
-import Footer from './components/Footer';
-import AboutUs from './components/AboutUs';
-import DigitalTest from './components/DigitalTest';
+import Hero from '@/components/Hero';
+import Header from '@/components/Header';
+import WhyMorphisTec from '@/components/WhyMorphisTec';
+import HowWeDoIt from '@/components/HowWeDoIt';
+import Footer from '@/components/Footer';
+import AboutUs from '@/components/AboutUs';
+import DigitalTest from '@/components/DigitalTest';
+import Image from 'next/image';
 
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
-import './index.css';
-
-function App() {
+export default function Home() {
   const [darkMode, setDarkMode] = useState(true);
 
   return (
@@ -35,11 +34,9 @@ function App() {
           rel="noopener noreferrer"
           aria-label="Contactar por WhatsApp"
         >
-          <img src="/assets/whatsapp-icon.svg" alt="WhatsApp" />
+          <Image src="/assets/whatsapp-icon.svg" alt="WhatsApp" width={60} height={60} />
         </a>
       </div>
     </>
   );
 }
-
-export default App;
