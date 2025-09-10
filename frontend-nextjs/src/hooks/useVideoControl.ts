@@ -60,3 +60,4 @@ export const useVideoControl = (videoSrc: string) => {
 
   return videoRef;
 };
+

@@ -115,3 +115,4 @@ Para futuras modificaciones:
 4. **Usar** `will-change` para propiedades animadas
 
 ¡Las animaciones del WordCycler ahora funcionan perfectamente! 🎉
+

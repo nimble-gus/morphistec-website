@@ -67,3 +67,4 @@ public/assets/
 - ✅ **Mantenimiento**: Fácil cambio de videos por sección
 
 ¡Ahora tienes un video de fondo personalizado (`bkgrnd.mp4`) para todas las páginas de servicios, mientras que la página principal mantiene su video original! 🎉
+

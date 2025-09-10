@@ -150,3 +150,4 @@ src/
 - ✅ **Diseño responsive** optimizado para todos los dispositivos
 
 ¡Las páginas ahora tienen una experiencia visual mucho más rica y profesional! 🎉
+

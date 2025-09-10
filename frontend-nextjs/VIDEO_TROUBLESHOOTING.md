@@ -156,3 +156,4 @@ useEffect(() => {
 4. **Verificar** que el navegador soporta autoplay
 
 ¡El video de fondo ahora debería ser visible con un overlay sutil que mantiene la legibilidad del contenido! 🎉
+
