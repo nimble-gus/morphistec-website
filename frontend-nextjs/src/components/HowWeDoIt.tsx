@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/HowWeDoIt.css';
 import { Search, Puzzle, Rocket } from 'lucide-react'; // si usás Lucide
 
-const HowWeDoIt = () => {
+const HowWeDoIt: React.FC = () => {
   return (
     <section className="how-section">
       <h2 className="section-title">¿Cómo lo hacemos?</h2>

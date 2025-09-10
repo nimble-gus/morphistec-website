@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/Hero.css';
 import WordCycler from './WordCycler';
 
-const Hero = () => {
+const Hero: React.FC = () => {
   return (
     <section className="hero-section">
       <div className="video-overlay" />

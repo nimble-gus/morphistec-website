@@ -1,6 +1,13 @@
 import Head from "next/head";
 
-const SEO = ({ title, description, image, url }) => {
+interface SEOProps {
+  title?: string;
+  description?: string;
+  image?: string;
+  url?: string;
+}
+
+const SEO: React.FC<SEOProps> = ({ title, description, image, url }) => {
   const safeTitle = typeof title === "string" ? title : "";
   const safeDescription = typeof description === "string" ? description : "";
   const safeImage = typeof image === "string" ? image : "";

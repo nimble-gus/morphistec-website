@@ -2,8 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import Swal from 'sweetalert2';
 import '../styles/AppointmentModal.css';
 
-const AppointmentModal = ({ isOpen, onClose }) => {
-  const modalRef = useRef(null);
+interface AppointmentModalProps {
+  isOpen: boolean;
+  onClose: () => void;
+}
+
+const AppointmentModal: React.FC<AppointmentModalProps> = ({ isOpen, onClose }) => {
+  const modalRef = useRef<HTMLDivElement>(null);
 
   const [formData, setFormData] = useState({
     nombre: '',
@@ -17,8 +22,8 @@ const AppointmentModal = ({ isOpen, onClose }) => {
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   useEffect(() => {
-    const handleClickOutside = (e) => {
-      if (modalRef.current && !modalRef.current.contains(e.target)) {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
         onClose();
       }
     };
@@ -32,12 +37,12 @@ const AppointmentModal = ({ isOpen, onClose }) => {
     };
   }, [isOpen, onClose]);
 
-  const handleChange = (e) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
 

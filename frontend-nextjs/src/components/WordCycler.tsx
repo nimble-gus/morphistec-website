@@ -3,13 +3,13 @@ import '../styles/Hero.css';
 
 const words = ['Technology', 'Change', 'Innovation', 'Efficiency', 'What you need'];
 
-const WordCycler = () => {
+const WordCycler: React.FC = () => {
   const [current, setCurrent] = useState(0);
   const [fade, setFade] = useState(true);
 
   useEffect(() => {
-    let fadeTimeout, cycleTimeout, initTimeout;
-
+    let fadeTimeout: NodeJS.Timeout, cycleTimeout: NodeJS.Timeout;
+    
     const animate = () => {
       setFade(false);
       fadeTimeout = setTimeout(() => {
@@ -19,7 +19,7 @@ const WordCycler = () => {
       }, 500);
     };
 
-    initTimeout = setTimeout(animate, 2500);
+    const initTimeout = setTimeout(animate, 2500);
 
     return () => {
       clearTimeout(fadeTimeout);

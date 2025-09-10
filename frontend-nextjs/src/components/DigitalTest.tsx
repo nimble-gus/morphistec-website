@@ -10,12 +10,12 @@ const questions = [
 ];
 
 
-const DigitalTest = () => {
+const DigitalTest: React.FC = () => {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [score, setScore] = useState(0);
   const [showResult, setShowResult] = useState(false);
 
-  const handleAnswer = (answer) => {
+  const handleAnswer = (answer: string) => {
     if (answer === 'yes') setScore(score + 1);
     if (currentQuestion + 1 < questions.length) {
       setCurrentQuestion(currentQuestion + 1);

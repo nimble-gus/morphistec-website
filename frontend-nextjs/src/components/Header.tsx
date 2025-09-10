@@ -2,8 +2,12 @@ import React, { useState, useEffect } from 'react';
 import '../styles/Header.css';
 import AppointmentModal from './AppointmentModal';
 
-const Header = () => {
-  const [darkMode, setDarkMode] = useState(true);
+interface HeaderProps {
+  setDarkMode: (value: boolean) => void;
+  darkMode: boolean;
+}
+
+const Header: React.FC<HeaderProps> = ({ setDarkMode, darkMode }) => {
   const [showModal, setShowModal] = useState(false);
 
   useEffect(() => {

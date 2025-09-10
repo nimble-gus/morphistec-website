@@ -11,8 +11,8 @@ const phrases = [
   'La IA ya clasifica documentos automáticamente… ¿Tu equipo sigue ordenando carpetas a mano?',
 ];
 
-const WhyMorphisTec = () => {
-  const sectionRef = useRef(null);
+const WhyMorphisTec: React.FC = () => {
+  const sectionRef = useRef<HTMLElement>(null);
   const [visible, setVisible] = useState(false);
   const [index, setIndex] = useState(0);
   const [fade, setFade] = useState(true);
@@ -35,7 +35,7 @@ const WhyMorphisTec = () => {
   }, []);
 
   useEffect(() => {
-    let interval;
+    let interval: NodeJS.Timeout;
     if (visible) {
       interval = setInterval(() => {
         setFade(false);

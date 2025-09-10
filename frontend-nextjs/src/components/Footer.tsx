@@ -2,7 +2,7 @@ import React from 'react';
 import '../styles/Footer.css';
 import { Instagram, Linkedin, Mail } from 'lucide-react';
 
-const Footer = () => {
+const Footer: React.FC = () => {
   return (
     <footer className="footer">
       <div className="footer-top">
