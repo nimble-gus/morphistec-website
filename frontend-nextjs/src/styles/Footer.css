@@ -5,6 +5,9 @@
   color: #ffffff;
   font-family: 'Poppins', sans-serif;
   padding: 3rem 2rem 1rem;
+  position: relative;
+  z-index: 100;
+  margin-top: 2rem;
 }
 
 .footer-top {

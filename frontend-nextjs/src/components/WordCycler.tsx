@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Hero.css';
 
-const words = ['Technology', 'Change', 'Innovation', 'Efficiency', 'What you need'];
+const words = ['Technology', 'Your Extra Power', 'Innovation', 'Efficiency', 'What you need'];
 
 const WordCycler: React.FC = () => {
   const [current, setCurrent] = useState(0);
@@ -30,7 +30,7 @@ const WordCycler: React.FC = () => {
 
   return (
 <p className="hero-dynamic">
-    <span className="static-text">Morph is: </span>
+    <span className="static-text">Oktae is: </span>
     <span className={`hero-word ${fade ? 'fade-in' : ''}`}>{words[current]}</span>
 </p>
 

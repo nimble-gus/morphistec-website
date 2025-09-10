@@ -1,4 +1,5 @@
 import React from 'react';
+import Link from 'next/link';
 import '../styles/Footer.css';
 import { Instagram, Linkedin, Mail } from 'lucide-react';
 
@@ -7,7 +8,7 @@ const Footer: React.FC = () => {
     <footer className="footer">
       <div className="footer-top">
         <div className="footer-brand">
-          <img src="/assets/logo.png" alt="MorphisTec" className="footer-logo" />
+          <img src="/assets/logo.png" alt="Oktae.tech" className="footer-logo" />
           <p>Tecnología a tu medida</p>
           <p>Resultados sin complicaciones.</p>
         </div>
@@ -17,29 +18,29 @@ const Footer: React.FC = () => {
             <h4>Servicios</h4>
             <ul>
               <li>
-                <a href="#automatizacion" data-tooltip="Automatiza tareas repetitivas y ahorra tiempo con IA.">Automatización</a>
+                <Link href="/automatizacion" data-tooltip="Automatiza tareas repetitivas y ahorra tiempo con IA.">Automatización</Link>
               </li>
               <li>
-                <a href="#ocr" data-tooltip="Extrae datos de PDFs o imágenes con OCR inteligente.">OCR Inteligente</a>
+                <Link href="/ocr" data-tooltip="Extrae datos de PDFs o imágenes con OCR inteligente.">OCR Inteligente</Link>
               </li>
               <li>
-                <a href="#ecommerce" data-tooltip="Crea una tienda online moderna, rápida y segura.">E-commerce</a>
+                <Link href="/ecommerce" data-tooltip="Crea una tienda online moderna, rápida y segura.">E-commerce</Link>
               </li>
               <li>
-                <a href="#crm" data-tooltip="Gestiona clientes y analiza datos con dashboards a medida.">CRM & Dashboards</a>
+                <Link href="/crm" data-tooltip="Gestiona clientes y analiza datos con dashboards a medida.">CRM & Dashboards</Link>
               </li>
               <li>
-                <a href="#centralizacion" data-tooltip="Unifica tus fuentes de datos para decisiones más inteligentes.">Centralización de Datos</a>
+                <Link href="/centralizacion" data-tooltip="Unifica tus fuentes de datos para decisiones más inteligentes.">Centralización de Datos</Link>
               </li>
             </ul>
           </div>
 
           <div className="footer-column">
             <h4>Contáctanos</h4>
-            <p>Email: <a href="mailto:hola@morphistec.com">hola@morphistec.com</a></p>
+            <p>Email: <a href="mailto:hola@oktae.tech">hola@oktae.tech</a></p>
             <div className="social-icons">
               <a
-                href="https://www.instagram.com/morphistec/"
+                href="https://www.instagram.com/oktae.tech/"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Instagram"
@@ -55,7 +56,7 @@ const Footer: React.FC = () => {
                 <Linkedin size={20} />
               </a>
               <a
-                href="mailto:hola@morphistec.com"
+                href="mailto:hola@oktae.tech"
                 aria-label="Enviar correo"
               >
                 <Mail size={20} />
@@ -68,11 +69,11 @@ const Footer: React.FC = () => {
       <hr className="footer-divider" />
 
       <div className="footer-bottom">
-        <p>© 2025 MorphisTec. Todos los derechos reservados.</p>
+        <p>© 2025 Oktae.tech. Todos los derechos reservados.</p>
         <div className="footer-links">
-          <a href="/privacidad">Política de privacidad</a>
-          <a href="/terminos">Términos y condiciones</a>
-          <a href="/seguridad">Política de seguridad</a>
+          <Link href="/privacidad">Política de privacidad</Link>
+          <Link href="/terminos">Términos y condiciones</Link>
+          <Link href="/seguridad">Política de seguridad</Link>
         </div>
       </div>
     </footer>

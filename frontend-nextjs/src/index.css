@@ -1,69 +1,86 @@
-/* ------------------------------------------ */
-/*            BASE STYLES                   */
-/* ------------------------------------------ */
-body {
+/* Base Styles */
+* {
   margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #000000;
+  color: #ffffff;
   overflow-x: hidden;
-  background-color: #000;
+  line-height: 1.6;
 }
 
-html, body, #root {
-  margin: 0;
-  padding: 0;
-  background-color: #000;
+/* Typography */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.2;
 }
 
+p {
+  margin-bottom: 1rem;
+}
+
+/* Links */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Focus styles for accessibility */
+*:focus {
+  outline: 2px solid #00d36b;
+  outline-offset: 2px;
+}
+
+/* Remove focus outline for mouse users */
+*:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Images */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Code */
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+  background-color: rgba(255, 255, 255, 0.1);
+  padding: 0.2rem 0.4rem;
+  border-radius: 4px;
+  font-size: 0.9em;
 }
 
-
-/* ------------------------------------------ */
-/*            LIGHT MODE OVERRIDES           */
-/* ------------------------------------------ */
-body.light-mode {
-  filter: invert(1) hue-rotate(180deg);
-  overflow-x: hidden;
+/* Utility classes */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
-/* Excluir imágenes del filtro invertido */
-body.light-mode img[src*="about-us.jpg"],
-body.light-mode img[src*="whatsapp-icon.svg"],
-body.light-mode video[src*="hero-video.mp4"] {
-  filter: invert(1) hue-rotate(180deg);
-}
-
-
-/* ------------------------------------------ */
-/*            WHATSAPP FLOAT BUTTON          */
-/* ------------------------------------------ */
-.whatsapp-float {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 9999;
-  background-color: #25d366;
-  padding: 0.75rem;
-  border-radius: 50%;
-  box-shadow: 0 0 12px rgba(0, 0, 0, 0.3);
-  transition: transform 0.3s ease;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  filter: none !important;
-}
-
-.whatsapp-float:hover {
-  transform: scale(1.1);
-}
-
-.whatsapp-float img {
-  width: 28px;
-  height: 28px;
-  display: block;
-  filter: none !important;
+/* Smooth transitions */
+* {
+  transition: color 0.2s ease, background-color 0.2s ease, border-color 0.2s ease;
 }

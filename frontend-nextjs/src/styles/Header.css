@@ -1,181 +1,220 @@
+/* Header Styles */
 .header {
-    width: 100%;
-    padding: 1rem 2rem;
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 10;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    backdrop-filter: blur(10px);
-    flex-direction: row;
-  }
-  
-  .header-left {
-    flex: 1;
-  }
-  
-  .header-center {
-    flex: 2;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-  }
-  
-  .header-right {
-    flex: 1;
-    text-align: right;
-    padding-right: 8rem;
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-    gap: 1rem;
+  width: 100%;
+  padding: 1rem 2rem;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.header-left {
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.header-center {
+  flex: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.header-right {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.logo {
+  height: 40px;
+  cursor: pointer;
+  transition: opacity 0.2s ease;
+}
+
+.logo:hover {
+  opacity: 0.8;
+}
+
+.header-center a {
+  margin: 0 1rem;
+  color: white;
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.2s ease;
+}
+
+.header-center a:hover {
+  text-decoration: underline;
+}
+
+/* Botón Cita estilo elegante */
+.cta-button {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: white;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  z-index: 1001;
+  white-space: nowrap;
+}
+
+.cta-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+/* Animaciones removidas - estilo simplificado */
+
+/* Tablet Styles */
+@media (max-width: 1024px) {
+  .header {
+    padding: 0.8rem 1.5rem;
   }
   
   .logo {
-    height: 40px;
+    height: 36px;
+  }
+  
+  .cta-button {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
+    border-radius: 6px;
   }
   
   .header-center a {
-    margin: 0 1rem;
-    color: white;
-    text-decoration: none;
-    font-weight: 500;
+    margin: 0 0.8rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Mobile Styles */
+@media (max-width: 768px) {
+  .header {
+    padding: 0.6rem 1rem;
+    flex-wrap: nowrap;
   }
   
-  .header-center a:hover {
-    text-decoration: underline;
+  .header-left {
+    flex: 0 0 auto;
+    min-width: 80px;
   }
   
-  .header-right button {
-    background: transparent;
-    border: none;
-    font-size: 1.5rem;
-    cursor: pointer;
-    color: white;
-    padding: 0.25rem 0.5rem;
+  .header-center {
+    flex: 1;
+    justify-content: center;
+    padding: 0 0.5rem;
   }
   
-  /* Botón Cita estilo brillante */
+  .header-right {
+    flex: 0 0 auto;
+    min-width: 100px;
+  }
+  
+  .logo {
+    height: 32px;
+  }
+  
   .cta-button {
-    position: relative;
-    padding: 0.8rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 600;
-    color: white;
-    background: linear-gradient(270deg, #0077ff, #00d36b, #ff00cc);
-    background-size: 600% 600%;
-    border: none;
-    border-radius: 30px;
-    cursor: pointer;
-    z-index: 1;
-    overflow: hidden;
-    box-shadow: 0 0 15px rgba(0, 183, 255, 0.5);
-    animation: pulseGlow 4s infinite ease-in-out;
-    transition: transform 0.2s ease;
+    padding: 0.5rem 1rem;
+    font-size: 0.8rem;
+    min-width: 100px;
+    border-radius: 6px;
   }
   
-  .cta-button:hover {
-    transform: scale(1.05);
+  .header-center a {
+    margin: 0 0.5rem;
+    font-size: 0.8rem;
   }
-  
-  .cta-button::before {
-    content: '';
-    position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
-    animation: floatEnergy 4s linear infinite;
-    z-index: 0;
-  }
-  
-  .cta-button span {
-    position: relative;
-    z-index: 2;
-  }
-  
-  @keyframes pulseGlow {
-    0% {
-      background-position: 0% 50%;
-    }
-    50% {
-      background-position: 100% 50%;
-    }
-    100% {
-      background-position: 0% 50%;
-    }
-  }
-  
-  @keyframes floatEnergy {
-    0% {
-      transform: rotate(0deg) translate(0, 0);
-    }
-    100% {
-      transform: rotate(360deg) translate(0, 0);
-    }
-  }
-  
-  /* Responsive para móviles */
-  @media (max-width: 768px) {
-    .header {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        align-items: center;
-        padding: 0.5rem 1rem;
-      }
-    
-      .header-left {
-        flex: 1;
-        display: flex;
-        justify-content: flex-start;
-      }
-    
-      .header-center {
-        flex: 1;
-        display: flex;
-        justify-content: center;
-        padding-left: 1.5rem; /* ⬅️ Ajustá este valor si querés más espacio */
-      }
+}
 
-      .header-right {
-        flex: 1;
-        display: flex;
-        justify-content: flex-end;
-      }
-    
-      .cta-button {
-        font-size: 0.85rem;
-        padding: 0.4rem 1.5rem; /* ⬅️ Aumentá el padding horizontal */
-        min-width: 120px;       /* ⬅️ Evita que se encoja demasiado */
-        border-radius: 25px;    /* ⬅️ Más suave, no circular */
-      }
-    
-      .logo {
-        height: 36px;
-      }
-
-        .darkmode-toggle {
-          position: absolute;
-          top: 0.7rem;
-          right: 3rem;
-          z-index: 20;
-          padding: 0;
-          background: none;
-          border: none;
-        }
+/* Small Mobile Styles */
+@media (max-width: 480px) {
+  .header {
+    padding: 0.5rem 0.8rem;
   }
-
-  .cta-button::before {
-        width: 120%;
-        height: 120%;
-        top: -10%;
-        left: -10%;
-        background: radial-gradient(circle, rgba(255, 255, 255, 0) 0%, transparent 100%);
-      }
   
+  .header-left {
+    min-width: 60px;
+  }
+  
+  .header-center {
+    padding: 0 0.3rem;
+  }
+  
+  .header-right {
+    min-width: 80px;
+  }
+  
+  .logo {
+    height: 28px;
+  }
+  
+  .cta-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.75rem;
+    min-width: 80px;
+    border-radius: 6px;
+  }
+  
+  .header-center a {
+    margin: 0 0.3rem;
+    font-size: 0.75rem;
+  }
+}
+
+/* Extra Small Mobile Styles */
+@media (max-width: 360px) {
+  .header {
+    padding: 0.4rem 0.6rem;
+  }
+  
+  .logo {
+    height: 24px;
+  }
+  
+  .cta-button {
+    padding: 0.3rem 0.6rem;
+    font-size: 0.7rem;
+    min-width: 70px;
+    border-radius: 4px;
+  }
+  
+  .header-center a {
+    margin: 0 0.2rem;
+    font-size: 0.7rem;
+  }
+}
+
+/* Landscape Mobile */
+@media (max-width: 768px) and (orientation: landscape) {
+  .header {
+    padding: 0.4rem 1rem;
+  }
+  
+  .logo {
+    height: 28px;
+  }
+  
+  .cta-button {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.8rem;
+    border-radius: 6px;
+  }
+}

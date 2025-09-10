@@ -1,16 +1,16 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
-
+/* Why MorphisTec Section */
 .why-section {
-  background-color: #000000a9; /* Siempre oscuro */
+  background-color: #000000;
   padding: 3rem 2rem;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 20vh;
+  min-height: 20vh;
   opacity: 0;
   transition: opacity 0.8s ease-in-out;
   pointer-events: none;
+  position: relative;
 }
 
 .why-section.active {
@@ -22,7 +22,7 @@
   font-family: 'Poppins', sans-serif;
   font-size: 1.6rem;
   font-weight: 400;
-  color: rgba(255, 255, 255, 0.85);
+  color: rgba(255, 255, 255, 0.9);
   max-width: 80%;
   transition: opacity 1s ease, transform 1s ease;
   opacity: 0;
@@ -30,9 +30,10 @@
   min-height: 4.8rem;
   margin: 0 auto;
   text-align: center;
+  line-height: 1.4;
 }
 
-/* Animaciones */
+/* Animations */
 .fade-in {
   opacity: 1;
   transform: translateY(0);
@@ -43,16 +44,23 @@
   transform: translateY(-10px);
 }
 
-/* ✅ Responsive para tablets y móviles */
+/* Responsive */
 @media (max-width: 768px) {
   .why-section {
-    height: auto;
+    min-height: auto;
     padding: 2rem 1.5rem;
   }
 
   .tech-fact {
     font-size: 1.2rem;
-    min-height: 7.5rem; /* más espacio si el texto se rompe más fácil */
+    min-height: 7.5rem;
     max-width: 90%;
+  }
+}
+
+@media (max-width: 480px) {
+  .tech-fact {
+    font-size: 1.1rem;
+    min-height: 6rem;
   }
 }

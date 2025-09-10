@@ -1,0 +1,35 @@
+/* Main Page Styles */
+.main-page {
+  min-height: 100vh;
+  background-color: #000000;
+  color: #ffffff;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Section Spacing */
+.main-page > section {
+  position: relative;
+  z-index: 1;
+}
+
+/* Smooth scrolling */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Focus styles for accessibility */
+*:focus {
+  outline: 2px solid #00d36b;
+  outline-offset: 2px;
+}
+
+/* Remove default margins and paddings */
+* {
+  box-sizing: border-box;
+}
+
+/* Ensure proper stacking context */
+.main-page {
+  isolation: isolate;
+}

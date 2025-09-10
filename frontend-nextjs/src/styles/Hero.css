@@ -11,23 +11,26 @@
   font-family: 'Poppins', sans-serif;
   z-index: 1;
   overflow: hidden;
+  /* Prevent blur effects from other components */
+  backdrop-filter: none;
+  filter: none;
 }
 
 .hero-video {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  height: 100%;
+  height: 100vh;
   width: 100%;
   object-fit: cover;
-  z-index: -2;
+  z-index: -10;
 }
 
 .video-overlay {
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
-  height: 100%;
+  height: calc(100vh + 3cm);
   width: 100%;
   background: linear-gradient(180deg, rgba(0,0,0,0.7), rgba(0,0,0,0.5) 10%, rgba(0,0,0,0.8) 100%);
   z-index: -1;
@@ -36,6 +39,11 @@
 .hero-content.left {
   max-width: 1000px;
   padding: 3rem 5vw;
+  /* Ensure content is not affected by blur */
+  backdrop-filter: none;
+  filter: none;
+  position: relative;
+  z-index: 2;
 }
 
 /* Hero Dynamic Text Group */
@@ -43,6 +51,11 @@
   display: flex;
   flex-direction: column;
   line-height: 1;
+  /* Ensure text is crisp and not affected by blur */
+  backdrop-filter: none;
+  filter: none;
+  position: relative;
+  z-index: 3;
 }
 
 /* Static line */
@@ -51,6 +64,10 @@
   font-weight: 300;
   color: rgba(255, 255, 255, 0.6);
   white-space: nowrap;
+  /* Ensure crisp text rendering */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 /* Dynamic line */
@@ -67,6 +84,10 @@
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.6s ease, transform 0.6s ease;
+  /* Ensure crisp text rendering */
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .fade-in {

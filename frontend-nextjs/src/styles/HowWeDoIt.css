@@ -1,5 +1,5 @@
 .how-section {
-    background: linear-gradient(180deg, #000000, #000000);
+    background: transparent;
     padding: 5rem 2rem;
     text-align: center;
     font-family: 'Poppins', sans-serif;
@@ -21,6 +21,7 @@
     max-width: 800px;
     margin: 0 auto;
     padding: 2rem;
+    background-color: transparent;
   }
   
   .step-card {

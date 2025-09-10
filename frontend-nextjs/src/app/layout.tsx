@@ -16,20 +16,20 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
-  title: "MorphisTec",
-  description: "Sitio web de MorphisTec - Tecnología, automatización, ecommerce, inteligencia artificial en Guatemala",
-  keywords: "tecnología, automatización, ecommerce, inteligencia artificial, Guatemala",
+  title: "Oktae.tech",
+  description: "Sitio web de Oktae.tech - Tecnología, automatización, ecommerce, inteligencia artificial en Guatemala",
+  keywords: "tecnología, automatización, ecommerce, inteligencia artificial, Guatemala, Oktae",
   robots: "index, follow",
   openGraph: {
     type: "website",
-    title: "MorphisTec",
-    description: "Sitio web de MorphisTec - Tecnología, automatización, ecommerce, inteligencia artificial en Guatemala",
-    url: "https://morphistec.com",
+    title: "Oktae.tech",
+    description: "Sitio web de Oktae.tech - Tecnología, automatización, ecommerce, inteligencia artificial en Guatemala",
+    url: "https://oktae.tech",
   },
   twitter: {
     card: "summary_large_image",
-    title: "MorphisTec",
-    description: "Sitio web de MorphisTec - Tecnología, automatización, ecommerce, inteligencia artificial en Guatemala",
+    title: "Oktae.tech",
+    description: "Sitio web de Oktae.tech - Tecnología, automatización, ecommerce, inteligencia artificial en Guatemala",
   },
 };
 
@@ -41,8 +41,9 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
-        <link rel="icon" href="/assets/logo2.png" />
-        <link rel="apple-touch-icon" href="/assets/logo2.png" />
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="apple-touch-icon" href="/favicon.png" />
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body

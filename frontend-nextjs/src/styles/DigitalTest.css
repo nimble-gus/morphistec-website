@@ -1,78 +1,128 @@
+/* Digital Test Component */
 .digital-test {
-    background-color: #111;
-    color: white;
-    padding: 3rem 2rem;
-    text-align: center;
-    border-radius: 10px;
-    max-width: 600px;
-    margin: 2rem auto;
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+  background-color: #000000;
+  color: #ffffff;
+  padding: 3rem 2rem;
+  text-align: center;
+  border-radius: 10px;
+  max-width: 600px;
+  margin: 2rem auto;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  position: relative;
+  z-index: 10;
+}
+
+.question-card, 
+.result-card {
+  animation: fadeIn 0.5s ease;
+}
+
+.digital-test h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1.2rem;
+  font-weight: 600;
+  color: #ffffff;
+}
+
+.digital-test p {
+  font-size: 1.2rem;
+  margin-bottom: 1.5rem;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.buttons {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.digital-test button {
+  background-color: #00d36b;
+  color: #ffffff;
+  border: none;
+  padding: 0.8rem 1.6rem;
+  border-radius: 30px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  min-width: 100px;
+}
+
+.digital-test button:hover {
+  background-color: #00b85e;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 211, 107, 0.3);
+}
+
+.digital-test button:focus {
+  outline: 2px solid #00d36b;
+  outline-offset: 2px;
+}
+
+.cta-link {
+  display: inline-block;
+  margin-top: 1.5rem;
+  color: #00d36b;
+  font-weight: 600;
+  text-decoration: underline;
+  transition: color 0.3s ease;
+}
+
+.cta-link:hover {
+  color: #00b85e;
+}
+
+.result-highlight {
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #00d36b;
+  display: inline-block;
+  margin-top: 0.5rem;
+}
+
+.result-detail {
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1rem;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
   }
-  
-  .question-card, .result-card {
-    animation: fadeIn 0.5s ease;
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
-  
-  .digital-test h2 {
-    font-size: 1.8rem;
-    margin-bottom: 1.2rem;
-  }
-  
-  .digital-test p {
-    font-size: 1.2rem;
-    margin-bottom: 1.5rem;
-  }
-  
-  .buttons {
-    display: flex;
-    justify-content: center;
-    gap: 2rem;
-  }
-  
-  button {
-    background-color: #00d36b;
-    color: white;
-    border: none;
-    padding: 0.8rem 1.6rem;
-    border-radius: 30px;
-    cursor: pointer;
-    font-weight: 600;
-    transition: background 0.3s;
-  }
-  
-  button:hover {
-    background-color: #00b85e;
-  }
-  
-  .cta-link {
-    display: inline-block;
-    margin-top: 1.5rem;
-    color: #00d36b;
-    font-weight: 600;
-    text-decoration: underline;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .digital-test {
+    padding: 2rem 1.5rem;
+    margin: 1rem;
+    max-width: none;
   }
 
-  .result-highlight {
+  .digital-test h2 {
     font-size: 1.5rem;
-    font-weight: 600;
-    color: #00d36b;
-    display: inline-block;
-    margin-top: 0.5rem;
   }
-  
-  .result-detail {
-    font-weight: 400;
-    color: #ccc;
-    font-size: 1rem;
+
+  .digital-test p {
+    font-size: 1.1rem;
   }
-  
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-      transform: translateY(20px);
-    } to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+
+  .buttons {
+    gap: 1rem;
   }
-  
+
+  .digital-test button {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.9rem;
+  }
+}
