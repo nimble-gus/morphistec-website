@@ -95,9 +95,23 @@ frontend-nextjs/
 
 El proyecto está listo para desplegar en Vercel:
 
-1. Conecta el repositorio a Vercel
-2. El proyecto se detectará automáticamente como Next.js
-3. El despliegue se realizará automáticamente
+### Configuración Vercel
+- ✅ `vercel.json` configurado con framework Next.js
+- ✅ Output directory configurado como `.next`
+- ✅ Headers para sitemap.xml configurados
+- ✅ `.vercelignore` configurado
+
+### Pasos para Despliegue
+1. **Conecta el repositorio** a Vercel
+2. **Selecciona el directorio** `frontend-nextjs` como raíz del proyecto
+3. **Vercel detectará automáticamente** que es un proyecto Next.js
+4. **El despliegue se realizará automáticamente**
+
+### Configuración Importante
+- **Framework**: Next.js (detectado automáticamente)
+- **Build Command**: `npm run build`
+- **Output Directory**: `.next`
+- **Node.js Version**: 18.x o superior
 
 ## 📝 Notas de Migración
 
