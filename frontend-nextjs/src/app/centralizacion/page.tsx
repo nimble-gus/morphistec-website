@@ -7,7 +7,7 @@ import BackgroundVideo from '@/components/BackgroundVideo';
 import WhatsAppFloat from '@/components/WhatsAppFloat';
 import '../../styles/ServicePages.css';
 
-export default function EcommercePage() {
+export default function CentralizacionPage() {
   return (
     <>
       <BackgroundVideo />
@@ -16,9 +16,9 @@ export default function EcommercePage() {
       <main className="service-page">
         <div className="service-hero">
           <div className="container">
-            <h1>E-commerce Moderno</h1>
+            <h1>Centralización de Datos</h1>
             <p className="hero-subtitle">
-              Tiendas online rápidas, seguras y optimizadas para conversión
+              Integra y unifica toda tu información en un solo lugar
             </p>
           </div>
         </div>
@@ -27,94 +27,78 @@ export default function EcommercePage() {
           <div className="container">
             <div className="content-grid">
               <div className="content-main">
-                <h2>¿Por qué elegir nuestro E-commerce?</h2>
+                <h2>¿Por qué centralizar tus datos?</h2>
                 <p>
-                  Creamos tiendas online que no solo se ven bien, sino que convierten visitantes 
-                  en clientes. Con tecnología de última generación, seguridad robusta y 
-                  optimización para motores de búsqueda.
+                  La centralización de datos elimina la fragmentación de información, 
+                  mejora la eficiencia operativa y proporciona una visión unificada 
+                  de tu negocio. Conectamos todos tus sistemas para que trabajen 
+                  como una unidad cohesiva.
                 </p>
 
-                <h3>Características Principales</h3>
+                <h3>Beneficios Principales</h3>
                 <ul className="benefits-list">
                   <li>
-                    <strong>Velocidad Extrema:</strong> Carga en menos de 2 segundos
+                    <strong>Visión Unificada:</strong> Todos los datos en un solo lugar
                   </li>
                   <li>
-                    <strong>Mobile First:</strong> Diseño responsive perfecto
+                    <strong>Eliminación de Duplicados:</strong> Datos consistentes y actualizados
                   </li>
                   <li>
-                    <strong>Seguridad PCI:</strong> Cumplimiento total de estándares
+                    <strong>Mejor Toma de Decisiones:</strong> Información completa y precisa
+                  </li>
+                  <li>
+                    <strong>Reducción de Costos:</strong> Menos redundancia y mayor eficiencia
                   </li>
                 </ul>
 
-                <h3>Funcionalidades Incluidas</h3>
+                <h3>Servicios Incluidos</h3>
                 <div className="use-cases">
                   <div className="use-case">
-                    <h4>🛒 Catálogo Inteligente</h4>
-                    <p>Gestión de productos, categorías, inventario y variantes</p>
+                    <h4>🔄 Integración de Sistemas</h4>
+                    <p>Conectamos todas tus aplicaciones y bases de datos</p>
                   </div>
                   <div className="use-case">
-                    <h4>💳 Pagos Seguros</h4>
-                    <p>Integración con múltiples pasarelas de pago</p>
+                    <h4>📊 Data Warehouse</h4>
+                    <p>Almacenamiento centralizado y optimizado</p>
                   </div>
                   <div className="use-case">
-                    <h4>📦 Gestión de Envíos</h4>
-                    <p>Cálculo automático de costos y tracking de pedidos</p>
+                    <h4>🔗 APIs Unificadas</h4>
+                    <p>Interfaces consistentes para todos los sistemas</p>
                   </div>
                   <div className="use-case">
-                    <h4>📊 Analytics Avanzado</h4>
-                    <p>Métricas detalladas de conversión y comportamiento</p>
+                    <h4>📈 Reportes Centralizados</h4>
+                    <p>Dashboards con información de todas las fuentes</p>
                   </div>
                 </div>
 
-                <h3>Plataformas Soportadas</h3>
-                <div className="platforms">
-                  <div className="platform">
-                    <h4>🛍️ Shopify</h4>
-                    <p>Tiendas escalables con miles de apps</p>
-                  </div>
-                  <div className="platform">
-                    <h4>⚡ WooCommerce</h4>
-                    <p>Flexibilidad total con WordPress</p>
-                  </div>
-                  <div className="platform">
-                    <h4>🚀 Custom Solutions</h4>
-                    <p>Desarrollo a medida con Next.js</p>
-                  </div>
-                  <div className="platform">
-                    <h4>📱 Headless Commerce</h4>
-                    <p>APIs modernas para máxima flexibilidad</p>
-                  </div>
-                </div>
-
-                <h3>Proceso de Desarrollo</h3>
+                <h3>Proceso de Implementación</h3>
                 <div className="process-steps">
                   <div className="step">
                     <div className="step-number">1</div>
                     <div className="step-content">
-                      <h4>Estrategia</h4>
-                      <p>Análisis de mercado y definición de objetivos</p>
+                      <h4>Análisis</h4>
+                      <p>Evaluamos todos tus sistemas y fuentes de datos</p>
                     </div>
                   </div>
                   <div className="step">
                     <div className="step-number">2</div>
                     <div className="step-content">
-                      <h4>Diseño UX/UI</h4>
-                      <p>Interfaz optimizada para conversión</p>
+                      <h4>Diseño</h4>
+                      <p>Arquitectura de integración personalizada</p>
                     </div>
                   </div>
                   <div className="step">
                     <div className="step-number">3</div>
                     <div className="step-content">
-                      <h4>Desarrollo</h4>
-                      <p>Implementación con mejores prácticas</p>
+                      <h4>Implementación</h4>
+                      <p>Desarrollo y configuración de la solución</p>
                     </div>
                   </div>
                   <div className="step">
                     <div className="step-number">4</div>
                     <div className="step-content">
-                      <h4>Lanzamiento</h4>
-                      <p>Deploy, testing y optimización continua</p>
+                      <h4>Optimización</h4>
+                      <p>Monitoreo y mejora continua del sistema</p>
                     </div>
                   </div>
                 </div>
@@ -123,7 +107,7 @@ export default function EcommercePage() {
               <div className="content-sidebar">
                 <div className="cta-card">
                   <h3>Consulta Gratuita</h3>
-                  <p>Analizamos tu proyecto y te damos una propuesta personalizada</p>
+                  <p>Analizamos tu infraestructura actual y diseñamos la mejor solución</p>
                   <a 
                     href="https://wa.me/50254164264"
                     target="_blank"
@@ -138,27 +122,28 @@ export default function EcommercePage() {
                 <div className="stats-card">
                   <h4>Resultados Típicos</h4>
                   <div className="stat">
+                    <span className="stat-number">60%</span>
+                    <span className="stat-label">Reducción en tiempo de búsqueda</span>
+                  </div>
+                  <div className="stat">
                     <span className="stat-number">40%</span>
-                    <span className="stat-label">Aumento en conversión</span>
+                    <span className="stat-label">Menos errores de datos</span>
                   </div>
                   <div className="stat">
-                    <span className="stat-number">2 seg</span>
-                    <span className="stat-label">Tiempo de carga</span>
-                  </div>
-                  <div className="stat">
-                    <span className="stat-number">99.9%</span>
-                    <span className="stat-label">Uptime</span>
+                    <span className="stat-number">80%</span>
+                    <span className="stat-label">Mejora en eficiencia</span>
                   </div>
                 </div>
 
                 <div className="features-card">
                   <h4>Incluido en el Proyecto</h4>
                   <ul>
-                    <li>✅ Diseño responsive</li>
-                    <li>✅ Integración de pagos</li>
+                    <li>✅ Análisis de sistemas existentes</li>
+                    <li>✅ Diseño de arquitectura</li>
+                    <li>✅ Integración de datos</li>
                     <li>✅ Panel de administración</li>
                     <li>✅ Capacitación del equipo</li>
-                    <li>✅ Soporte por 3 meses</li>
+                    <li>✅ Soporte por 6 meses</li>
                   </ul>
                 </div>
               </div>
