@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -45,7 +47,7 @@ const Header: React.FC = () => {
               </div>
             </div>
           </div>
-          <button className="cta-button" onClick={() => setShowModal(true)}>
+          <button className="cta-button" onClick={() => setShowModal(true)}>  
             <span>Agenda una Cita</span>
           </button>
         </nav>

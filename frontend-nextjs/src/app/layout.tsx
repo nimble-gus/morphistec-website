@@ -3,6 +3,7 @@ import { Inter, Montserrat } from "next/font/google";
 import "../index.css";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
+import Header from "@/components/Header";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -70,6 +71,7 @@ export default function RootLayout({
       <body
         className={`${inter.variable} ${montserrat.variable} antialiased`}
       >
+        <Header />
         {children}
       </body>
     </html>

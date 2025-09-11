@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BackgroundVideo from '@/components/BackgroundVideo';
 import WhatsAppFloat from '@/components/WhatsAppFloat';
@@ -11,7 +10,6 @@ export default function EcommercePage() {
   return (
     <>
       <BackgroundVideo />
-      <Header />
       
       <main className="service-page">
         <div className="service-hero">

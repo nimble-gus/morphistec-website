@@ -1,7 +1,6 @@
 'use client';
 
 import React from 'react';
-import Header from '@/components/Header';
 import Hero from '@/components/Hero';
 import WhyMorphisTec from '@/components/WhyMorphisTec';
 import AboutUs from '@/components/AboutUs';
@@ -14,7 +13,6 @@ import '../styles/MainPage.css';
 export default function Home() {
   return (
     <main className="main-page">
-      <Header />
       <Hero />
       <WhyMorphisTec />
       <AboutUs />
