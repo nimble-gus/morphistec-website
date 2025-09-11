@@ -151,3 +151,4 @@ Para probar la responsividad:
 
 **Resultado**: Hero section y header completamente responsive para todas las pantallas. 📱✨
 
+

@@ -104,3 +104,4 @@ Recrear la página principal desde cero eliminando malas prácticas y implementa
 
 **Resultado**: Página principal moderna, accesible, performante y mantenible. 🎉
 
+

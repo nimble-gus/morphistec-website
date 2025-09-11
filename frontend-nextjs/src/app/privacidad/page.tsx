@@ -4,6 +4,7 @@ import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BackgroundVideo from '@/components/BackgroundVideo';
+import WhatsAppFloat from '@/components/WhatsAppFloat';
 import '../../styles/ServicePages.css';
 
 export default function PrivacidadPage() {
@@ -117,7 +118,6 @@ export default function PrivacidadPage() {
                 </p>
                 <ul className="benefits-list">
                   <li>Email: <a href="mailto:privacidad@morphistec.com">privacidad@morphistec.com</a></li>
-                  <li>Teléfono: +502 1234-5678</li>
                   <li>Dirección: Ciudad de Guatemala, Guatemala</li>
                 </ul>
               </div>
@@ -153,6 +153,7 @@ export default function PrivacidadPage() {
       </main>
 
       <Footer />
+      <WhatsAppFloat />
     </>
   );
 }

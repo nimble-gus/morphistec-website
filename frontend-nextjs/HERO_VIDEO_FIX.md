@@ -123,3 +123,4 @@ Para probar la solución:
 
 **Resultado**: Video de fondo estático y hero section siempre nítido. 🎉
 
+

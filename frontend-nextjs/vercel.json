@@ -12,5 +12,13 @@
         }
       ]
     }
-  ]
+  ],
+  "functions": {
+    "src/app/**/*.tsx": {
+      "runtime": "nodejs20.x"
+    }
+  },
+  "env": {
+    "NODE_ENV": "production"
+  }
 }

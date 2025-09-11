@@ -38,6 +38,8 @@
 
 .logo {
   height: 40px;
+  width: auto;
+  object-fit: contain;
   cursor: pointer;
   transition: opacity 0.2s ease;
 }
@@ -90,6 +92,8 @@
   
   .logo {
     height: 36px;
+    width: auto;
+    object-fit: contain;
   }
   
   .cta-button {
@@ -129,6 +133,8 @@
   
   .logo {
     height: 32px;
+    width: auto;
+    object-fit: contain;
   }
   
   .cta-button {
@@ -164,6 +170,8 @@
   
   .logo {
     height: 28px;
+    width: auto;
+    object-fit: contain;
   }
   
   .cta-button {
@@ -199,6 +207,8 @@
   
   .logo {
     height: 22px;
+    width: auto;
+    object-fit: contain;
   }
   
   .cta-button {
@@ -234,6 +244,8 @@
   
   .logo {
     height: 20px;
+    width: auto;
+    object-fit: contain;
   }
   
   .cta-button {
@@ -269,6 +281,8 @@
   
   .logo {
     height: 26px;
+    width: auto;
+    object-fit: contain;
   }
   
   .cta-button {

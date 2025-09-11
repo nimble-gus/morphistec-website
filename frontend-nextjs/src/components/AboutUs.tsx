@@ -18,7 +18,13 @@ const AboutUs: React.FC = () => {
         </div>
 
         <div className="about-image">
-          <Image src="/assets/about-us.jpg" alt="Equipo Oktae.tech" width={400} height={300} />
+          <Image 
+            src="/assets/about-us.jpg" 
+            alt="Equipo Oktae.tech" 
+            width={400} 
+            height={300}
+            style={{ width: 'auto', height: 'auto' }}
+          />
         </div>
       </div>
     </section>

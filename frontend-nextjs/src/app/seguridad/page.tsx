@@ -4,6 +4,7 @@ import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BackgroundVideo from '@/components/BackgroundVideo';
+import WhatsAppFloat from '@/components/WhatsAppFloat';
 import '../../styles/ServicePages.css';
 
 export default function SeguridadPage() {
@@ -142,8 +143,6 @@ export default function SeguridadPage() {
                 </p>
                 <ul className="benefits-list">
                   <li>Email: <a href="mailto:security@morphistec.com">security@morphistec.com</a></li>
-                  <li>Teléfono: +502 1234-5678</li>
-                  <li>Línea directa de seguridad: +502 1234-5679</li>
                 </ul>
               </div>
 
@@ -190,6 +189,7 @@ export default function SeguridadPage() {
       </main>
 
       <Footer />
+      <WhatsAppFloat />
     </>
   );
 }

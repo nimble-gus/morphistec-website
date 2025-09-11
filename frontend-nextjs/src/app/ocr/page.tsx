@@ -4,6 +4,7 @@ import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BackgroundVideo from '@/components/BackgroundVideo';
+import WhatsAppFloat from '@/components/WhatsAppFloat';
 import '../../styles/ServicePages.css';
 
 export default function OCRPage() {
@@ -123,14 +124,6 @@ export default function OCRPage() {
               </div>
 
               <div className="content-sidebar">
-                <div className="cta-card">
-                  <h3>Prueba Gratuita</h3>
-                  <p>Procesa hasta 100 documentos gratis para evaluar la precisión</p>
-                  <button className="cta-button">
-                    Probar Ahora
-                  </button>
-                </div>
-
                 <div className="stats-card">
                   <h4>Rendimiento</h4>
                   <div className="stat">
@@ -151,7 +144,7 @@ export default function OCRPage() {
                   <h4>Precios</h4>
                   <div className="price">
                     <span className="currency">$</span>
-                    <span className="amount">0.05</span>
+                    <span className="amount">0.15</span>
                     <span className="unit">por página</span>
                   </div>
                   <p>Sin costos de setup ni mensualidades</p>
@@ -163,6 +156,7 @@ export default function OCRPage() {
       </main>
 
       <Footer />
+      <WhatsAppFloat />
     </>
   );
 }

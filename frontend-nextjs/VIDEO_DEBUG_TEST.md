@@ -70,3 +70,4 @@ Con esta información podremos identificar exactamente dónde está el problema 
 ## 📝 **Nota**
 Este es un test temporal. Una vez que identifiquemos el problema, volveremos al componente `BackgroundVideo` original con las correcciones necesarias.
 
+

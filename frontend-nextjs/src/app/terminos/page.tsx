@@ -4,6 +4,7 @@ import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BackgroundVideo from '@/components/BackgroundVideo';
+import WhatsAppFloat from '@/components/WhatsAppFloat';
 import '../../styles/ServicePages.css';
 
 export default function TerminosPage() {
@@ -115,20 +116,11 @@ export default function TerminosPage() {
                 </p>
                 <ul className="benefits-list">
                   <li>Email: <a href="mailto:legal@morphistec.com">legal@morphistec.com</a></li>
-                  <li>Teléfono: +502 1234-5678</li>
                   <li>Dirección: Ciudad de Guatemala, Guatemala</li>
                 </ul>
               </div>
 
               <div className="content-sidebar">
-                <div className="cta-card">
-                  <h3>¿Necesitas Aclaraciones?</h3>
-                  <p>Nuestro equipo legal está disponible para resolver tus dudas</p>
-                  <button className="cta-button">
-                    Contactar Legal
-                  </button>
-                </div>
-
                 <div className="stats-card">
                   <h4>Nuestros Valores</h4>
                   <div className="stat">
@@ -151,6 +143,7 @@ export default function TerminosPage() {
       </main>
 
       <Footer />
+      <WhatsAppFloat />
     </>
   );
 }

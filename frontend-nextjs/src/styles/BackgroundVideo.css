@@ -19,11 +19,13 @@
 }
 
 .video-overlay {
-  position: fixed;
+  /* DISABLED to avoid conflicts with Hero overlay */
+  display: none !important;
+  /* position: fixed;
   top: 0;
   left: 0;
   width: 100%;
-  height: calc(100vh + 3cm);
+  height: calc(100vh + 15cm);
   background: linear-gradient(
     135deg,
     rgba(0, 0, 0, 0.3) 0%,
@@ -31,7 +33,7 @@
     rgba(0, 0, 0, 0.3) 100%
   );
   backdrop-filter: blur(1px);
-  z-index: 1;
+  z-index: 1; */
 }
 
 /* Responsive adjustments */
@@ -41,7 +43,9 @@
   }
   
   .video-overlay {
-    backdrop-filter: blur(3px);
+    display: none !important;
+    /* height: calc(100vh + 12cm);
+    backdrop-filter: blur(3px); */
   }
 }
 
@@ -51,6 +55,15 @@
   }
   
   .video-overlay {
-    backdrop-filter: blur(4px);
+    display: none !important;
+    /* height: calc(100vh + 10cm);
+    backdrop-filter: blur(4px); */
+  }
+}
+
+@media (max-width: 360px) {
+  .video-overlay {
+    display: none !important;
+    /* height: calc(100vh + 8cm); */
   }
 }

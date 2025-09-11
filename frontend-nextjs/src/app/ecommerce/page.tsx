@@ -4,6 +4,7 @@ import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BackgroundVideo from '@/components/BackgroundVideo';
+import WhatsAppFloat from '@/components/WhatsAppFloat';
 import '../../styles/ServicePages.css';
 
 export default function EcommercePage() {
@@ -126,9 +127,15 @@ export default function EcommercePage() {
                 <div className="cta-card">
                   <h3>Consulta Gratuita</h3>
                   <p>Analizamos tu proyecto y te damos una propuesta personalizada</p>
-                  <button className="cta-button">
+                  <a 
+                    href="https://wa.me/50254164264"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="cta-button"
+                    style={{ textDecoration: 'none', display: 'inline-block' }}
+                  >
                     Solicitar Propuesta
-                  </button>
+                  </a>
                 </div>
 
                 <div className="stats-card">
@@ -165,6 +172,7 @@ export default function EcommercePage() {
       </main>
 
       <Footer />
+      <WhatsAppFloat />
     </>
   );
 }

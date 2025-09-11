@@ -4,6 +4,7 @@ import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BackgroundVideo from '@/components/BackgroundVideo';
+import WhatsAppFloat from '@/components/WhatsAppFloat';
 import '../../styles/ServicePages.css';
 
 export default function AutomatizacionPage() {
@@ -103,14 +104,6 @@ export default function AutomatizacionPage() {
               </div>
 
               <div className="content-sidebar">
-                <div className="cta-card">
-                  <h3>¿Listo para Automatizar?</h3>
-                  <p>Agenda una consulta gratuita para evaluar tu caso específico</p>
-                  <button className="cta-button">
-                    Agendar Consulta
-                  </button>
-                </div>
-
                 <div className="stats-card">
                   <h4>Resultados Típicos</h4>
                   <div className="stat">
@@ -133,6 +126,7 @@ export default function AutomatizacionPage() {
       </main>
 
       <Footer />
+      <WhatsAppFloat />
     </>
   );
 }

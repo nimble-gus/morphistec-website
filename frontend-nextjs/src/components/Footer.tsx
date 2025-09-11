@@ -9,7 +9,14 @@ const Footer: React.FC = () => {
     <footer className="footer">
       <div className="footer-top">
         <div className="footer-brand">
-          <Image src="/assets/logo.png" alt="Oktae.tech" width={50} height={50} className="footer-logo" />
+          <Image 
+            src="/assets/logo.png" 
+            alt="Oktae.tech" 
+            width={150} 
+            height={50} 
+            className="footer-logo"
+            style={{ width: 'auto', height: 'auto' }}
+          />
           <p>Tecnología a tu medida</p>
           <p>Resultados sin complicaciones.</p>
         </div>
@@ -31,7 +38,7 @@ const Footer: React.FC = () => {
                 <Link href="/crm" data-tooltip="Gestiona clientes y analiza datos con dashboards a medida.">CRM & Dashboards</Link>
               </li>
               <li>
-                <Link href="/centralizacion" data-tooltip="Unifica tus fuentes de datos para decisiones más inteligentes.">Centralización de Datos</Link>
+                <Link href="/aplicaciones-moviles" data-tooltip="Desarrolla apps móviles nativas e híbridas para iOS y Android.">Aplicaciones Móviles</Link>
               </li>
             </ul>
           </div>

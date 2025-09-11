@@ -138,3 +138,4 @@ Para probar la responsividad:
 
 **Resultado**: Header completamente responsive y optimizado para todas las pantallas. 📱✨
 
+

@@ -4,6 +4,7 @@ import React from 'react';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import BackgroundVideo from '@/components/BackgroundVideo';
+import WhatsAppFloat from '@/components/WhatsAppFloat';
 import '../../styles/ServicePages.css';
 
 export default function CRMPage() {
@@ -123,14 +124,6 @@ export default function CRMPage() {
               </div>
 
               <div className="content-sidebar">
-                <div className="cta-card">
-                  <h3>Demo Personalizada</h3>
-                  <p>Te mostramos cómo se vería tu CRM con tus datos reales</p>
-                  <button className="cta-button">
-                    Solicitar Demo
-                  </button>
-                </div>
-
                 <div className="stats-card">
                   <h4>Beneficios Medibles</h4>
                   <div className="stat">
@@ -146,16 +139,6 @@ export default function CRMPage() {
                     <span className="stat-label">Satisfacción cliente</span>
                   </div>
                 </div>
-
-                <div className="pricing-card">
-                  <h4>Inversión</h4>
-                  <div className="price">
-                    <span className="currency">$</span>
-                    <span className="amount">2,500</span>
-                    <span className="unit">setup inicial</span>
-                  </div>
-                  <p>+ $200/mes por usuario activo</p>
-                </div>
               </div>
             </div>
           </div>
@@ -163,6 +146,7 @@ export default function CRMPage() {
       </main>
 
       <Footer />
+      <WhatsAppFloat />
     </>
   );
 }

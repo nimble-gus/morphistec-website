@@ -16,9 +16,8 @@ export const useVideoControl = (videoSrc: string) => {
         // Reset video state
         video.currentTime = 0;
         await video.play();
-        console.log('Video playing successfully:', videoSrc);
       } catch (error) {
-        console.log('Video autoplay failed:', error);
+        // Video autoplay failed, will retry
         // Retry after a short delay
         setTimeout(() => {
           if (isMounted && video) {
@@ -60,4 +59,5 @@ export const useVideoControl = (videoSrc: string) => {
 
   return videoRef;
 };
+
 

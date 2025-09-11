@@ -68,3 +68,4 @@ public/assets/
 
 ¡Ahora tienes un video de fondo personalizado (`bkgrnd.mp4`) para todas las páginas de servicios, mientras que la página principal mantiene su video original! 🎉
 
+

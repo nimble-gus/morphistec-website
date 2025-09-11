@@ -13,9 +13,7 @@ const BackgroundVideo: React.FC = () => {
       const playVideo = async () => {
         try {
           await video.play();
-          console.log('Background video playing successfully');
         } catch (error) {
-          console.log('Background video autoplay failed:', error);
           video.load();
         }
       };
@@ -39,10 +37,10 @@ const BackgroundVideo: React.FC = () => {
         muted
         playsInline
         preload="metadata"
-        onLoadStart={() => console.log('Background video loading started')}
-        onCanPlay={() => console.log('Background video can play')}
-        onError={(e) => console.log('Background video error:', e)}
-        onLoadedData={() => console.log('Background video data loaded')}
+        onLoadStart={() => {}}
+        onCanPlay={() => {}}
+        onError={() => {}}
+        onLoadedData={() => {}}
       >
         <source src="/assets/bkgrnd.mp4" type="video/mp4" />
         Tu navegador no soporta video HTML5.

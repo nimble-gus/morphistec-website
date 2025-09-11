@@ -29,5 +29,5 @@ body {
 
 /* Ensure proper stacking context */
 #__next {
-  isolation: isolate;
+  /* isolation: isolate; - Removed to allow video z-index to work properly */
 }

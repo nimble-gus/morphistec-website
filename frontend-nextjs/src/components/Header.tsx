@@ -12,7 +12,14 @@ const Header: React.FC = () => {
         <header className="header">
         <div className="header-left">
             <Link href="/">
-                <Image src="/assets/logo.png" alt="Oktae.tech logo" width={40} height={40} className="logo" />
+                <Image 
+                  src="/assets/logo.png" 
+                  alt="Oktae.tech logo" 
+                  width={120} 
+                  height={40} 
+                  className="logo"
+                  style={{ width: 'auto', height: 'auto' }}
+                />
             </Link>
         </div>
 

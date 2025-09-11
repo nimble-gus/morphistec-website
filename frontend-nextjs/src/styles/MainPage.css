@@ -8,9 +8,9 @@
 }
 
 /* Section Spacing */
-.main-page > section {
+.main-page > section:not(.hero-section) {
   position: relative;
-  z-index: 1;
+  z-index: 10;
 }
 
 /* Smooth scrolling */
@@ -31,6 +31,7 @@ html {
 
 /* Ensure proper stacking context */
 .main-page {
-  isolation: isolate;
+  /* isolation: isolate; - Removed to allow video z-index to work properly */
 }
+
 

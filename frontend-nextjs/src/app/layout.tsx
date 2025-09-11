@@ -20,6 +20,11 @@ export const metadata: Metadata = {
   description: "Sitio web de Oktae.tech - Tecnología, automatización, ecommerce, inteligencia artificial en Guatemala",
   keywords: "tecnología, automatización, ecommerce, inteligencia artificial, Guatemala, Oktae",
   robots: "index, follow",
+  icons: {
+    icon: "/favicon.png",
+    apple: "/favicon.png",
+  },
+  manifest: "/manifest.json",
   openGraph: {
     type: "website",
     title: "Oktae.tech",
@@ -40,12 +45,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <head>
-        <link rel="icon" type="image/png" href="/favicon.png" />
-        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
-        <link rel="apple-touch-icon" href="/favicon.png" />
-        <link rel="manifest" href="/manifest.json" />
-      </head>
       <body
         className={`${inter.variable} ${montserrat.variable} antialiased`}
       >
