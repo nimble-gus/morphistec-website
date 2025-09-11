@@ -145,14 +145,6 @@ export default function SeguridadPage() {
               </div>
 
               <div className="content-sidebar">
-                <div className="cta-card">
-                  <h3>¿Detectaste un Problema?</h3>
-                  <p>Reporta cualquier problema de seguridad de forma confidencial</p>
-                  <button className="cta-button">
-                    Reportar Incidente
-                  </button>
-                </div>
-
                 <div className="stats-card">
                   <h4>Nuestros Números</h4>
                   <div className="stat">

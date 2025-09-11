@@ -31,7 +31,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 2rem;
 }
 
 .nav-links {
@@ -123,10 +122,30 @@
   gap: 1rem;
 }
 
+/* Desktop CTA Button */
+.desktop-cta {
+  display: block;
+}
+
+/* Mobile Hamburger */
+.hamburger {
+  display: none;
+}
+
 /* Show hamburger in header-right on mobile */
 @media (max-width: 768px) {
   .header-right {
     justify-content: center;
+  }
+  
+  /* Hide desktop CTA on mobile */
+  .desktop-cta {
+    display: none;
+  }
+  
+  /* Show hamburger on mobile */
+  .hamburger {
+    display: flex;
   }
 }
 
@@ -178,7 +197,6 @@
 
 /* Hamburger Menu Styles */
 .hamburger {
-  display: none;
   flex-direction: column;
   justify-content: space-around;
   width: 30px;
@@ -395,13 +413,9 @@
     object-fit: contain;
   }
   
-  /* Hide desktop navigation and show hamburger */
+  /* Hide desktop navigation on mobile */
   .nav-links {
     display: none;
-  }
-  
-  .hamburger {
-    display: flex;
   }
   
   .cta-button {
@@ -442,7 +456,6 @@
   }
   
   .hamburger {
-    display: flex;
     width: 26px;
     height: 26px;
   }
@@ -493,7 +506,6 @@
   }
   
   .hamburger {
-    display: flex;
     width: 24px;
     height: 24px;
   }
@@ -544,7 +556,6 @@
   }
   
   .hamburger {
-    display: flex;
     width: 22px;
     height: 22px;
   }
@@ -595,7 +606,6 @@
   }
   
   .hamburger {
-    display: flex;
     width: 28px;
     height: 28px;
   }

@@ -47,9 +47,6 @@ const Header: React.FC = () => {
               </div>
             </div>
           </div>
-          <button className="cta-button" onClick={() => setShowModal(true)}>
-            <span>Agenda una Cita</span>
-          </button>
         </nav>
 
         {/* Mobile Menu Overlay */}
@@ -90,7 +87,12 @@ const Header: React.FC = () => {
         </div>
 
         <div className="header-right">
-          {/* Hamburger Menu Button */}
+          {/* CTA Button for Desktop */}
+          <button className="cta-button desktop-cta" onClick={() => setShowModal(true)}>
+            <span>Agenda una Cita</span>
+          </button>
+          
+          {/* Hamburger Menu Button for Mobile */}
           <button 
             className={`hamburger ${isMobileMenuOpen ? 'active' : ''}`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
