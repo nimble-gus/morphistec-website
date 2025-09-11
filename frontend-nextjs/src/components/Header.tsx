@@ -47,21 +47,10 @@ const Header: React.FC = () => {
               </div>
             </div>
           </div>
-          <button className="cta-button" onClick={() => setShowModal(true)}>  
+          <button className="cta-button" onClick={() => setShowModal(true)}>
             <span>Agenda una Cita</span>
           </button>
         </nav>
-
-        {/* Hamburger Menu Button */}
-        <button 
-          className={`hamburger ${isMobileMenuOpen ? 'active' : ''}`}
-          onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-          aria-label="Toggle mobile menu"
-        >
-          <span></span>
-          <span></span>
-          <span></span>
-        </button>
 
         {/* Mobile Menu Overlay */}
         <div className={`mobile-menu-overlay ${isMobileMenuOpen ? 'active' : ''}`} onClick={() => setIsMobileMenuOpen(false)}></div>
@@ -101,7 +90,16 @@ const Header: React.FC = () => {
         </div>
 
         <div className="header-right">
-          {/* Dark mode toggle removed */}
+          {/* Hamburger Menu Button */}
+          <button 
+            className={`hamburger ${isMobileMenuOpen ? 'active' : ''}`}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label="Toggle mobile menu"
+          >
+            <span></span>
+            <span></span>
+            <span></span>
+          </button>
         </div>
       </header>
 
