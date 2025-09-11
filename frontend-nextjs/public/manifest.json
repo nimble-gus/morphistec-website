@@ -1,11 +1,12 @@
 {
   "short_name": "Oktae.tech",
   "name": "Oktae.tech - Tecnología y Automatización",
+  "description": "Transformamos operaciones empresariales con software personalizado, automatización e inteligencia artificial en Guatemala",
   "icons": [
     {
-      "src": "favicon.ico",
+      "src": "favicon.png",
       "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
+      "type": "image/png"
     },
     {
       "src": "assets/logo2.png",
@@ -18,8 +19,11 @@
       "sizes": "512x512"
     }
   ],
-  "start_url": ".",
+  "start_url": "https://oktae.tech/",
+  "scope": "https://oktae.tech/",
   "display": "standalone",
   "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "background_color": "#ffffff",
+  "orientation": "portrait-primary",
+  "categories": ["business", "productivity", "technology"]
 }
