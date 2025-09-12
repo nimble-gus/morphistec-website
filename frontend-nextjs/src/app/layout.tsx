@@ -25,8 +25,8 @@ export const metadata: Metadata = {
   publisher: "Oktae.tech",
   robots: "index, follow",
   icons: {
-    icon: "/favicon.png",
-    apple: "/favicon.png",
+    icon: "/faviconoktae.png",
+    apple: "/faviconoktae.png",
   },
   manifest: "/manifest.json",
   openGraph: {

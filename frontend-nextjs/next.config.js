@@ -21,6 +21,19 @@ const nextConfig = {
           },
         ],
       },
+      {
+        source: '/faviconoktae.png',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'image/png',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
+          },
+        ],
+      },
     ];
   },
   
