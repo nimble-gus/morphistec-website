@@ -73,10 +73,10 @@ export default function RootLayout({
   return (
     <html lang="es">
       <head>
-        <link rel="icon" type="image/x-icon" href="/favicon-test.ico" />
+        <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         <link rel="icon" type="image/png" href="/faviconoktae.png" />
         <link rel="apple-touch-icon" href="/faviconoktae.png" />
-        <link rel="shortcut icon" href="/favicon-test.ico" />
+        <link rel="shortcut icon" href="/favicon.ico" />
         <link rel="manifest" href="/manifest.json" />
       </head>
       <body

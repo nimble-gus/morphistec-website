@@ -9,6 +9,20 @@ const nextConfig = {
     formats: ['image/webp', 'image/avif'],
   },
   
+  // Configuración de rewrites para favicon
+  async rewrites() {
+    return [
+      {
+        source: '/favicon.ico',
+        destination: '/faviconoktae.png',
+      },
+      {
+        source: '/app.ico',
+        destination: '/faviconoktae.png',
+      },
+    ];
+  },
+  
   // Configuración de headers para archivos estáticos
   async headers() {
     return [
@@ -18,6 +32,19 @@ const nextConfig = {
           {
             key: 'Content-Type',
             value: 'application/xml',
+          },
+        ],
+      },
+      {
+        source: '/favicon.ico',
+        headers: [
+          {
+            key: 'Content-Type',
+            value: 'image/png',
+          },
+          {
+            key: 'Cache-Control',
+            value: 'public, max-age=31536000, immutable',
           },
         ],
       },

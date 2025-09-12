@@ -1,5 +1,9 @@
 {
   "framework": "nextjs",
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next",
+  "installCommand": "npm install",
+  "devCommand": "npm run dev",
   "headers": [
     {
       "source": "/sitemap.xml",
@@ -15,7 +19,7 @@
       "headers": [
         {
           "key": "Content-Type",
-          "value": "image/x-icon"
+          "value": "image/png"
         },
         {
           "key": "Cache-Control",
@@ -35,32 +39,16 @@
           "value": "public, max-age=31536000, immutable"
         }
       ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/favicon.ico",
+      "destination": "/faviconoktae.png"
     },
     {
-      "source": "/favicon-16x16.ico",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "image/x-icon"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
-    },
-    {
-      "source": "/favicon-32x32.ico",
-      "headers": [
-        {
-          "key": "Content-Type",
-          "value": "image/x-icon"
-        },
-        {
-          "key": "Cache-Control",
-          "value": "public, max-age=31536000, immutable"
-        }
-      ]
+      "source": "/app.ico",
+      "destination": "/faviconoktae.png"
     }
   ]
 }
