@@ -19,7 +19,7 @@
       "headers": [
         {
           "key": "Content-Type",
-          "value": "image/png"
+          "value": "image/x-icon"
         },
         {
           "key": "Cache-Control",
@@ -50,5 +50,10 @@
       "source": "/app.ico",
       "destination": "/faviconoktae.png"
     }
-  ]
+  ],
+  "functions": {
+    "app/api/favicon/route.ts": {
+      "maxDuration": 10
+    }
+  }
 }

@@ -13,6 +13,16 @@ export function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL('/faviconoktae.png', request.url))
   }
   
+  // Interceptar peticiones de favicon con diferentes extensiones
+  if (request.nextUrl.pathname === '/favicon.png') {
+    return NextResponse.redirect(new URL('/faviconoktae.png', request.url))
+  }
+  
+  // Interceptar peticiones de favicon con diferentes tamaños
+  if (request.nextUrl.pathname.startsWith('/favicon-')) {
+    return NextResponse.redirect(new URL('/faviconoktae.png', request.url))
+  }
+  
   return NextResponse.next()
 }
 
@@ -20,6 +30,8 @@ export const config = {
   matcher: [
     '/favicon.ico',
     '/app.ico',
+    '/favicon.png',
+    '/favicon-:path*',
     '/((?!api|_next/static|_next/image|favicon.ico).*)',
   ],
 }
