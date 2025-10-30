@@ -56,7 +56,7 @@ const Footer: React.FC = () => {
                 <Instagram size={20} />
               </a>
               <a
-                href="https://www.linkedin.com/company/morphistec/"
+                href="https://www.linkedin.com/company/108568627"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="LinkedIn"

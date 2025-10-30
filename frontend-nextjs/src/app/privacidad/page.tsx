@@ -115,20 +115,12 @@ export default function PrivacidadPage() {
                   contactarnos en:
                 </p>
                 <ul className="benefits-list">
-                  <li>Email: <a href="mailto:privacidad@morphistec.com">privacidad@morphistec.com</a></li>
+                  <li>Email: <a href="mailto:hola@oktae.tech">hola@oktae.tech</a></li>
                   <li>Dirección: Ciudad de Guatemala, Guatemala</li>
                 </ul>
               </div>
 
               <div className="content-sidebar">
-                <div className="cta-card">
-                  <h3>¿Tienes Preguntas?</h3>
-                  <p>Nuestro equipo está aquí para ayudarte con cualquier consulta sobre privacidad</p>
-                  <button className="cta-button">
-                    Contactar Soporte
-                  </button>
-                </div>
-
                 <div className="stats-card">
                   <h4>Nuestro Compromiso</h4>
                   <div className="stat">

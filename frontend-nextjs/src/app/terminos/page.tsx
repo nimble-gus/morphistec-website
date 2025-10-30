@@ -29,14 +29,14 @@ export default function TerminosPage() {
 
                 <h2>1. Aceptación de Términos</h2>
                 <p>
-                  Al acceder y utilizar los servicios de MorphisTec, aceptas estar sujeto 
+                  Al acceder y utilizar los servicios de Oktae, aceptas estar sujeto 
                   a estos términos y condiciones. Si no estás de acuerdo con alguna parte 
                   de estos términos, no debes utilizar nuestros servicios.
                 </p>
 
                 <h2>2. Descripción de Servicios</h2>
                 <p>
-                  MorphisTec proporciona servicios de tecnología, incluyendo pero no 
+                  Oktae proporciona servicios de tecnología, incluyendo pero no 
                   limitado a automatización, OCR, desarrollo de e-commerce, CRM, 
                   centralización de datos y consultoría tecnológica.
                 </p>
@@ -64,7 +64,7 @@ export default function TerminosPage() {
                 <p>
                   Todos los derechos de propiedad intelectual relacionados con nuestros 
                   servicios, incluyendo software, documentación y contenido, son propiedad 
-                  de MorphisTec o sus licenciantes.
+                  de Oktae o sus licenciantes.
                 </p>
 
                 <h2>5. Pagos y Facturación</h2>
@@ -84,7 +84,7 @@ export default function TerminosPage() {
 
                 <h2>6. Limitación de Responsabilidad</h2>
                 <p>
-                  En la máxima medida permitida por la ley, MorphisTec no será responsable 
+                  En la máxima medida permitida por la ley, Oktae no será responsable 
                   por daños indirectos, incidentales, especiales o consecuenciales que 
                   resulten del uso de nuestros servicios.
                 </p>
@@ -113,7 +113,7 @@ export default function TerminosPage() {
                   Para preguntas sobre estos términos y condiciones, puedes contactarnos en:
                 </p>
                 <ul className="benefits-list">
-                  <li>Email: <a href="mailto:legal@morphistec.com">legal@morphistec.com</a></li>
+                  <li>Email: <a href="mailto:hola@oktae.tech">hola@oktae.tech</a></li>
                   <li>Dirección: Ciudad de Guatemala, Guatemala</li>
                 </ul>
               </div>

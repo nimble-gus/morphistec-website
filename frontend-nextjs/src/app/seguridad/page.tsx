@@ -29,7 +29,7 @@ export default function SeguridadPage() {
 
                 <h2>1. Nuestro Compromiso con la Seguridad</h2>
                 <p>
-                  En MorphisTec, la seguridad es nuestra prioridad número uno. Implementamos 
+                  En Oktae, la seguridad es nuestra prioridad número uno. Implementamos 
                   múltiples capas de protección para garantizar que tu información y sistemas 
                   estén seguros en todo momento.
                 </p>
@@ -140,7 +140,7 @@ export default function SeguridadPage() {
                   puedes contactarnos en:
                 </p>
                 <ul className="benefits-list">
-                  <li>Email: <a href="mailto:security@morphistec.com">security@morphistec.com</a></li>
+                  <li>Email: <a href="mailto:hola@oktae.tech">hola@oktae.tech</a></li>
                 </ul>
               </div>
 
