@@ -5,9 +5,9 @@ import { useLang } from "./lang";
 export function Process() {
   const { t } = useLang();
   return (
-    <section className="px-10 py-36 relative border-t border-ok-line bg-[#070707]">
+    <section className="relative border-t border-ok-line bg-[#070707] px-4 py-20 sm:px-6 md:px-10 md:py-36">
       <div className="max-w-[1280px] mx-auto">
-        <div className="mb-20 max-w-[700px]">
+        <div className="mb-10 max-w-[700px] md:mb-20">
           <span className="ok-eyebrow">{t.process_eyebrow}</span>
           <h2
             className="mt-4 font-medium leading-none"
@@ -26,9 +26,9 @@ export function Process() {
           </h2>
         </div>
 
-        <div className="grid grid-cols-4 gap-0 relative">
+        <div className="relative grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4 lg:gap-0">
           <div
-            className="absolute h-px"
+            className="absolute hidden h-px lg:block"
             style={{
               left: "6%",
               right: "6%",
@@ -40,11 +40,7 @@ export function Process() {
           {t.process.map((p, i) => (
             <div
               key={i}
-              className="px-6 relative"
-              style={{
-                borderRight:
-                  i < 3 ? "1px solid rgba(255,255,255,0.08)" : "none",
-              }}
+              className={`relative rounded-xl border border-white/[0.08] px-5 py-6 sm:px-6 lg:rounded-none lg:border-0 lg:py-0 ${i < 3 ? "lg:border-r lg:border-white/[0.08]" : ""}`}
             >
               <div
                 className="w-16 h-16 rounded-full border flex items-center justify-center font-mono text-sm font-semibold mb-8"

@@ -12,11 +12,11 @@ export function TopNav() {
       className="fixed top-0 left-0 right-0 z-50 pointer-events-none px-4 pt-[max(0.75rem,env(safe-area-inset-top,0px))] md:px-6 md:pt-5"
     >
       <nav
-        className="pointer-events-auto mx-auto flex max-w-[min(100%,1200px)] items-center justify-between gap-3 rounded-full border border-white/[0.1] bg-ok-ink/80 py-2.5 pl-4 pr-2.5 shadow-[0_10px_40px_-4px_rgba(0,0,0,0.55),0_0_0_1px_rgba(255,255,255,0.04)_inset] backdrop-blur-xl md:gap-6 md:pl-6 md:pr-3"
+        className="pointer-events-auto mx-auto flex max-w-[min(100%,1200px)] items-center justify-between gap-2 rounded-full border border-white/[0.1] bg-ok-ink/80 py-2 pl-3 pr-2 shadow-[0_10px_40px_-4px_rgba(0,0,0,0.55),0_0_0_1px_rgba(255,255,255,0.04)_inset] backdrop-blur-xl sm:gap-3 sm:py-2.5 sm:pl-4 sm:pr-2.5 md:gap-6 md:pl-6 md:pr-3"
         aria-label="Principal"
       >
         <Link href="/" className="shrink-0">
-          <OktaeLogo size={28} />
+          <OktaeLogo size={24} />
         </Link>
 
         <div className="hidden min-w-0 flex-1 items-center justify-center gap-6 md:flex lg:gap-8">
@@ -52,7 +52,7 @@ export function TopNav() {
             href="https://wa.me/54164264"
             target="_blank"
             rel="noopener noreferrer"
-            className="ok-btn ok-btn-primary rounded-full px-4 py-2.5 text-[12px] font-medium sm:px-5 sm:text-[13px]"
+            className="ok-btn ok-btn-primary rounded-full px-3 py-2 text-[11px] font-medium sm:px-4 sm:py-2.5 sm:text-[12px] md:px-5 md:text-[13px]"
           >
             {t.cta_nav}
           </a>

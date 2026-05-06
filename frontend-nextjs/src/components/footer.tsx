@@ -23,8 +23,8 @@ function Col({ title, items }: { title: string; items: string[] }) {
 export function Footer() {
   const { t } = useLang();
   return (
-    <footer className="border-t border-ok-line px-10 pt-16 pb-8 bg-ok-black">
-      <div className="grid gap-14 mb-14" style={{ gridTemplateColumns: "2fr 1fr 1fr 1fr" }}>
+    <footer className="bg-ok-black border-t border-ok-line px-4 pb-8 pt-12 sm:px-6 md:px-10 md:pt-16">
+      <div className="mb-12 grid grid-cols-1 gap-10 sm:grid-cols-2 md:mb-14 md:gap-12 lg:grid-cols-4 lg:gap-14">
         <div>
           <OktaeLogo size={26} />
           <p className="mt-4 text-ok-mute text-sm max-w-[320px] leading-relaxed">
@@ -35,7 +35,7 @@ export function Footer() {
         <Col title="Services" items={["E-commerce", "Custom apps", "Automations", "Dashboards"]} />
         <Col title="Contact" items={["hola@oktae.io", "CDMX · BOG · SCL", "LinkedIn", "Instagram"]} />
       </div>
-      <div className="flex justify-between items-center pt-6 border-t border-ok-line font-mono text-[11px] text-ok-dim uppercase tracking-[0.1em]">
+      <div className="flex flex-col items-start justify-between gap-2 border-t border-ok-line pt-6 font-mono text-[11px] uppercase tracking-[0.1em] text-ok-dim sm:flex-row sm:items-center sm:gap-4">
         <span>© 2026 Oktae Studio</span>
         <span>{t.footer_made}</span>
         <span>v1.0 — May 2026</span>

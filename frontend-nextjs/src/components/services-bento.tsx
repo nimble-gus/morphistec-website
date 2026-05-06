@@ -5,20 +5,20 @@ import { useLang } from "./lang";
 import { CardVisual } from "./card-visual";
 
 const LAYOUT = [
-  { col: "span 6", row: "span 2", featured: true },
-  { col: "span 3", row: "span 1", featured: false },
-  { col: "span 3", row: "span 1", featured: false },
-  { col: "span 3", row: "span 1", featured: false },
-  { col: "span 3", row: "span 1", featured: false },
-  { col: "span 6", row: "span 1", featured: false },
+  { spanClass: "md:col-span-6 md:row-span-2", featured: true },
+  { spanClass: "md:col-span-3 md:row-span-1", featured: false },
+  { spanClass: "md:col-span-3 md:row-span-1", featured: false },
+  { spanClass: "md:col-span-3 md:row-span-1", featured: false },
+  { spanClass: "md:col-span-3 md:row-span-1", featured: false },
+  { spanClass: "md:col-span-6 md:row-span-1", featured: false },
 ];
 
 export function ServicesBento() {
   const { t } = useLang();
   return (
-    <section id="services" className="px-10 py-36 relative scroll-mt-28">
+    <section id="services" className="relative scroll-mt-28 px-4 py-20 sm:px-6 md:px-10 md:py-36">
       <div className="max-w-[1280px] mx-auto">
-        <div className="flex justify-between items-end mb-14 gap-10 flex-wrap">
+        <div className="mb-10 flex flex-wrap items-end justify-between gap-6 md:mb-14 md:gap-10">
           <div>
             <span className="ok-eyebrow">{t.services_eyebrow}</span>
             <h2
@@ -38,16 +38,15 @@ export function ServicesBento() {
               </em>
             </h2>
           </div>
-          <p className="text-ok-mute text-base max-w-[380px] leading-snug">
+          <p className="max-w-[380px] text-sm leading-snug text-ok-mute sm:text-base">
             {t.services_sub}
           </p>
         </div>
 
         <div
-          className="grid gap-4"
+          className="grid grid-cols-1 gap-4 md:grid-cols-6"
           style={{
-            gridTemplateColumns: "repeat(6, 1fr)",
-            gridAutoRows: "minmax(220px, auto)",
+            gridAutoRows: "minmax(180px, auto)",
           }}
         >
           {t.services.map((s, i) => (
@@ -72,7 +71,7 @@ function BentoCard({
   index,
 }: {
   service: Service;
-  layout: { col: string; row: string; featured: boolean };
+  layout: { spanClass: string; featured: boolean };
   index: number;
 }) {
   const [hover, setHover] = useState(false);
@@ -80,13 +79,11 @@ function BentoCard({
     <div
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
-      className="relative rounded-2xl overflow-hidden cursor-pointer transition-all duration-300"
+      className={`relative cursor-pointer overflow-hidden rounded-2xl transition-all duration-300 ${layout.spanClass}`}
       style={{
-        gridColumn: layout.col,
-        gridRow: layout.row,
         background: layout.featured ? "#0c0c0c" : "var(--tw-color-ok-card, #0f0f10)",
         border: `1px solid ${hover ? "rgba(184,255,46,0.28)" : "rgba(255,255,255,0.08)"}`,
-        padding: layout.featured ? 36 : 28,
+        padding: layout.featured ? 24 : 20,
       }}
     >
       <div
@@ -105,7 +102,7 @@ function BentoCard({
           <h3
             className="font-medium mb-3"
             style={{
-              fontSize: layout.featured ? 36 : 22,
+              fontSize: layout.featured ? 30 : 22,
               letterSpacing: "-0.02em",
             }}
           >
