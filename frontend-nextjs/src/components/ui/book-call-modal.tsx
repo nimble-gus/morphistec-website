@@ -154,8 +154,9 @@ export function BookCallModal({ triggerLabel }: BookCallModalProps) {
       {mounted &&
         open &&
         createPortal(
-        <div className="fixed inset-0 z-[120] flex items-center justify-center bg-black/75 p-4">
-          <div className="w-full max-w-md rounded-2xl border border-ok-line-2 bg-[#0b0b0d] p-6 shadow-[0_20px_80px_-20px_rgba(0,0,0,0.8)]">
+        <div className="fixed inset-0 z-[120] bg-black/75 p-3 sm:p-4">
+          <div className="mx-auto flex h-full w-full max-w-md items-center justify-center">
+            <div className="max-h-[92dvh] w-full overflow-y-auto rounded-2xl border border-ok-line-2 bg-[#0b0b0d] p-4 shadow-[0_20px_80px_-20px_rgba(0,0,0,0.8)] sm:p-6">
             <div className="mb-4 flex items-start justify-between gap-3">
               <div>
                 <h3 className="text-xl font-semibold text-ok-text">{t.book_modal_title}</h3>
@@ -166,7 +167,7 @@ export function BookCallModal({ triggerLabel }: BookCallModalProps) {
               <button
                 type="button"
                 onClick={() => setOpen(false)}
-                className="rounded-full border border-ok-line px-2.5 py-1 text-xs text-ok-mute hover:text-ok-text"
+                className="shrink-0 rounded-full border border-ok-line px-2.5 py-1 text-[11px] text-ok-mute hover:text-ok-text sm:text-xs"
                 aria-label="Cerrar modal"
               >
                 {t.book_modal_close}
@@ -179,7 +180,7 @@ export function BookCallModal({ triggerLabel }: BookCallModalProps) {
                   {t.book_modal_date}
                 </label>
                 {!isCalendarOpen && (
-                  <div className="flex items-center justify-between gap-3 rounded-xl border border-ok-line-2 bg-black/30 px-3 py-2.5">
+                  <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-ok-line-2 bg-black/30 px-3 py-2.5">
                     <span className="text-sm text-ok-text">
                       {selectedDate
                         ? selectedDate.toLocaleDateString()
@@ -187,7 +188,7 @@ export function BookCallModal({ triggerLabel }: BookCallModalProps) {
                     </span>
                     <button
                       type="button"
-                      className="rounded-full border border-ok-line px-3 py-1 text-xs text-ok-mute hover:text-ok-text"
+                      className="rounded-full border border-ok-line px-3 py-1 text-[11px] text-ok-mute hover:text-ok-text sm:text-xs"
                       onClick={() => setIsCalendarOpen(true)}
                     >
                       {t.book_modal_change_date}
@@ -216,7 +217,7 @@ export function BookCallModal({ triggerLabel }: BookCallModalProps) {
                   {t.book_modal_time}
                 </label>
                 <p className="mb-2 text-xs text-ok-mute">{t.book_modal_time_help}</p>
-                <div className="grid grid-cols-3 gap-2">
+                <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
                   {TIME_SLOTS.map((slot) => {
                     const taken = takenSlots.includes(slot);
                     const active = selectedTime === slot;
@@ -226,7 +227,7 @@ export function BookCallModal({ triggerLabel }: BookCallModalProps) {
                         type="button"
                         disabled={taken || loadingSlots}
                         onClick={() => setSelectedTime(slot)}
-                        className="rounded-lg border px-2 py-2 text-xs transition disabled:cursor-not-allowed disabled:opacity-50"
+                        className="rounded-lg border px-2 py-2 text-[11px] transition disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
                         style={{
                           borderColor: active ? "var(--ok-neon)" : "rgba(255,255,255,0.14)",
                           background: active ? "rgba(184,255,46,0.12)" : "rgba(0,0,0,0.2)",
@@ -313,6 +314,7 @@ export function BookCallModal({ triggerLabel }: BookCallModalProps) {
             </form>
 
             {feedback && <p className="mt-3 text-sm text-ok-mute">{feedback}</p>}
+          </div>
           </div>
         </div>,
         document.body
