@@ -1,0 +1,167 @@
+.services {
+  background: #F7F7F7;
+
+  .section {
+    &__wrapper {
+      margin-bottom: 90px;
+    }
+
+    &-sub__wrapper {
+      span {
+        background-color: var(--black);
+      }
+    }
+
+    &__content {
+      p {
+        color: #444444;
+      }
+    }
+  }
+
+  &__item {
+    gap: 178px;
+    display: flex;
+    padding-bottom: 35px;
+    padding-top: 35px;
+    border-top: 1px solid var(--black);
+
+    @media #{$xxl} {
+      gap: 100px;
+    }
+
+    @media #{$lg} {
+      gap: 50px;
+    }
+
+    @media #{$md} {
+      gap: 50px;
+      flex-wrap: wrap;
+    }
+
+    &:last-child {
+      border-bottom: 1px solid var(--black);
+    }
+
+    &:hover {
+      .services {
+        &__media {
+          img {
+            height: 370px;
+
+            @media #{$sm} {
+              height: 100%;
+            }
+          }
+        }
+
+        &__content {
+          .des {
+            display: block;
+          }
+        }
+
+        &__list {
+          display: flex;
+        }
+      }
+    }
+  }
+
+  &__content {
+    min-width: 707px;
+
+    @media #{$xl} {
+      min-width: 500px;
+    }
+
+    @media #{$md} {
+      min-width: 100%;
+    }
+
+    .title {
+      font-size: 88px;
+      line-height: 90px;
+      color: var(--black);
+      margin-bottom: 35px;
+
+      @media #{$xl} {
+        font-size: 60px;
+        line-height: 70px;
+      }
+
+      @media #{$md} {
+        font-size: 50px;
+        line-height: 60px;
+      }
+
+      @media #{$xs} {
+        font-size: 35px;
+        line-height: 40px;
+      }
+
+    }
+
+    .des {
+      color: #444444;
+      font-size: 18px;
+      line-height: 28px;
+      max-width: 519px;
+      text-indent: 150px;
+      margin-bottom: 35px;
+      display: none;
+      transition: all 0.5s ease;
+
+      @media #{$md} {
+        display: block;
+        text-indent: 0;
+      }
+    }
+  }
+
+  &__list {
+    gap: 15px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    transition: all 0.5s ease;
+    display: none;
+
+    @media #{$md} {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: self-start;
+    }
+
+    li {
+      font-size: 14px;
+      font-weight: 700;
+      padding: 5px 21px;
+      line-height: 26px;
+      color: var(--black);
+      border-radius: 500px;
+      text-transform: uppercase;
+      border: 1px solid var(--black);
+    }
+  }
+
+  &__media {
+    width: 100%;
+    height: 370px;
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 120px;
+      object-fit: cover;
+      border-radius: 10px;
+      transition: height 0.5s ease;
+
+      @media #{$md} {
+        height: 100%;
+      }
+    }
+  }
+}

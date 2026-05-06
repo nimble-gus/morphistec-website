@@ -1,0 +1,39 @@
+.title-slider {
+  .swiper-wrapper {
+    transition-timing-function: linear;
+
+    .swiper-slide {
+      width: auto;
+    }
+  }
+  &__active {
+    margin-bottom: 35px;
+  }
+  &__title {
+    gap: 35px;
+    display: flex;
+    font-size: 60px;
+    line-height: 60px;
+    color: var(--black);
+    text-transform: uppercase;
+    align-items: center;
+
+    @media #{$sm} {
+      gap: 20px;
+      font-size: 40px;
+      line-height: 40px;
+    }
+
+    img {
+      border-radius: 90px;
+      max-width: 190px;
+      @media #{$lg} {
+        max-width: 120px;
+      }
+
+      @media #{$sm} {
+        max-width: 100px;
+      }
+    }
+  }
+}

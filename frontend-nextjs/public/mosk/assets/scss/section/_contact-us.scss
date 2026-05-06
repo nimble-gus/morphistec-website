@@ -1,0 +1,232 @@
+.contact-info {
+  &-area {
+    .section-title-wrapper {
+      max-width: 1352px;
+      margin: 0 auto;
+
+      .title {
+        font-weight: 700;
+        font-size: 52px;
+        line-height: 62px;
+        color: var(--white);
+        text-indent: 366px;
+
+        @media #{$md} {
+          font-size: 40px;
+          line-height: 50px;
+          text-indent: 0;
+        }
+
+        @media #{$sm} {
+          font-size: 30px;
+          line-height: 45px;
+        }
+
+        @media #{$xs} {
+          font-size: 20px;
+          line-height: 30px;
+        }
+      }
+    }
+  }
+
+  &__item {
+    display: grid;
+    padding: 45px 0;
+    grid-template-columns: 646px 1fr auto;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    &:first-child {
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    @media #{$xxl} {
+      grid-template-columns: 446px 1fr auto;
+    }
+
+    @media #{$xl} {
+      grid-template-columns: 346px 1fr auto;
+    }
+
+    @media #{$lg} {
+      grid-template-columns: 246px 1fr auto;
+    }
+
+    @media #{$md} {
+      grid-template-columns: 1fr;
+      padding: 30px 0;
+    }
+  }
+
+  &-widget {
+    & h3 {
+      font-style: normal;
+      font-weight: 500;
+      font-size: 30px;
+      line-height: 40px;
+      color: var(--white);
+    }
+
+    &-link {
+      & h3 {
+        font-style: normal;
+        font-weight: 500;
+        font-size: 30px;
+        line-height: 40px;
+        color: var(--white);
+
+        @media #{$xs} {
+          font-size: 20px;
+          line-height: 30px;
+        }
+      }
+
+      & h3 {
+        & a {
+          transition: all 0.3s;
+
+          @media #{$md} {
+            br {
+              display: none;
+            }
+          }
+
+          &:hover {
+            color: #b3ec11;
+          }
+        }
+      }
+    }
+  }
+}
+
+.contact {
+  &-wrapper {
+    background: #282828;
+    border-radius: 10px;
+
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid #282828;
+    box-shadow: inset -10px 0px 10px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(5px);
+
+    .rr-btnn {
+      &::after {
+        background: #BEFF01;
+      }
+    }
+  }
+
+  &-thumb {
+    width: 100%;
+    height: 100%;
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 0 10px 10px 0px;
+    }
+  }
+}
+
+.contact-us__area {
+  .contact-us__form-wrapper {
+    .title {
+      margin-bottom: 40px;
+      font-weight: 700;
+      font-size: 52px;
+      line-height: 62px;
+      color: var(--white);
+
+      @media #{$xl} {
+        font-size: 31px;
+        line-height: 55px;
+      }
+    }
+
+    border-radius: 20px;
+    padding: 47px 27px 0px 60px;
+    width: 100%;
+    max-width: 905px;
+    margin: 0 auto;
+    z-index: 9999;
+
+    @media #{$xs} {
+      padding: 20px;
+    }
+
+    .contact-us__form {
+      .contact-us__input {
+        input {
+          position: relative;
+          margin-left: 0;
+          color: var(--white);
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid #282828;
+          box-shadow: inset -10px 0px 10px rgba(0, 0, 0, 0.25);
+          backdrop-filter: blur(5px);
+          margin-bottom: 22px;
+          padding: 21px 12px 21px 25px;
+          border-radius: 10px;
+          font-style: normal;
+          outline: none;
+          width: 100%;
+          border: none;
+
+          &::placeholder {
+            font-family: --font_dmsans;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 20px;
+            color: #aaaaaa;
+          }
+        }
+      }
+
+      .contact-us__textarea {
+        position: relative;
+
+        textarea {
+          color: #ffff;
+          margin-top: 5px;
+          height: 190px;
+          margin-left: 0;
+          background: rgba(255, 255, 255, 0.05);
+          border: 1px solid #282828;
+          box-shadow: inset -10px 0px 10px rgba(0, 0, 0, 0.25);
+          backdrop-filter: blur(5px);
+          padding: 21px 12px 21px 25px;
+          border-radius: 10px;
+          width: 100%;
+
+          &::placeholder {
+            opacity: 0.6;
+            font-family: --font_dmsans;
+            font-style: normal;
+            font-weight: 400;
+            font-size: 16px;
+            line-height: 20px;
+            color: #aaaaaa;
+          }
+
+          &:hover,
+          &:focus {
+            outline: none;
+          }
+        }
+      }
+
+      .rr-btn {
+        max-width: 100%;
+
+        &-3 {
+          margin-top: 20px;
+          padding: 17px 22px;
+          width: none;
+        }
+      }
+    }
+  }
+}

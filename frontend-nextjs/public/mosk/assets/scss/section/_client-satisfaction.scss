@@ -1,0 +1,156 @@
+.client-satisfaction {
+  &__inner {
+    display: grid;
+    overflow: hidden;
+    border-radius: 10px;
+    background: var(--white);
+    grid-template-columns: 490px 1fr 490px;
+
+    @media #{$xxl} {
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+
+    @media #{$lg} {
+      grid-template-columns: 1fr;
+    }
+
+    >* {
+      &:nth-child(1) {
+        background-color: #b3ec11;
+
+        .content {
+          height: 100%;
+        }
+      }
+
+      &:nth-child(2) {
+        display: flex;
+        flex-direction: column;
+
+        .content {
+          @media #{$xxl} {
+            padding-bottom: 0;
+          }
+
+          h4 {
+            @media #{$xxl} {
+              margin-bottom: 0;
+            }
+          }
+        }
+
+        .media {
+          @media #{$xxl} {
+            min-height: 347px;
+          }
+        }
+      }
+
+      &:nth-child(3) {
+        .content {
+          background-color: #3b4eff;
+
+          .sub-title {
+            color: var(--white);
+          }
+
+          h4 {
+            color: var(--white);
+          }
+        }
+
+        .content-bottom {
+          padding: 45px;
+
+          @media #{$lg} {
+            padding: 30px 20px;
+          }
+        }
+      }
+    }
+  }
+
+  &__item {
+    .content {
+      padding: 45px;
+      display: flex;
+      flex-direction: column;
+
+      @media #{$lg} {
+        padding: 30px 20px;
+      }
+
+      p {
+        color: var(--black);
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 28px;
+        max-width: 377px;
+      }
+
+      .btn-wrap {
+        margin-top: auto;
+
+        @media #{$lg} {
+          margin-top: 30px;
+        }
+      }
+    }
+
+    .sub-title {
+      font-size: 30px;
+      line-height: 40px;
+      font-weight: 600;
+      color: var(--black);
+      margin-bottom: 28px;
+
+      @media #{$sm} {
+        font-size: 22px;
+        line-height: 32px;
+        margin-bottom: 20px;
+      }
+    }
+
+    h3 {
+      font-size: 100px;
+      font-weight: 700;
+      line-height: 100px;
+      color: var(--black);
+      margin-bottom: 55px;
+      font-family: var(--font_brico);
+
+      .odometer.odometer-auto-theme,
+      .odometer.odometer-theme-default {
+        font-family: var(--font_brico);
+        line-height: 1;
+      }
+
+      @media #{$xl} {
+        font-size: 70px;
+        margin-bottom: 50px;
+      }
+
+      @media #{$lg} {
+        font-size: 60px;
+        line-height: 60px;
+        margin-bottom: 30px;
+      }
+
+      @media #{$sm} {
+        font-size: 40px;
+        line-height: 40px;
+        margin-bottom: 10px;
+      }
+    }
+
+    .media {
+      margin-top: auto;
+
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+  }
+}

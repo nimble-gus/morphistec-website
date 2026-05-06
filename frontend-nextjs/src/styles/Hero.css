@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;600;700&display=swap');
-
 .hero-section {
   position: relative;
   height: 100vh;
@@ -8,7 +6,7 @@
   padding-left: 5vw;
   background-color: transparent;
   color: white;
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-inter, system-ui), sans-serif;
   z-index: 1;
   overflow: hidden;
 }
@@ -34,8 +32,11 @@
 }
 
 .hero-content.left {
-  max-width: 1000px;
+  max-width: min(1000px, 100%);
   padding: 3rem 5vw;
+  min-width: 0; /* permite que el texto haga wrap dentro del flex del hero */
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* Hero Dynamic Text Group */
@@ -43,6 +44,10 @@
   display: flex;
   flex-direction: column;
   line-height: 1;
+  margin: 0;
+  font-weight: inherit;
+  min-width: 0;
+  max-width: 100%;
 }
 
 /* Static line */
@@ -53,17 +58,18 @@
   white-space: nowrap;
 }
 
-/* Dynamic line */
+/* Dynamic line — frases largas en español: sin ellipsis, con salto de línea */
 .hero-word {
   font-size: 5rem;
   font-weight: 400;
   color: rgba(255, 255, 255, 0.85);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-width: 90vw;
-  line-height: 1.2;           /* 🧬 Aumenta altura para descendentes */
-  padding-bottom: 0.2rem;     /* 🪄 Un poco de aire extra */
+  white-space: normal;
+  overflow-wrap: break-word;
+  word-break: break-word;
+  max-width: 100%;
+  min-width: 0;
+  line-height: 1.15;
+  padding-bottom: 0.2rem;
   opacity: 0;
   transform: translateY(30px);
   transition: opacity 0.6s ease, transform 0.6s ease;
@@ -109,5 +115,15 @@
 
   .hero-word {
     font-size: 2.1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-word {
+    transition: none;
+  }
+
+  .hero-video {
+    display: none !important;
   }
 }

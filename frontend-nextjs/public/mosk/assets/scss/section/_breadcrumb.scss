@@ -1,0 +1,126 @@
+.breadcrumb {
+  margin: 0;
+  padding: 0;
+
+  &__content {
+    padding-top: 250px;
+
+    @media #{$md} {
+      padding-top: 230px;
+    }
+
+    @media #{$sm} {
+      padding-top: 180px;
+    }
+
+    @media #{$xs} {
+      padding-top: 160px;
+    }
+
+    .title {
+      font-size: 200px;
+      font-weight: 700;
+      line-height: 200px;
+      margin-bottom: 30px;
+      text-transform: uppercase;
+
+      @media #{$lg} {
+        font-size: 170px;
+        line-height: 170px;
+      }
+
+      @media #{$md} {
+        font-size: 130px;
+        line-height: 130px;
+      }
+
+      @media #{$sm} {
+        font-size: 100px;
+        line-height: 100px;
+      }
+
+      @media #{$xs} {
+        font-size: 60px;
+        line-height: 60px;
+      }
+    }
+
+    p {
+      font-size: 26px;
+      line-height: 36px;
+      font-weight: 700;
+      font-family: var(--font_brico);
+
+      @media #{$sm} {
+        font-size: 20px;
+        line-height: 30px;
+      }
+    }
+  }
+
+  &__menu {
+    gap: 10px 20px;
+    margin-bottom: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    position: relative;
+    justify-content: space-between;
+
+    ul {
+      gap: 35px;
+      display: flex;
+      align-items: center;
+
+      li {
+        font-weight: 700;
+        font-size: 20px;
+        line-height: 30px;
+        position: relative;
+        color: var(--white);
+
+        &:after {
+          position: absolute;
+          margin-left: 14px;
+          content: "\f7a5";
+          font-family: var(--font_awesome);
+          font-style: normal;
+          font-weight: 900;
+          font-size: 20px;
+          rotate: 20deg;
+          line-height: 20px;
+          transform: translate(0, 34%);
+        }
+
+        a {
+          &:hover {
+            color: var(--action);
+          }
+        }
+
+        &.active {
+          color: #B3DE4F;
+
+          &:after {
+            display: none;
+          }
+        }
+      }
+    }
+  }
+
+  .scroll-down {
+    a {
+      gap: 10px;
+      display: flex;
+      font-size: 20px;
+      font-weight: 700;
+      line-height: 30px;
+      align-items: center;
+      transition: all 0.3s;
+
+      &:hover {
+        color: #B3DE4F;
+      }
+    }
+  }
+}

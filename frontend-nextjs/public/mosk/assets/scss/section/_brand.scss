@@ -1,0 +1,246 @@
+// brand-slide-section
+.brand-slide {
+  .brand-slide__active {
+    .swiper-wrapper {
+      display: flex;
+      column-gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      transition-timing-function: linear;
+
+      .swiper-slide {
+        width: auto;
+      }
+    }
+  }
+
+  &__item {
+    width: 270px;
+    height: 270px;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    justify-content: center;
+    background-color: var(--bg);
+
+    @media #{$md} {
+      width: 250px;
+      height: 200px;
+    }
+
+    @media #{$sm} {
+      width: 250px;
+      height: 150px;
+    }
+  }
+
+  &__wrapper {
+    .title {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 30px;
+      line-height: 40px;
+      text-align: center;
+      color: var(--black);
+      margin-bottom: 60px;
+    }
+  }
+}
+
+// brand-slide-section
+.brand-slide-2 {
+  .brand-slide-2__active-2 {
+    .swiper-wrapper {
+      display: flex;
+      column-gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      transition-timing-function: linear;
+
+      .swiper-slide {
+        width: auto;
+      }
+    }
+  }
+
+  &__subtitle {
+    text-align: center;
+    font-weight: 400;
+    font-size: 24px;
+    line-height: 34px;
+    text-align: center;
+    color: var(--black);
+    margin-bottom: 64px;
+    font-family: var(--font_dmsans);
+
+    @media #{$xs} {
+      font-size: 21px;
+      margin-bottom: 30px;
+    }
+  }
+
+  &__item {
+    width: 330px;
+    height: 330px;
+    display: flex;
+    align-items: center;
+    border-radius: 500px;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+
+    @media #{$md} {
+      width: 250px;
+      height: 250px;
+    }
+
+    @media #{$sm} {
+      width: 250px;
+      height: 250px;
+    }
+
+    &-one {
+      width: 296px;
+      height: 200px;
+      border-radius: 6px;
+      background: var(--white);
+    }
+  }
+}
+
+// Text-slide-section
+
+.smooth-slide-transtion {
+  -webkit-transition-timing-function: linear;
+  transition-timing-function: linear;
+}
+
+.text-slide-7 {
+  &__area {
+    background: #8BEA7C;
+
+    h4 {
+      color: #0D0D0D;
+    }
+  }
+
+  &__active-2 {
+    padding: 45px 0;
+  }
+
+  &__item {
+    color: #fff;
+    font-family: var(--font_dmsans);
+    font-size: 60px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 70px;
+  }
+
+  &__area {
+    & .swiper {
+      & .swiper-wrapper {
+        & .swiper-slide {
+          width: auto !important;
+        }
+      }
+    }
+  }
+}
+
+// brand-slide-section
+.brand-slide-3 {
+  .brand-slide-3__active {
+    .swiper-wrapper {
+      display: flex;
+      column-gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      transition-timing-function: linear;
+
+      .swiper-slide {
+        width: auto;
+      }
+    }
+  }
+
+  &__item {
+    width: 282px;
+    height: 215px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: #1C1D1F;
+
+    @media #{$md} {
+      width: 250px;
+      height: 200px;
+    }
+
+    @media #{$sm} {
+      width: 250px;
+      height: 150px;
+    }
+  }
+
+  &__wrapper {
+    .title {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 30px;
+      line-height: 40px;
+      text-align: center;
+      color: var(--black);
+      margin-bottom: 60px;
+    }
+  }
+}
+
+// brand-slide-section
+.brand-slide-8 {
+  .brand-slide-8__active {
+    .swiper-wrapper {
+      display: flex;
+      column-gap: 10px;
+      align-items: center;
+      justify-content: space-between;
+      transition-timing-function: linear;
+
+      .swiper-slide {
+        width: auto;
+      }
+    }
+  }
+
+  &__item {
+    width: 258px;
+    height: 258px;
+    display: flex;
+    align-items: center;
+    border-radius: 10px;
+    justify-content: center;
+    background: var(--white);
+
+    @media #{$md} {
+      width: 250px;
+      height: 200px;
+    }
+
+    @media #{$sm} {
+      width: 250px;
+      height: 150px;
+    }
+  }
+
+  &__wrapper {
+    .title {
+      font-style: normal;
+      font-weight: 600;
+      font-size: 30px;
+      line-height: 40px;
+      text-align: center;
+      color: var(--black);
+      margin-bottom: 60px;
+    }
+  }
+}

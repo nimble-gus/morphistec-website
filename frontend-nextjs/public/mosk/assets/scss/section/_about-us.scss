@@ -1,0 +1,307 @@
+.about-us {
+  &__inner {
+    display: grid;
+    grid-template-columns: 332px 1fr 318px;
+
+    @media #{$xxl} {
+      grid-template-columns: 200px 1fr 200px;
+    }
+
+    @media #{$lg} {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__sub-title {
+    span {
+      font-weight: 500;
+      font-size: 18px;
+      line-height: 28px;
+      border-radius: 90px;
+      background: var(--white);
+      color: var(--primary);
+      padding: 5px 26px;
+      display: inline-block;
+    }
+  }
+
+  &__content {
+    max-width: 1115px;
+
+    @media #{$lg} {
+      margin-top: 30px;
+      max-width: 100%;
+      order: 2;
+    }
+
+    p {
+      font-size: 42px;
+      font-weight: 700;
+      line-height: 52px;
+      text-indent: 270px;
+      color: var(--black);
+      margin-bottom: 35px;
+      font-family: var(--font_brico);
+
+      @media #{$xxl} {
+        font-size: 37px;
+        line-height: 50px;
+        text-indent: 115px;
+      }
+
+      @media #{$lg} {
+        text-indent: 0;
+      }
+
+      @media #{$md} {
+        font-size: 30px;
+        line-height: 45px;
+      }
+
+      @media #{$xs} {
+        font-size: 22px;
+        line-height: 35px;
+      }
+    }
+  }
+
+  &__date {
+    margin-left: auto;
+    font-size: 24px;
+    font-weight: 500;
+    display: inline-block;
+    color: var(--black);
+
+    @media #{$lg} {
+      margin-left: inherit;
+      order: 1;
+      margin-top: 20px;
+    }
+  }
+}
+
+.about {
+  .about-inner {
+    padding-top: 260px;
+    position: relative;
+
+    @media #{$lg} {
+      padding-top: 240px;
+    }
+
+    @media #{$sm} {
+      padding-top: 180px;
+    }
+  }
+
+  .shape {
+    position: absolute;
+    right: 132px;
+
+    @media #{$md} {
+      right: 20px;
+    }
+
+    @media #{$sm} {
+      display: none;
+    }
+  }
+
+  &-wrapper {
+    gap: 20px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 35px;
+
+    @media #{$xs} {
+      flex-wrap: wrap;
+    }
+
+    .about-client {
+      display: flex;
+      align-items: center;
+
+      img {
+        width: 60px;
+        height: 60px;
+        object-fit: cover;
+        display: flex;
+        border-radius: 500px;
+        outline: 1px solid #fff;
+
+        &:not(:first-child) {
+          margin-left: -27px;
+        }
+      }
+    }
+
+    .about-text {
+      .title {
+        font-size: 20px;
+        line-height: 30px;
+        font-weight: 700;
+      }
+
+      p {
+        font-size: 20px;
+        line-height: 30px;
+      }
+    }
+  }
+
+  .title {
+    font-size: 140px;
+    line-height: 150px;
+    font-weight: 700;
+
+    @media #{$xxl} {
+      font-size: 120px;
+      line-height: 130px;
+    }
+
+    @media #{$xl} {
+      font-size: 95px;
+      line-height: 110px;
+    }
+
+    @media #{$lg} {
+      font-size: 70px;
+      line-height: 80px;
+    }
+
+    @media #{$md} {
+      font-size: 55px;
+      line-height: 60px;
+    }
+
+    @media #{$sm} {
+      font-size: 45px;
+      line-height: 44px;
+    }
+
+    @media #{$xs} {
+      font-size: 35px;
+      line-height: 44px;
+    }
+  }
+
+  .about-media {
+    position: relative;
+    margin-top: 130px;
+
+    @media #{$md} {
+      margin-top: 50px;
+    }
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .about-info {
+      padding: 45px;
+      background: #b3ec11;
+      border-radius: 10px;
+      display: inline-block;
+      position: absolute;
+      top: -278px;
+      right: 75px;
+      width: 449px;
+
+      @media #{$xxl} {
+        right: 50px;
+        width: 400px;
+      }
+
+      @media #{$lg} {
+        width: 360px;
+        padding: 30px;
+        top: -220px;
+      }
+
+      @media #{$md} {
+        position: inherit;
+        right: inherit;
+        top: inherit;
+        margin-bottom: 30px;
+        margin-left: 30px;
+      }
+
+      @media #{$xs} {
+        width: 100%;
+        margin-left: 0;
+      }
+
+      .sub-title {
+        font-size: 30px;
+        line-height: 40px;
+        font-weight: 700;
+        color: var(--black);
+        margin-bottom: 15px;
+      }
+
+      .about-info-item {
+        gap: 25px;
+        display: flex;
+        align-items: center;
+        padding-top: 18px;
+
+        &:not(:last-child) {
+          padding-bottom: 18px;
+          border-bottom: 1px solid var(--black);
+        }
+
+        &:first-of-type {
+          padding-top: 0;
+        }
+
+        h3 {
+          font-size: 100px;
+          font-weight: 700;
+          line-height: 100px;
+          color: var(--black);
+          font-family: var(--font_brico);
+
+          .odometer.odometer-auto-theme,
+          .odometer.odometer-theme-default {
+            font-family: var(--font_brico);
+            line-height: 1;
+          }
+
+          @media #{$xxl} {
+            font-size: 80px;
+          }
+
+          @media #{$xl} {
+            font-size: 70px;
+          }
+
+          @media #{$lg} {
+            font-size: 60px;
+            line-height: 60px;
+          }
+
+          @media #{$sm} {
+            font-size: 35px;
+            line-height: 40px;
+          }
+        }
+
+        p {
+          font-size: 18px;
+          line-height: 28px;
+          font-weight: 700;
+          color: var(--black);
+          font-family: var(--font_brico);
+
+          @media #{$xs} {
+            br {
+              display: none;
+            }
+          }
+        }
+      }
+    }
+  }
+}

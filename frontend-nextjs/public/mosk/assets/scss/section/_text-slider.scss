@@ -1,0 +1,45 @@
+// brand-slide-section
+.text-slider-2 {
+  .text-slider-2__wrapper {
+    padding-top: 45px;
+    padding-bottom: 45px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  .text-slider-2__active {
+    .swiper-wrapper {
+      display: flex;
+      column-gap: 200px;
+      align-items: center;
+      justify-content: space-between;
+      transition-timing-function: linear;
+
+      @media #{$xl} {
+        column-gap: 150px;
+      }
+
+      @media #{$lg} {
+        column-gap: 100px;
+      }
+
+      @media #{$md} {
+        column-gap: 50px;
+      }
+
+      @media #{$sm} {
+        column-gap: 20px;
+      }
+
+      .swiper-slide {
+        width: auto;
+      }
+    }
+  }
+
+  &__item {
+    h2 {
+      font-size: 30px;
+      line-height: 30px;
+    }
+  }
+}

@@ -1,0 +1,149 @@
+.our-team {
+
+
+  .section-2__bottom {
+    .btn-primary {
+      &::after {
+        background: #BEFF01;
+      }
+    }
+  }
+
+  &__item {
+    margin-bottom: 30px;
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+
+    &:hover {
+      .content {
+        transform: translateY(0%);
+      }
+    }
+
+    .media {
+      img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    }
+
+    .content {
+      width: 100%;
+      height: 100%;
+      padding: 45px;
+      position: absolute;
+      background: #BEFF01;
+      transition: all 0.6s;
+      transform: translateY(100%);
+
+      @media #{$xl} {
+        padding: 30px;
+      }
+
+      p {
+        font-size: 20px;
+        line-height: 30px;
+        color: #010101;
+
+        @media #{$xl} {
+          br {
+            display: none;
+          }
+        }
+      }
+
+      .title {
+        margin-top: auto;
+        font-size: 52px;
+        line-height: 62px;
+        font-weight: 700;
+        position: absolute;
+        left: 45px;
+        bottom: 45px;
+        color: #010101;
+
+        @media #{$xl} {
+          left: 30px;
+          bottom: 30px;
+
+          br {
+            display: none;
+          }
+        }
+
+        @media #{$xs} {
+          font-size: 30px;
+          line-height: 30px;
+        }
+      }
+
+      .socail {
+        gap: 15px;
+        right: -200px;
+        rotate: -90deg;
+        bottom: 285px;
+        display: flex;
+        position: absolute;
+
+        @media #{$xxl} {
+          rotate: 0deg;
+          right: inherit;
+          top: 125px;
+          flex-direction: column;
+        }
+
+        @media #{$xl} {
+          top: 100px;
+          position: inherit;
+        }
+
+        @media #{$xs} {
+          top: 80px;
+        }
+
+        li {
+          a {
+            font-size: 15px;
+            font-weight: 500;
+            line-height: 26px;
+            position: relative;
+            color: #010101;
+            padding: 5.5px 10px;
+            padding-left: 30px;
+            transition: all 0.3s;
+            border-radius: 500px;
+            text-transform: uppercase;
+            border: 1px solid rgb(1 1 1 / 16%);
+
+            &:hover {
+              background: var(--white);
+              color: var(--black);
+              border-color: transparent;
+
+              &::before {
+                background-color: var(--black);
+              }
+            }
+
+            &::before {
+              content: "";
+              top: 50%;
+              left: 0;
+              width: 6px;
+              height: 6px;
+              position: absolute;
+              transition: all 0.3s;
+              border-radius: 500px;
+              background-color: #010101;
+              transform: translate(15px, -50%);
+            }
+          }
+        }
+      }
+    }
+  }
+}

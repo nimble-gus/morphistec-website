@@ -1,33 +1,64 @@
-/* Global CSS Variables */
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 :root {
-  --background: #000000;
-  --foreground: #ffffff;
-  --primary: #00d36b;
-  --secondary: #0077ff;
-  --accent: #ff00cc;
-  --border: rgba(255, 255, 255, 0.1);
-  --shadow: rgba(0, 0, 0, 0.3);
+  /* Texto principal (blanco / off-white) */
+  --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+  --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
+  --ok-neon: #b8ff2e;
+  --ok-blue: #2b6bff;
 }
 
-/* Dark mode (default) */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #000000;
-    --foreground: #ffffff;
-  }
-}
-
-/* Base styles */
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
-  line-height: 1.6;
+* { box-sizing: border-box; }
+html, body {
+  background: #050505;
+  color: #ededed;
+  font-family: var(--font-sans);
   -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  padding: 0;
+}
+html { scroll-behavior: smooth; }
+a { color: inherit; text-decoration: none; }
+button { font-family: inherit; cursor: pointer; }
+
+.ok-grid-bg {
+  background-image:
+    linear-gradient(to right, rgba(255,255,255,0.035) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255,255,255,0.035) 1px, transparent 1px);
+  background-size: 64px 64px;
 }
 
-/* Ensure proper stacking context */
-#__next {
-  /* isolation: isolate; - Removed to allow video z-index to work properly */
+.ok-pill {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 6px 12px; border: 1px solid rgba(255,255,255,0.14);
+  border-radius: 999px; font-size: 12px; letter-spacing: 0.04em;
+  text-transform: uppercase; color: #8a8a8a; font-family: var(--font-mono);
+  background: rgba(255,255,255,0.02);
 }
+.ok-pill .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--ok-neon); box-shadow: 0 0 12px var(--ok-neon); }
+
+.ok-btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 22px; border-radius: 999px; font-weight: 500; font-size: 15px;
+  transition: all .25s cubic-bezier(.2,.7,.2,1);
+  border: 0;
+}
+.ok-btn-primary { background: var(--ok-neon); color: #0a0a0a; }
+.ok-btn-primary:hover { transform: translateY(-1px); box-shadow: 0 12px 40px -8px rgba(184,255,46,0.18); }
+.ok-btn-ghost { border: 1px solid rgba(255,255,255,0.14); color: #ededed; background: transparent; }
+.ok-btn-ghost:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.24); }
+
+.ok-eyebrow {
+  font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.16em;
+  text-transform: uppercase; color: #8a8a8a;
+}
+
+::-webkit-scrollbar { width: 8px; height: 8px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.12); border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.2); }

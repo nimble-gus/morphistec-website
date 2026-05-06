@@ -1,25 +1,28 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Hero from '@/components/Hero';
-import WhyMorphisTec from '@/components/WhyMorphisTec';
-import AboutUs from '@/components/AboutUs';
-import HowWeDoIt from '@/components/HowWeDoIt';
-import DigitalTest from '@/components/DigitalTest';
-import Footer from '@/components/Footer';
-import WhatsAppFloat from '@/components/WhatsAppFloat';
-import '../styles/MainPage.css';
+import { LangProvider } from "@/components/lang";
+import { TopNav } from "@/components/top-nav";
+import { Hero } from "@/components/hero";
+import { ClientsMarquee } from "@/components/clients-marquee";
+import { ServicesBento } from "@/components/services-bento";
+import { Process } from "@/components/process";
+import { CTASection } from "@/components/cta-section";
+import { Footer } from "@/components/footer";
 
-export default function Home() {
+export default function Page() {
   return (
-    <main className="main-page">
-      <Hero />
-      <WhyMorphisTec />
-      <AboutUs />
-      <HowWeDoIt />
-      <DigitalTest />
-      <Footer />
-      <WhatsAppFloat />
-    </main>
+    <LangProvider>
+      <main className="min-h-screen bg-ok-black">
+        <TopNav />
+        <Hero />
+        <div className="relative z-[20] bg-ok-black">
+          <ClientsMarquee />
+          <ServicesBento />
+          <Process />
+          <CTASection />
+          <Footer />
+        </div>
+      </main>
+    </LangProvider>
   );
 }

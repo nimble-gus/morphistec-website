@@ -1,91 +1,45 @@
-import React from 'react';
-import Link from 'next/link';
-import Image from 'next/image';
-import '../styles/Footer.css';
-import { Instagram, Linkedin, Mail } from 'lucide-react';
+"use client";
 
-const Footer: React.FC = () => {
+import { OktaeLogo } from "./logo";
+import { useLang } from "./lang";
+
+function Col({ title, items }: { title: string; items: string[] }) {
   return (
-    <footer className="footer">
-      <div className="footer-top">
-        <div className="footer-brand">
-          <Image 
-            src="/assets/logo.png" 
-            alt="Oktae.tech" 
-            width={150} 
-            height={50} 
-            className="footer-logo"
-            style={{ width: 'auto', height: 'auto' }}
-          />
-          <p>Tecnología a tu medida</p>
-          <p>Resultados sin complicaciones.</p>
-        </div>
-
-        <div className="footer-columns">
-          <div className="footer-column">
-            <h4>Servicios</h4>
-            <ul>
-              <li>
-                <Link href="/automatizacion" data-tooltip="Automatiza tareas repetitivas y ahorra tiempo con IA.">Automatización</Link>
-              </li>
-              <li>
-                <Link href="/ocr" data-tooltip="Extrae datos de PDFs o imágenes con OCR inteligente.">OCR Inteligente</Link>
-              </li>
-              <li>
-                <Link href="/ecommerce" data-tooltip="Crea una tienda online moderna, rápida y segura.">E-commerce</Link>
-              </li>
-              <li>
-                <Link href="/crm" data-tooltip="Gestiona clientes y analiza datos con dashboards a medida.">CRM & Dashboards</Link>
-              </li>
-              <li>
-                <Link href="/aplicaciones-moviles" data-tooltip="Desarrolla apps móviles nativas e híbridas para iOS y Android.">Aplicaciones Móviles</Link>
-              </li>
-            </ul>
-          </div>
-
-          <div className="footer-column">
-            <h4>Contáctanos</h4>
-            <p>Email: <a href="mailto:hola@oktae.tech">hola@oktae.tech</a></p>
-            <div className="social-icons">
-              <a
-                href="https://www.instagram.com/oktae.tech/"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="Instagram"
-              >
-                <Instagram size={20} />
-              </a>
-              <a
-                href="https://www.linkedin.com/company/108568627"
-                target="_blank"
-                rel="noopener noreferrer"
-                aria-label="LinkedIn"
-              >
-                <Linkedin size={20} />
-              </a>
-              <a
-                href="mailto:hola@oktae.tech"
-                aria-label="Enviar correo"
-              >
-                <Mail size={20} />
-              </a>
-            </div>
-          </div>
-        </div>
+    <div>
+      <div className="font-mono text-[11px] text-ok-dim uppercase tracking-[0.12em] mb-4">
+        {title}
       </div>
+      <ul className="list-none flex flex-col gap-2.5">
+        {items.map((it, i) => (
+          <li key={i} className="text-sm text-ok-text cursor-pointer">
+            {it}
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
 
-      <hr className="footer-divider" />
-
-      <div className="footer-bottom">
-        <p>© 2025 Oktae.tech. Todos los derechos reservados.</p>
-        <div className="footer-links">
-          <Link href="/privacidad">Política de privacidad</Link>
-          <Link href="/terminos">Términos y condiciones</Link>
-          <Link href="/seguridad">Política de seguridad</Link>
+export function Footer() {
+  const { t } = useLang();
+  return (
+    <footer className="border-t border-ok-line px-10 pt-16 pb-8 bg-ok-black">
+      <div className="grid gap-14 mb-14" style={{ gridTemplateColumns: "2fr 1fr 1fr 1fr" }}>
+        <div>
+          <OktaeLogo size={26} />
+          <p className="mt-4 text-ok-mute text-sm max-w-[320px] leading-relaxed">
+            {t.footer_tag}
+          </p>
         </div>
+        <Col title="Studio" items={["About", "Work", "Process", "Careers"]} />
+        <Col title="Services" items={["E-commerce", "Custom apps", "Automations", "Dashboards"]} />
+        <Col title="Contact" items={["hola@oktae.io", "CDMX · BOG · SCL", "LinkedIn", "Instagram"]} />
+      </div>
+      <div className="flex justify-between items-center pt-6 border-t border-ok-line font-mono text-[11px] text-ok-dim uppercase tracking-[0.1em]">
+        <span>© 2026 Oktae Studio</span>
+        <span>{t.footer_made}</span>
+        <span>v1.0 — May 2026</span>
       </div>
     </footer>
   );
-};
-
-export default Footer;
+}

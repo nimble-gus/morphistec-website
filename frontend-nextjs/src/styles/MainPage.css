@@ -18,8 +18,8 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Focus styles for accessibility */
-*:focus {
+/* Foco solo con teclado (coherente con index.css) */
+.main-page *:focus-visible {
   outline: 2px solid #00d36b;
   outline-offset: 2px;
 }

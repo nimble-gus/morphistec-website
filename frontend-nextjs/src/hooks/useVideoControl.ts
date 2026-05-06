@@ -1,24 +1,25 @@
 import { useRef, useEffect } from 'react';
 
-export const useVideoControl = (videoSrc: string) => {
+/**
+ * @param enabled — Si es false, no se carga ni reproduce (p. ej. hero fuera de vista o reduced motion).
+ * Debe incluirse en las dependencias cuando el <video> se monta condicionalmente.
+ */
+export const useVideoControl = (videoSrc: string, enabled = true) => {
   const videoRef = useRef<HTMLVideoElement>(null);
 
   useEffect(() => {
     const video = videoRef.current;
-    if (!video) return;
+    if (!video || !enabled) return;
 
     let isMounted = true;
 
     const playVideo = async () => {
       if (!isMounted || !video) return;
-      
+
       try {
-        // Reset video state
         video.currentTime = 0;
         await video.play();
-      } catch (error) {
-        // Video autoplay failed, will retry
-        // Retry after a short delay
+      } catch {
         setTimeout(() => {
           if (isMounted && video) {
             video.load();
@@ -43,19 +44,17 @@ export const useVideoControl = (videoSrc: string) => {
       }
     };
 
-    // Event listeners
     video.addEventListener('loadeddata', handleLoadedData);
     document.addEventListener('visibilitychange', handleVisibilityChange);
-
-    // Initial load
     video.load();
 
     return () => {
       isMounted = false;
+      video.pause();
       video.removeEventListener('loadeddata', handleLoadedData);
       document.removeEventListener('visibilitychange', handleVisibilityChange);
     };
-  }, [videoSrc]);
+  }, [videoSrc, enabled]);
 
   return videoRef;
 };

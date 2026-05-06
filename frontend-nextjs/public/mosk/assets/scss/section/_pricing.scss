@@ -1,0 +1,114 @@
+.pricing {
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  margin-bottom: 30px;
+
+  &-content {
+    background: #090909;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    padding: 30px 30px 25px 30px;
+    margin: 20px;
+
+    & p {
+      margin-top: 22px;
+      font-family: var(--font_dmsans);
+      font-style: normal;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 28px;
+      color: var(--white);
+    }
+  }
+
+  &-badge {
+    background: var(--black);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 90px;
+    padding: 7px 29px;
+    display: inline-block;
+    margin-bottom: 20px;
+
+    & span {
+      font-family: var(--font_dmsans);
+      font-style: normal;
+      font-weight: 400;
+      font-size: 18px;
+      line-height: 23px;
+      color: var(--white);
+    }
+  }
+
+  &-price {
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+
+    & h2 {
+      font-family: var(--font_brico);
+      font-style: normal;
+      font-weight: 700;
+      font-size: 72px;
+      line-height: 82px;
+      color: var(--white);
+
+      @media #{$xs} {
+        font-size: 53px;
+      }
+
+      & span {
+        font-family: var(--font_brico);
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 82px;
+        color: var(--white);
+      }
+    }
+  }
+
+  &-list {
+    margin-top: 52px;
+    margin-left: 70px;
+    margin-bottom: 52px;
+
+    & ul {
+      & li {
+        position: relative;
+        margin-bottom: 20px;
+        font-family: var(--font_dmsans);
+        font-style: normal;
+        font-weight: 400;
+        font-size: 18px;
+        line-height: 28px;
+        color: #aaaaaa;
+
+        &::before {
+          position: absolute;
+          content: "";
+          left: -20px;
+          top: 8px;
+          width: 10px;
+          height: 10px;
+          background: #aaaaaa;
+          border-radius: 100px;
+        }
+      }
+    }
+  }
+
+  &-btn {
+    margin: 20px;
+
+    .rr-btnn-2 {
+      background: transparent;
+      border: 1px solid #BEFF01;
+
+      &:hover {
+        border-color: transparent;
+      }
+
+      &::after {
+        background: #BEFF01;
+      }
+    }
+  }
+}
