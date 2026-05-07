@@ -7,7 +7,7 @@ import { BookCallModal } from "@/components/ui/book-call-modal";
 export function Hero() {
   const { t } = useLang();
   return (
-    <section className="relative min-h-[880px] px-10 pt-40 pb-20 overflow-hidden border-b border-ok-line hero-section">
+    <section className="hero-section relative min-h-[760px] overflow-hidden border-b border-ok-line px-4 pb-14 pt-28 sm:min-h-[820px] sm:px-6 sm:pt-32 md:min-h-[880px] md:px-10 md:pb-20 md:pt-40">
       {/* Fondo fijo al viewport (no se mueve al hacer scroll dentro del hero) */}
       <div
         className="pointer-events-none fixed inset-0 z-[5] h-[100dvh] min-h-[100vh] w-full overflow-hidden"
@@ -31,11 +31,11 @@ export function Hero() {
         />
       </div>
 
-      <div className="relative z-10 max-w-[1280px] mx-auto">
+      <div className="relative z-10 mx-auto max-w-[1280px]">
         <h1
           className="font-medium max-w-[1000px]"
           style={{
-            fontSize: "clamp(64px, 9.5vw, 148px)",
+            fontSize: "clamp(48px, 10vw, 148px)",
             lineHeight: 0.95,
             letterSpacing: "-0.045em",
           }}
@@ -64,11 +64,11 @@ export function Hero() {
           ))}
         </h1>
 
-        <div className="flex gap-20 mt-14 max-w-[900px] items-end flex-wrap">
-          <p className="text-ok-mute text-lg leading-snug max-w-[460px]">
+        <div className="mt-12 flex max-w-[900px] flex-col gap-8 sm:mt-14 sm:gap-10 md:flex-row md:items-end md:gap-20">
+          <p className="max-w-[460px] text-base leading-snug text-ok-mute sm:text-lg">
             {t.hero_sub}
           </p>
-          <div className="flex gap-3">
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
             <BookCallModal triggerLabel={t.hero_cta} />
             <a href="#services" className="ok-btn ok-btn-ghost">
               {t.hero_cta_2}
@@ -76,11 +76,11 @@ export function Hero() {
           </div>
         </div>
 
-        <div className="mt-24 pt-8 border-t border-ok-line grid grid-cols-4 gap-10">
+        <div className="mt-16 grid grid-cols-2 gap-8 border-t border-ok-line pt-8 sm:mt-20 md:mt-24 md:grid-cols-4 md:gap-10">
           {t.stats.map((s, i) => (
             <div key={i}>
               <div
-                className="text-5xl font-medium text-ok-text"
+                className="text-4xl font-medium text-ok-text sm:text-5xl"
                 style={{ letterSpacing: "-0.03em" }}
               >
                 {s.k}
