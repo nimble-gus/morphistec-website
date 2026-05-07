@@ -1,11 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { ShoppingCart } from "lucide-react";
 import { OktaeLogo } from "./logo";
 import { useLang } from "./lang";
+import { useDemoCart } from "@/context/demo-cart";
 
 export function TopNav() {
   const { lang, setLang, t } = useLang();
+  const { itemCount, cartVisible } = useDemoCart();
   const navHrefs = ["#services", "#process", "#work", "#contact"];
   return (
     <header
@@ -32,6 +35,23 @@ export function TopNav() {
         </div>
 
         <div className="flex shrink-0 items-center gap-1.5 sm:gap-2.5">
+          {cartVisible && (
+            <div
+              className="relative flex items-center justify-center text-ok-text"
+              aria-live="polite"
+            >
+              <ShoppingCart className="h-[18px] w-[18px] sm:h-5 sm:w-5" aria-hidden />
+              <span className="sr-only">
+                {t.demo_cart_aria}: {itemCount}
+              </span>
+              <span
+                className="absolute -right-1.5 -top-1.5 flex min-h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[var(--ok-neon)] px-[5px] font-mono text-[10px] font-semibold leading-none text-[#050505]"
+                aria-hidden
+              >
+                {itemCount > 99 ? "99+" : itemCount}
+              </span>
+            </div>
+          )}
           <div className="flex rounded-full border border-ok-line-2 p-[3px] font-mono text-[10px] sm:text-[11px]">
             {(["es", "en"] as const).map((l) => (
               <button

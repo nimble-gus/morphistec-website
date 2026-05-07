@@ -3,25 +3,17 @@
 import { LangProvider } from "@/components/lang";
 import { DemoCartProvider } from "@/context/demo-cart";
 import { TopNav } from "@/components/top-nav";
-import { Hero } from "@/components/hero";
-import { ClientsMarquee } from "@/components/clients-marquee";
-import { ServicesBento } from "@/components/services-bento";
-import { Process } from "@/components/process";
-import { CTASection } from "@/components/cta-section";
+import { CustomAppsHero } from "@/components/custom-apps-hero";
 import { Footer } from "@/components/footer";
 
-export default function Page() {
+export default function AppsALaMedidaPage() {
   return (
     <LangProvider>
       <DemoCartProvider>
         <main className="min-h-screen bg-ok-black">
           <TopNav />
-          <Hero />
+          <CustomAppsHero />
           <div className="relative z-[20] bg-ok-black">
-            <ClientsMarquee />
-            <ServicesBento />
-            <Process />
-            <CTASection />
             <Footer />
           </div>
         </main>

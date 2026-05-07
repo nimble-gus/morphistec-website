@@ -27,7 +27,7 @@ export function CTASection() {
           {t.cta_pill}
         </span>
         <h2
-          className="font-medium mt-6 mb-6"
+          className={`font-medium mt-6 ${t.cta_sub.trim() ? "mb-6" : "mb-8"}`}
           style={{
             fontSize: "clamp(48px, 7vw, 96px)",
             letterSpacing: "-0.04em",
@@ -36,9 +36,11 @@ export function CTASection() {
         >
           {t.cta_title}
         </h2>
-        <p className="mx-auto mb-8 max-w-[520px] text-base leading-snug text-ok-mute sm:mb-10 sm:text-lg">
-          {t.cta_sub}
-        </p>
+        {t.cta_sub.trim() ? (
+          <p className="mx-auto mb-8 max-w-[520px] text-base leading-snug text-ok-mute sm:mb-10 sm:text-lg">
+            {t.cta_sub}
+          </p>
+        ) : null}
         <button className="ok-btn ok-btn-primary w-full px-7 py-4 text-base sm:w-auto sm:py-[18px]">
           {t.cta_button} <span className="font-mono">→</span>
         </button>

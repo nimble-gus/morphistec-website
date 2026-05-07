@@ -13,7 +13,7 @@ export function ClientsMarquee() {
     "/7.png",
   ];
 
-  const items = [...logos, ...logos];
+  const items = [...logos, ...logos, ...logos];
 
   return (
     <div className="relative overflow-hidden border-y border-ok-line py-6 sm:py-7">

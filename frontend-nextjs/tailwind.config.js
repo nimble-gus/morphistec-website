@@ -28,7 +28,7 @@ module.exports = {
       keyframes: {
         marquee: {
           from: { transform: 'translateX(0)' },
-          to: { transform: 'translateX(-50%)' },
+          to: { transform: 'translateX(-33.333%)' },
         },
         'float-in': {
           from: { opacity: '0', transform: 'translateY(20px)' },

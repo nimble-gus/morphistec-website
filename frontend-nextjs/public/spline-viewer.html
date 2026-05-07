@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+      html,
+      body {
+        margin: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        background: transparent;
+      }
+
+      spline-viewer {
+        width: 100%;
+        height: 100%;
+        display: block;
+      }
+    </style>
+    <script
+      type="module"
+      src="https://unpkg.com/@splinetool/viewer@1.12.92/build/spline-viewer.js"
+    ></script>
+  </head>
+  <body>
+    <spline-viewer id="viewer"></spline-viewer>
+    <script>
+      const params = new URLSearchParams(window.location.search);
+      const scene = params.get("scene");
+      const viewer = document.getElementById("viewer");
+      if (scene) {
+        viewer.setAttribute("url", scene);
+      }
+
+      // Oculta el badge "Built with Spline" dentro del shadow DOM del viewer.
+      function hideSplineBadge() {
+        const root = viewer && viewer.shadowRoot;
+        if (!root) return;
+
+        const badge =
+          root.querySelector("a[href*='spline.design']") ||
+          root.querySelector("[class*='logo']") ||
+          root.querySelector("[class*='badge']");
+
+        if (badge instanceof HTMLElement) {
+          badge.style.display = "none";
+        }
+      }
+
+      const observer = new MutationObserver(hideSplineBadge);
+      observer.observe(viewer, { childList: true, subtree: true });
+      setInterval(hideSplineBadge, 400);
+    </script>
+  </body>
+</html>

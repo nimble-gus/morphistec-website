@@ -1,7 +1,13 @@
 "use client";
 
+import { Instagram, Linkedin } from "lucide-react";
 import { OktaeLogo } from "./logo";
 import { useLang } from "./lang";
+
+const LINKEDIN_URL =
+  process.env.NEXT_PUBLIC_LINKEDIN_URL?.trim() || "https://www.linkedin.com/";
+const INSTAGRAM_URL =
+  process.env.NEXT_PUBLIC_INSTAGRAM_URL?.trim() || "https://www.instagram.com/";
 
 function Col({ title, items }: { title: string; items: string[] }) {
   return (
@@ -33,12 +39,42 @@ export function Footer() {
         </div>
         <Col title="Studio" items={["About", "Work", "Process", "Careers"]} />
         <Col title="Services" items={["E-commerce", "Custom apps", "Automations", "Dashboards"]} />
-        <Col title="Contact" items={["hola@oktae.io", "CDMX · BOG · SCL", "LinkedIn", "Instagram"]} />
+        <div>
+          <div className="mb-4 font-mono text-[11px] uppercase tracking-[0.12em] text-ok-dim">
+            Contact
+          </div>
+          <a
+            href="mailto:hola@oktae.io"
+            className="block text-sm text-ok-text underline-offset-4 transition-colors hover:text-[var(--ok-neon)] hover:underline"
+          >
+            hola@oktae.io
+          </a>
+          <div className="mt-4 flex items-center gap-3">
+            <a
+              href={LINKEDIN_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-white/14 text-ok-text transition-colors hover:border-[var(--ok-neon)] hover:text-[var(--ok-neon)]"
+              aria-label="LinkedIn"
+            >
+              <Linkedin className="h-5 w-5" strokeWidth={1.5} aria-hidden />
+            </a>
+            <a
+              href={INSTAGRAM_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex h-10 w-10 cursor-pointer items-center justify-center rounded-full border border-white/14 text-ok-text transition-colors hover:border-[var(--ok-neon)] hover:text-[var(--ok-neon)]"
+              aria-label="Instagram"
+            >
+              <Instagram className="h-5 w-5" strokeWidth={1.5} aria-hidden />
+            </a>
+          </div>
+        </div>
       </div>
       <div className="flex flex-col items-start justify-between gap-2 border-t border-ok-line pt-6 font-mono text-[11px] uppercase tracking-[0.1em] text-ok-dim sm:flex-row sm:items-center sm:gap-4">
-        <span>© 2026 Oktae Studio</span>
+        <span>© 2026 Oktae.Tech</span>
         <span>{t.footer_made}</span>
-        <span>v1.0 — May 2026</span>
+        <span>v2.0 — May 2026</span>
       </div>
     </footer>
   );
