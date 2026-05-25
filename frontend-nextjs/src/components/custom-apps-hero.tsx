@@ -1,9 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { useLang } from "@/components/lang";
 import { BookCallModal } from "@/components/ui/book-call-modal";
+import { CustomAppsLaptopUI } from "@/components/custom-apps-laptop-ui";
+import { CustomAppsMobileUI } from "@/components/custom-apps-mobile-ui";
 
 export function CustomAppsHero() {
   const { t } = useLang();
@@ -30,8 +31,8 @@ export function CustomAppsHero() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-[1600px]">
-        <div className="relative min-h-[620px] py-8 md:min-h-[760px]">
-          <div className="pl-3 sm:pl-6 md:pl-10 md:pr-[760px] lg:pl-14 lg:pr-[940px]">
+        <div className="relative grid min-h-[620px] grid-cols-1 gap-10 py-8 md:min-h-[760px] lg:grid-cols-[440px_minmax(0,1fr)] lg:items-start lg:gap-x-6 lg:gap-y-10 lg:py-8 xl:gap-x-10">
+          <div className="w-full max-w-xl pl-3 sm:pl-6 lg:max-w-xl lg:pl-4 lg:pr-4">
             <span className="ok-eyebrow">{t.custom_apps_eyebrow}</span>
             <h1
               className="mt-4 font-medium max-w-[1000px]"
@@ -77,26 +78,41 @@ export function CustomAppsHero() {
             </div>
           </div>
 
-          <div className="relative mt-10 flex items-center justify-center md:absolute md:right-8 md:top-1/2 md:mt-0 md:-translate-y-1/2 lg:right-12">
-            <div className="w-[832px] max-w-[95vw]">
-              <div className="relative overflow-hidden rounded-t-[20px] border border-[#3a4254] bg-[#0c101a] shadow-[0_30px_90px_rgba(0,0,0,.55)]">
-                <div className="flex h-9 items-center gap-2 border-b border-white/10 bg-[#161c29] px-4">
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
-                  <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+          <div className="flex min-h-0 w-full min-w-0 justify-center self-stretch lg:items-start lg:justify-end lg:pt-12 xl:pt-14">
+            <div className="flex w-full min-w-0 max-w-none flex-col items-center gap-8 md:flex-row md:items-end md:justify-end">
+              <div className="w-full min-w-0 max-w-[min(652px,94vw)] shrink-0 sm:max-w-[min(734px,92vw)] md:flex-1 md:max-w-[min(1061px,calc((100%_-_14rem)_*_0.9))]">
+                <div className="relative overflow-hidden rounded-t-[20px] border border-[#3a4254] bg-[#0c101a] shadow-[0_30px_90px_rgba(0,0,0,.55)]">
+                  <div className="flex h-9 items-center gap-2 border-b border-white/10 bg-[#161c29] px-4 sm:h-10">
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#febc2e]" />
+                    <span className="h-2.5 w-2.5 rounded-full bg-[#28c840]" />
+                  </div>
+                  <div className="relative aspect-[16/10] w-full bg-[#0f172a]">
+                    <div className="absolute inset-0 overflow-hidden p-0.5 sm:p-1">
+                      <CustomAppsLaptopUI />
+                    </div>
+                  </div>
                 </div>
-                <div className="relative aspect-[16/10] w-full bg-[#0f172a]">
-                  <Image
-                    src="/app.png"
-                    alt="Vista de la app en MacBook"
-                    fill
-                    className="object-contain object-center"
-                    priority
-                  />
+                <div className="mx-auto h-5 w-[100%] rounded-b-[16px] bg-gradient-to-b from-[#9ca3b4] to-[#4b5567]" />
+                <div className="mx-auto mt-1 h-2 w-[42%] rounded-full bg-[#2c3444]" />
+              </div>
+
+              <div
+                className="relative z-[3] w-[min(180px,42vw)] shrink-0 drop-shadow-[0_28px_56px_rgba(0,0,0,0.55)] md:-ml-10 md:mb-1 md:w-[190px] lg:-ml-12 lg:w-[200px]"
+                role="presentation"
+              >
+                <div className="rounded-[2.25rem] border border-[#3a4254] bg-gradient-to-b from-[#2a3142] to-[#121722] p-[9px] shadow-[0_24px_70px_rgba(0,0,0,.5)]">
+                  <div className="flex justify-center pb-1.5 pt-0.5">
+                    <span className="h-5 w-[5.5rem] rounded-full bg-black ring-1 ring-white/[0.12]" />
+                  </div>
+                  <div className="relative aspect-[9/19.4] w-full overflow-hidden rounded-[1.55rem] bg-[#0f172a] ring-1 ring-black/40">
+                    <div className="absolute inset-0 overflow-hidden">
+                      <CustomAppsMobileUI />
+                    </div>
+                  </div>
+                  <div className="mx-auto mt-2 h-1 w-10 rounded-full bg-white/25" />
                 </div>
               </div>
-              <div className="mx-auto h-6 w-[100%] rounded-b-[18px] bg-gradient-to-b from-[#9ca3b4] to-[#4b5567]" />
-              <div className="mx-auto mt-1 h-2 w-[42%] rounded-full bg-[#2c3444]" />
             </div>
           </div>
         </div>

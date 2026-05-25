@@ -26,12 +26,8 @@ export function middleware(request: NextRequest) {
   return NextResponse.next()
 }
 
+// Solo rutas de favicon: un catch-all aquí hace que el middleware corra en *cada*
+// petición en dev y puede dejar el servidor colgado o muy lento tras "Starting...".
 export const config = {
-  matcher: [
-    '/favicon.ico',
-    '/app.ico',
-    '/favicon.png',
-    '/favicon-:path*',
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
-  ],
-}
+  matcher: ["/favicon.ico", "/app.ico", "/favicon.png", "/favicon-:path*"],
+};

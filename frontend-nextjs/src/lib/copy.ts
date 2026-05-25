@@ -75,6 +75,11 @@ export const COPY = {
     custom_apps_hero_sub:
       "Diseñamos y construimos aplicaciones alrededor de tu flujo real: integraciones, roles, analítica y despliegue. Prototipo rápido, entregas en sprints y equipo in-house de punta a punta.",
     custom_apps_cta_home: "Volver al inicio",
+    automation_eyebrow: "Automatizaciones",
+    automation_hero_title: ["Tu operación", "en piloto", "automático."],
+    automation_hero_sub:
+      "Integramos formularios, CRMs, mensajería y planillas. Reglas claras, reintentos, auditoría y alertas cuando algo falla. Lo ensayamos contigo antes de producción.",
+    automation_cta_home: "Volver al inicio",
     custom_apps_spline_empty:
       "Añade la URL de Embed de tu escena Spline en el archivo de configuración (ver comentarios en el archivo).",
     footer_status: "Aceptando proyectos Q3",
@@ -153,6 +158,11 @@ export const COPY = {
     custom_apps_hero_sub:
       "We design and ship apps around your real workflow: integrations, roles, analytics and deployment. Fast prototypes, sprint deliveries and an in-house team end to end.",
     custom_apps_cta_home: "Back to home",
+    automation_eyebrow: "Automations",
+    automation_hero_title: ["Your ops,", "on autopilot", "— wired right."],
+    automation_hero_sub:
+      "We connect forms, CRMs, messaging and spreadsheets. Clear rules, retries, audit trails and alerts when something breaks. We rehearse with you before production.",
+    automation_cta_home: "Back to home",
     custom_apps_spline_empty:
       "Add your Spline embed URL in the config file (see comments there).",
     footer_status: "",
