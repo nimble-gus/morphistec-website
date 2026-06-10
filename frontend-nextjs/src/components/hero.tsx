@@ -2,7 +2,7 @@
 
 import { useLang } from "./lang";
 import AetherFlowHero from "@/components/ui/aether-flow-hero";
-import { BookCallModal } from "@/components/ui/book-call-modal";
+import { WhatsAppButton } from "@/components/whatsapp-button";
 
 export function Hero() {
   const { t } = useLang();
@@ -69,7 +69,7 @@ export function Hero() {
             {t.hero_sub}
           </p>
           <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row">
-            <BookCallModal triggerLabel={t.hero_cta} />
+            <WhatsAppButton>{t.hero_cta}</WhatsAppButton>
             <a href="#services" className="ok-btn ok-btn-ghost">
               {t.hero_cta_2}
             </a>

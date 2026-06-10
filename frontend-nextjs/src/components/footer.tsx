@@ -30,24 +30,23 @@ export function Footer() {
   const { t } = useLang();
   return (
     <footer className="bg-ok-black border-t border-ok-line px-4 pb-8 pt-12 sm:px-6 md:px-10 md:pt-16">
-      <div className="mb-12 grid grid-cols-1 gap-10 sm:grid-cols-2 md:mb-14 md:gap-12 lg:grid-cols-4 lg:gap-14">
+      <div className="mb-12 grid grid-cols-1 gap-10 sm:grid-cols-2 md:mb-14 md:gap-12 lg:grid-cols-3 lg:gap-14">
         <div>
           <OktaeLogo size={26} />
           <p className="mt-4 text-ok-mute text-sm max-w-[320px] leading-relaxed">
             {t.footer_tag}
           </p>
         </div>
-        <Col title="Studio" items={["About", "Work", "Process", "Careers"]} />
         <Col title="Services" items={["E-commerce", "Custom apps", "Automations", "Dashboards"]} />
         <div>
           <div className="mb-4 font-mono text-[11px] uppercase tracking-[0.12em] text-ok-dim">
             Contact
           </div>
           <a
-            href="mailto:hola@oktae.io"
+            href="mailto:hola@oktae.tech"
             className="block text-sm text-ok-text underline-offset-4 transition-colors hover:text-[var(--ok-neon)] hover:underline"
           >
-            hola@oktae.io
+            hola@oktae.tech
           </a>
           <div className="mt-4 flex items-center gap-3">
             <a

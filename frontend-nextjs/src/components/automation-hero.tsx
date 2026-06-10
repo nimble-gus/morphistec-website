@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useLang } from "@/components/lang";
-import { BookCallModal } from "@/components/ui/book-call-modal";
+import { WhatsAppButton } from "@/components/whatsapp-button";
 import { AutomationLaptopUI } from "@/components/automation-laptop-ui";
 
 export function AutomationHero() {
@@ -70,7 +70,9 @@ export function AutomationHero() {
             </p>
 
             <div className="mt-10 flex w-full max-w-[900px] flex-col gap-3 sm:flex-row">
-              <BookCallModal triggerLabel={t.hero_cta} />
+              <WhatsAppButton className="ok-btn ok-btn-primary w-full text-center sm:w-auto">
+                {t.hero_cta}
+              </WhatsAppButton>
               <Link href="/" className="ok-btn ok-btn-ghost w-full text-center sm:w-auto">
                 {t.automation_cta_home}
               </Link>

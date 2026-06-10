@@ -1,6 +1,7 @@
 "use client";
 
 import { useLang } from "./lang";
+import { WhatsAppButton } from "./whatsapp-button";
 
 export function CTASection() {
   const { t } = useLang();
@@ -41,9 +42,9 @@ export function CTASection() {
             {t.cta_sub}
           </p>
         ) : null}
-        <button className="ok-btn ok-btn-primary w-full px-7 py-4 text-base sm:w-auto sm:py-[18px]">
-          {t.cta_button} <span className="font-mono">→</span>
-        </button>
+        <WhatsAppButton className="ok-btn ok-btn-primary w-full px-7 py-4 text-base sm:w-auto sm:py-[18px]">
+          {t.cta_button}
+        </WhatsAppButton>
       </div>
     </section>
   );

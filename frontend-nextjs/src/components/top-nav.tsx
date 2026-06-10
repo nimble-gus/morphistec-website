@@ -1,15 +1,23 @@
 "use client";
 
 import Link from "next/link";
-import { ShoppingCart } from "lucide-react";
+import { usePathname } from "next/navigation";
 import { OktaeLogo } from "./logo";
 import { useLang } from "./lang";
-import { useDemoCart } from "@/context/demo-cart";
+import { WHATSAPP_URL } from "@/lib/contact";
 
 export function TopNav() {
   const { lang, setLang, t } = useLang();
-  const { itemCount, cartVisible } = useDemoCart();
-  const navHrefs = ["#services", "#process", "#work", "#contact"];
+  const pathname = usePathname();
+  const isHome = pathname === "/";
+  const navHrefs = ["#services", "#process", "#work", "/nosotros"];
+
+  function resolveHref(href: string) {
+    if (href.startsWith("#") && !isHome) {
+      return `/${href}`;
+    }
+    return href;
+  }
   return (
     <header
       className="fixed top-0 left-0 right-0 z-50 pointer-events-none px-4 pt-[max(0.75rem,env(safe-area-inset-top,0px))] md:px-6 md:pt-5"
@@ -23,35 +31,30 @@ export function TopNav() {
         </Link>
 
         <div className="hidden min-w-0 flex-1 items-center justify-center gap-6 md:flex lg:gap-8">
-          {t.nav.map((n, i) => (
-            <a
-              key={i}
-              href={navHrefs[i] ?? "#"}
-              className="whitespace-nowrap text-sm text-ok-mute transition-colors hover:text-ok-text"
-            >
-              {n}
-            </a>
-          ))}
+          {t.nav.map((n, i) => {
+            const href = resolveHref(navHrefs[i] ?? "#");
+            const isHashOnHome = href.startsWith("#");
+            return isHashOnHome ? (
+              <a
+                key={i}
+                href={href}
+                className="whitespace-nowrap text-sm text-ok-mute transition-colors hover:text-ok-text"
+              >
+                {n}
+              </a>
+            ) : (
+              <Link
+                key={i}
+                href={href}
+                className="whitespace-nowrap text-sm text-ok-mute transition-colors hover:text-ok-text"
+              >
+                {n}
+              </Link>
+            );
+          })}
         </div>
 
         <div className="flex shrink-0 items-center gap-1.5 sm:gap-2.5">
-          {cartVisible && (
-            <div
-              className="relative flex items-center justify-center text-ok-text"
-              aria-live="polite"
-            >
-              <ShoppingCart className="h-[18px] w-[18px] sm:h-5 sm:w-5" aria-hidden />
-              <span className="sr-only">
-                {t.demo_cart_aria}: {itemCount}
-              </span>
-              <span
-                className="absolute -right-1.5 -top-1.5 flex min-h-[18px] min-w-[18px] items-center justify-center rounded-full bg-[var(--ok-neon)] px-[5px] font-mono text-[10px] font-semibold leading-none text-[#050505]"
-                aria-hidden
-              >
-                {itemCount > 99 ? "99+" : itemCount}
-              </span>
-            </div>
-          )}
           <div className="flex rounded-full border border-ok-line-2 p-[3px] font-mono text-[10px] sm:text-[11px]">
             {(["es", "en"] as const).map((l) => (
               <button
@@ -69,7 +72,7 @@ export function TopNav() {
             ))}
           </div>
           <a
-            href="https://wa.me/54164264"
+            href={WHATSAPP_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="ok-btn ok-btn-primary rounded-full px-3 py-2 text-[11px] font-medium sm:px-4 sm:py-2.5 sm:text-[12px] md:px-5 md:text-[13px]"

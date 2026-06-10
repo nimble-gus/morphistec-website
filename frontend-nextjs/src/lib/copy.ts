@@ -2,7 +2,7 @@ export type Lang = "es" | "en";
 
 export const COPY = {
   es: {
-    nav: ["Servicios", "Proceso", "Trabajo", "Contacto"],
+    nav: ["Servicios", "Proceso", "Trabajo", "Nosotros"],
     cta_nav: "Hablemos",
     hero_eyebrow: "Estudio de tecnología · LATAM + USA",
     hero_title: ["Construimos", "el software", "que tu negocio", "necesita ahora."],
@@ -66,7 +66,7 @@ export const COPY = {
     book_modal_success: "Listo. Te contactamos pronto para confirmar la llamada.",
     book_modal_network_error: "Ocurrió un error de red. Intenta nuevamente.",
     book_modal_server_error: "No se pudo enviar la solicitud.",
-    footer_tag: "Estudio digital para LATAM y USA.",
+    footer_tag: "Construimos software que mueve negocios.",
     footer_made: "Hecho en Guatemala",
     demo_cart_aria: "Carrito de compras",
     ecommerce_checkout: "Checkout",
@@ -83,10 +83,97 @@ export const COPY = {
     custom_apps_spline_empty:
       "Añade la URL de Embed de tu escena Spline en el archivo de configuración (ver comentarios en el archivo).",
     footer_status: "Aceptando proyectos Q3",
+    about_eyebrow: "Quiénes somos",
+    about_hero_title: ["Tecnología", "con criterio."],
+    about_hero_sub:
+      "Oktae es un estudio de tecnología enfocado en construir software que resuelve problemas reales. No vendemos horas: entregamos resultados.",
+    about_mission_title: "Nuestra misión",
+    about_mission_body:
+      "Democratizar el acceso a tecnología de alto impacto para empresas en LATAM y USA. Creemos que una PYME bien construida tecnológicamente puede competir con cualquiera.",
+    about_values: [
+      { icon: "⚡", title: "Velocidad con criterio", desc: "Entregamos rápido sin saltarnos lo importante. Prototipo en días, producto sólido." },
+      { icon: "🔩", title: "Sin intermediarios", desc: "El equipo que diseña es el que construye y opera. Sin agencias de por medio." },
+      { icon: "📐", title: "A medida, siempre", desc: "No usamos templates. Cada solución se diseña desde el problema real del cliente." },
+      { icon: "🌎", title: "LATAM + USA", desc: "Operamos en dos contextos distintos y sabemos cómo conectarlos." },
+    ],
+    about_team_eyebrow: "Liderazgo",
+    about_team_name: "Gustavo Ortiz",
+    about_team_role: "Director de Tecnología & Fundador",
+    about_team_linkedin: "https://www.linkedin.com/in/ortizggustavo/",
+    about_team_bio: [
+      "Ingeniero de software con más de 10 años liderando proyectos de tecnología en LATAM y Estados Unidos. Ha construido sistemas para industrias de alta exigencia: fintech, construcción, hotelería y retail.",
+      "Fundó Oktae con la convicción de que las empresas medianas merecen el mismo nivel de tecnología que las grandes corporaciones, entregado con la agilidad de un equipo compacto y comprometido.",
+    ],
+    about_cta_home: "Volver al inicio",
     clients: ["NIDRA", "Calexa", "Veridian", "Polara", "Mantis Co.", "Atlas Fresh", "Norte", "Helio", "Lumière"],
+    projects_eyebrow: "Trabajo",
+    projects_title: "Proyectos recientes",
+    projects_carousel_label: "Galería de proyectos",
+    projects_slide_alt: (n: number) => `Proyecto ${n}`,
+    projects_prev: "Proyecto anterior",
+    projects_next: "Proyecto siguiente",
+    projects_go_to: (n: number) => `Ir al proyecto ${n}`,
+    projects_items: [
+      {
+        src: "/pic1.png",
+        title: "Sindicación de capital automatizada",
+        industry: "Merchant Cash Advance · USA",
+        brief:
+          "Plataforma de sindicación de capital con control de inversionistas, deals y capital privado para operaciones MCA en Estados Unidos.",
+      },
+      {
+        src: "/pic2.png",
+        title: "Análisis inteligente de riesgo comercial",
+        industry: "Small business lending · USA",
+        brief:
+          "Motor de riesgo que analiza estados financieros, tendencias de mercado, fraude documental, oferta sugerida y detección de stacking, entre otras señales.",
+      },
+      {
+        src: "/pic3.png",
+        title: "Control de proyectos de construcción",
+        industry: "Construcción · LATAM",
+        brief:
+          "Sistema para predecir el avance del capital del proyecto, con control de materiales, planilla y equipo de management en un solo lugar.",
+      },
+      {
+        src: "/pic4.png",
+        title: "E-commerce de marca premium",
+        industry: "Retail · Guatemala",
+        brief:
+          "Tienda online para una marca exclusiva de beanies guatemalteca, pensada para conversión y operación diaria del catálogo.",
+      },
+      {
+        src: "/pic5.png",
+        title: "Reservas hoteleras integradas",
+        industry: "Hospitalidad · LATAM",
+        brief:
+          "Sitio de reservación conectado a un sistema hotelero de gestión, CRM y módulos operativos para el equipo comercial y de recepción.",
+      },
+    ],
+    ecommerce_eyebrow: "E-commerce",
+    ecommerce_hero_title: ["Tiendas que", "venden más", "en tu industria."],
+    ecommerce_hero_sub:
+      "Diseñamos y construimos e-commerce a medida para distintas industrias: catálogo, checkout, pagos locales, inventario y logística integrada a cómo ya operas.",
+    ecommerce_bullets: [
+      "Checkout optimizado y pagos locales",
+      "Catálogo, filtros y variantes por rubro",
+      "Integración con ERP, inventario y envíos",
+    ],
+    ecommerce_industries: [
+      "Retail",
+      "Telecom",
+      "Alimentos",
+      "B2B",
+      "Mayoristas",
+      "Servicios",
+    ],
+    ecommerce_cta_home: "Volver al inicio",
+    ecommerce_frame_url: "tienda.ejemplo.com/catalogo",
+    ecommerce_frame_alt: "Ejemplo de catálogo e-commerce en producción",
+    ecommerce_frame_caption: "Ejemplo visual · cliente telecom retail",
   },
   en: {
-    nav: ["Services", "Process", "Work", "Contact"],
+    nav: ["Services", "Process", "Work", "About"],
     cta_nav: "Let’s talk",
     hero_eyebrow: "Tech studio · LATAM + USA",
     hero_title: ["We build", "the software", "your business", "needs now."],
@@ -149,7 +236,7 @@ export const COPY = {
     book_modal_success: "Done. We will contact you soon to confirm the call.",
     book_modal_network_error: "A network error occurred. Please try again.",
     book_modal_server_error: "Could not send the request.",
-    footer_tag: "Digital studio for LATAM and the USA.",
+    footer_tag: "We build software that moves businesses.",
     footer_made: "Built in Guatemala, active anywhere",
     demo_cart_aria: "Shopping cart",
     ecommerce_checkout: "Checkout",
@@ -166,7 +253,94 @@ export const COPY = {
     custom_apps_spline_empty:
       "Add your Spline embed URL in the config file (see comments there).",
     footer_status: "",
+    about_eyebrow: "Who we are",
+    about_hero_title: ["Technology", "with purpose."],
+    about_hero_sub:
+      "Oktae is a technology studio focused on building software that solves real problems. We don't sell hours — we deliver results.",
+    about_mission_title: "Our mission",
+    about_mission_body:
+      "To democratize access to high-impact technology for companies in LATAM and the USA. We believe a well-built SMB can compete with anyone.",
+    about_values: [
+      { icon: "⚡", title: "Speed with judgment", desc: "We ship fast without cutting corners. Prototype in days, solid product." },
+      { icon: "🔩", title: "No middlemen", desc: "The team that designs is the one that builds and operates. No agency layers." },
+      { icon: "📐", title: "Custom, always", desc: "We don't use templates. Every solution is designed from the client's real problem." },
+      { icon: "🌎", title: "LATAM + USA", desc: "We operate in two different contexts and know how to connect them." },
+    ],
+    about_team_eyebrow: "Leadership",
+    about_team_name: "Gustavo Ortiz",
+    about_team_role: "Chief Technology Officer & Founder",
+    about_team_linkedin: "https://www.linkedin.com/in/ortizggustavo/",
+    about_team_bio: [
+      "Software engineer with over 10 years leading technology projects across LATAM and the United States. He has built systems for demanding industries: fintech, construction, hospitality and retail.",
+      "He founded Oktae with the belief that mid-sized companies deserve the same level of technology as large corporations — delivered with the agility of a tight, committed team.",
+    ],
+    about_cta_home: "Back to home",
     clients: ["NIDRA", "Calexa", "Veridian", "Polara", "Mantis Co.", "Atlas Fresh", "Norte", "Helio", "Lumière"],
+    projects_eyebrow: "Work",
+    projects_title: "Recent projects",
+    projects_carousel_label: "Project gallery",
+    projects_slide_alt: (n: number) => `Project ${n}`,
+    projects_prev: "Previous project",
+    projects_next: "Next project",
+    projects_go_to: (n: number) => `Go to project ${n}`,
+    projects_items: [
+      {
+        src: "/pic1.png",
+        title: "Automated capital syndication",
+        industry: "Merchant Cash Advance · USA",
+        brief:
+          "Capital syndication platform with investor controls, deal flow and private capital management for MCA operations in the United States.",
+      },
+      {
+        src: "/pic2.png",
+        title: "Intelligent commercial risk analysis",
+        industry: "Small business lending · USA",
+        brief:
+          "Risk engine that reads financial statements, market trends, document fraud, suggested offers and stacking detection, among other signals.",
+      },
+      {
+        src: "/pic3.png",
+        title: "Construction project control",
+        industry: "Construction · LATAM",
+        brief:
+          "System to forecast project capital progress, with materials, payroll and management team tracking in one workspace.",
+      },
+      {
+        src: "/pic4.png",
+        title: "Premium brand e-commerce",
+        industry: "Retail · Guatemala",
+        brief:
+          "Online store for an exclusive Guatemalan beanie brand, built for conversion and day-to-day catalog operations.",
+      },
+      {
+        src: "/pic5.png",
+        title: "Integrated hotel bookings",
+        industry: "Hospitality · LATAM",
+        brief:
+          "Booking site wired to a property management system, CRM and operational modules for sales and front-desk teams.",
+      },
+    ],
+    ecommerce_eyebrow: "E-commerce",
+    ecommerce_hero_title: ["Stores that", "sell more", "in your industry."],
+    ecommerce_hero_sub:
+      "We design and build custom e-commerce for different industries: catalog, checkout, local payments, inventory and logistics wired to how you already operate.",
+    ecommerce_bullets: [
+      "Conversion-focused checkout and local payments",
+      "Catalog, filters and variants per vertical",
+      "ERP, inventory and shipping integrations",
+    ],
+    ecommerce_industries: [
+      "Retail",
+      "Telecom",
+      "Food",
+      "B2B",
+      "Wholesale",
+      "Services",
+    ],
+    ecommerce_cta_home: "Back to home",
+    ecommerce_frame_url: "store.example.com/catalog",
+    ecommerce_frame_alt: "Example e-commerce catalog in production",
+    ecommerce_frame_caption: "Visual example · telecom retail client",
   },
 } as const;
 

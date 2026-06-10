@@ -11,6 +11,7 @@ export function ClientsMarquee() {
     "/5.png",
     "/6.png",
     "/7.png",
+    "/8.png",
   ];
 
   const items = [...logos, ...logos, ...logos];
