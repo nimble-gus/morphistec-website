@@ -1,8 +1,11 @@
 "use client";
 
+import { useCallback, useState } from "react";
 import { Instagram, Linkedin } from "lucide-react";
 import { OktaeLogo } from "./logo";
 import { useLang } from "./lang";
+import { LegalModal } from "@/components/ui/legal-modal";
+import type { LegalDoc } from "@/lib/legal-content";
 
 const LINKEDIN_URL =
   process.env.NEXT_PUBLIC_LINKEDIN_URL?.trim() || "https://www.linkedin.com/";
@@ -28,6 +31,9 @@ function Col({ title, items }: { title: string; items: string[] }) {
 
 export function Footer() {
   const { t } = useLang();
+  const [legalDoc, setLegalDoc] = useState<LegalDoc | null>(null);
+  const closeLegal = useCallback(() => setLegalDoc(null), []);
+
   return (
     <footer className="bg-ok-black border-t border-ok-line px-4 pb-8 pt-12 sm:px-6 md:px-10 md:pt-16">
       <div className="mb-12 grid grid-cols-1 gap-10 sm:grid-cols-2 md:mb-14 md:gap-12 lg:grid-cols-3 lg:gap-14">
@@ -70,11 +76,44 @@ export function Footer() {
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-start justify-between gap-2 border-t border-ok-line pt-6 font-mono text-[11px] uppercase tracking-[0.1em] text-ok-dim sm:flex-row sm:items-center sm:gap-4">
+      <div className="flex flex-col items-start justify-between gap-3 border-t border-ok-line pt-6 font-mono text-[11px] uppercase tracking-[0.1em] text-ok-dim sm:flex-row sm:items-center sm:gap-4">
         <span>© 2026 Oktae.Tech</span>
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2 normal-case tracking-normal">
+          <a
+            href="/terminos"
+            className="cursor-pointer text-ok-dim underline-offset-4 transition-colors hover:text-[var(--ok-neon)] hover:underline"
+            onClick={(e) => {
+              e.preventDefault();
+              setLegalDoc("terms");
+            }}
+          >
+            {t.footer_terms}
+          </a>
+          <a
+            href="/privacidad"
+            className="cursor-pointer text-ok-dim underline-offset-4 transition-colors hover:text-[var(--ok-neon)] hover:underline"
+            onClick={(e) => {
+              e.preventDefault();
+              setLegalDoc("privacy");
+            }}
+          >
+            {t.footer_privacy}
+          </a>
+          <a
+            href="/eliminacion-datos"
+            className="cursor-pointer text-ok-dim underline-offset-4 transition-colors hover:text-[var(--ok-neon)] hover:underline"
+            onClick={(e) => {
+              e.preventDefault();
+              setLegalDoc("deletion");
+            }}
+          >
+            {t.footer_deletion}
+          </a>
+        </div>
         <span>{t.footer_made}</span>
-        <span>v2.0 — May 2026</span>
       </div>
+
+      <LegalModal doc={legalDoc} onClose={closeLegal} />
     </footer>
   );
 }

@@ -2,66 +2,59 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
   <url>
-    <loc>https://oktae.tech/</loc>
-    <lastmod>2025-09-11</lastmod>
+    <loc>https://www.oktae.tech/</loc>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
 
   <url>
-    <loc>https://oktae.tech/automatizacion</loc>
-    <lastmod>2025-09-11</lastmod>
+    <loc>https://www.oktae.tech/ecommerce</loc>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://oktae.tech/ocr</loc>
-    <lastmod>2025-09-11</lastmod>
+    <loc>https://www.oktae.tech/apps-a-la-medida</loc>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://oktae.tech/ecommerce</loc>
-    <lastmod>2025-09-11</lastmod>
+    <loc>https://www.oktae.tech/automatizaciones</loc>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
 
   <url>
-    <loc>https://oktae.tech/crm</loc>
-    <lastmod>2025-09-11</lastmod>
+    <loc>https://www.oktae.tech/nosotros</loc>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
 
   <url>
-    <loc>https://oktae.tech/aplicaciones-moviles</loc>
-    <lastmod>2025-09-11</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-
-  <url>
-    <loc>https://oktae.tech/privacidad</loc>
-    <lastmod>2025-09-11</lastmod>
+    <loc>https://www.oktae.tech/terminos</loc>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://oktae.tech/terminos</loc>
-    <lastmod>2025-09-11</lastmod>
+    <loc>https://www.oktae.tech/privacidad</loc>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <priority>0.5</priority>
   </url>
 
   <url>
-    <loc>https://oktae.tech/seguridad</loc>
-    <lastmod>2025-09-11</lastmod>
+    <loc>https://www.oktae.tech/eliminacion-datos</loc>
+    <lastmod>2026-07-30</lastmod>
     <changefreq>yearly</changefreq>
-    <priority>0.3</priority>
+    <priority>0.5</priority>
   </url>
 
 </urlset>

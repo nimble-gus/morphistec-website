@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://www.oktae.tech"),
   title: "Oktae — Estudio digital para PYMEs en LATAM",
   description:
     "Construimos el software que tu negocio necesita ahora. E-commerce, dashboards, automatizaciones y apps a la medida.",
