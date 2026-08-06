@@ -30,7 +30,7 @@ export function AboutHero() {
                   <em
                     className="font-serif italic font-normal"
                     style={{
-                      color: "var(--ok-neon)",
+                      color: "var(--ok-emphasis)",
                       fontSize: "clamp(40px, 12vw, 108px)",
                       lineHeight: 0.88,
                     }}

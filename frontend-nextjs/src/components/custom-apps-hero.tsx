@@ -24,7 +24,7 @@ export function CustomAppsHero() {
             width: 500,
             height: 500,
             background:
-              "radial-gradient(circle, rgba(184,255,46,0.12) 0%, transparent 60%)",
+              "radial-gradient(circle, oklch(0.55 0.2 265 / 0.12) 0%, transparent 60%)",
             filter: "blur(80px)",
           }}
         />
@@ -52,7 +52,7 @@ export function CustomAppsHero() {
                     <em
                       className="font-serif italic font-normal"
                       style={{
-                        color: "var(--ok-neon)",
+                        color: "var(--ok-emphasis)",
                         fontSize: "clamp(40px, 12vw, 108px)",
                         lineHeight: 0.88,
                       }}

@@ -41,7 +41,7 @@ function NosotrosContent() {
             width: 520,
             height: 520,
             background:
-              "radial-gradient(circle, rgba(184,255,46,0.08) 0%, transparent 65%)",
+              "radial-gradient(circle, oklch(0.55 0.2 265 / 0.08) 0%, transparent 65%)",
             filter: "blur(80px)",
           }}
         />
@@ -90,7 +90,7 @@ function NosotrosContent() {
               {t.about_values.map((v, i) => (
                 <div
                   key={i}
-                  className="rounded-2xl border border-white/[0.08] bg-ok-card p-6 transition-colors duration-300 hover:border-[rgba(184,255,46,0.28)] sm:p-8"
+                  className="rounded-2xl border border-white/[0.08] bg-ok-card p-6 transition-colors duration-300 hover:border-[oklch(0.55 0.2 265 / 0.28)] sm:p-8"
                 >
                   <span className="mb-4 block font-mono text-xs text-ok-neon">
                     {String(i + 1).padStart(2, "0")}

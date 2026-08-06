@@ -47,7 +47,7 @@ export function LegalModal({ doc, onClose }: LegalModalProps) {
     >
       <div className="mx-auto flex h-full w-full max-w-2xl items-center justify-center">
         <div
-          className="flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-2xl border border-ok-line-2 bg-[#0b0b0d] shadow-[0_20px_80px_-20px_rgba(0,0,0,0.8)]"
+          className="flex max-h-[92dvh] w-full flex-col overflow-hidden rounded-2xl border border-ok-line-2 bg-ok-card shadow-[0_20px_80px_-20px_rgba(0,0,0,0.8)]"
           onClick={(e) => e.stopPropagation()}
         >
           <div className="flex shrink-0 items-start justify-between gap-3 border-b border-ok-line px-4 py-4 sm:px-6">

@@ -114,7 +114,7 @@ export function CustomAppsLaptopUI() {
     <div className="flex h-full min-h-0 w-full select-none bg-[#0b1220] text-[10px] leading-tight text-zinc-200 sm:text-[11px]">
       <aside className="flex w-[22%] min-w-[72px] max-w-[140px] flex-col border-r border-white/10 bg-[#080d18] px-1.5 py-2 sm:px-2 sm:py-3">
         <div className="mb-2 flex items-center gap-1.5 px-1 sm:mb-3">
-          <span className="h-5 w-5 shrink-0 rounded-md bg-[var(--ok-neon)]/90 shadow-[0_0_12px_rgba(184,255,46,0.35)]" />
+          <span className="h-5 w-5 shrink-0 rounded-md bg-[var(--ok-neon)]/90 shadow-[0_0_12px_oklch(0.55 0.2 265 / 0.35)]" />
           <span className="truncate font-semibold tracking-tight text-white">{t.brand}</span>
         </div>
         <nav className="flex flex-col gap-0.5">

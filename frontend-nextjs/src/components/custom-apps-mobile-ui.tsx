@@ -30,7 +30,7 @@ export function CustomAppsMobileUI() {
       <header className="shrink-0 border-b border-white/10 bg-[#0c1220] px-2 pb-2 pt-1">
         <div className="mb-1.5 flex items-center justify-between gap-2">
           <div className="flex min-w-0 items-center gap-1">
-            <span className="h-3.5 w-3.5 shrink-0 rounded-md bg-[var(--ok-neon)]/90 shadow-[0_0_8px_rgba(184,255,46,0.3)]" />
+            <span className="h-3.5 w-3.5 shrink-0 rounded-md bg-[var(--ok-neon)]/90 shadow-[0_0_8px_oklch(0.55 0.2 265 / 0.3)]" />
             <span className="truncate font-semibold text-white">{t.brand}</span>
           </div>
           <span className="h-5 w-5 shrink-0 rounded-full border border-white/15 bg-gradient-to-br from-zinc-600 to-zinc-800" />

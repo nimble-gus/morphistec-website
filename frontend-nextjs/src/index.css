@@ -14,7 +14,7 @@ body {
     'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  background-color: #000000;
+  background-color: var(--ok-bg, oklch(0.24 0.005 260));
   color: #ffffff;
   /* No usar overflow-x:hidden en body: en WebKit/Safari puede romper position:fixed del header */
   overflow-x: visible;
@@ -48,7 +48,7 @@ a:hover {
 
 /* Focus styles for accessibility */
 *:focus {
-  outline: 2px solid #00d36b;
+  outline: 2px solid var(--ok-accent, oklch(0.55 0.2 265));
   outline-offset: 2px;
 }
 

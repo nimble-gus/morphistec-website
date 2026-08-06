@@ -126,7 +126,7 @@ function N8nNode({
     <div
       className={`relative z-10 flex w-[5rem] shrink-0 flex-col overflow-hidden rounded-md border bg-[#1a1d21] shadow-[0_2px_8px_rgba(0,0,0,0.45)] transition-[box-shadow,border-color] duration-200 sm:w-[5.75rem] ${
         state === "running"
-          ? "border-[var(--ok-neon)]/80 shadow-[0_0_0_1px_rgba(184,255,46,0.35),0_4px_20px_rgba(184,255,46,0.12)]"
+          ? "border-[var(--ok-neon)]/80 shadow-[0_0_0_1px_oklch(0.55 0.2 265 / 0.35),0_4px_20px_oklch(0.55 0.2 265 / 0.12)]"
           : state === "done"
             ? "border-emerald-500/55"
             : "border-white/[0.12]"
@@ -258,7 +258,7 @@ export function AutomationLaptopUI() {
     <div className="flex h-full min-h-0 w-full select-none flex-col bg-[#0b1220] text-[10px] leading-tight text-zinc-200 sm:text-[11px]">
       <header className="flex shrink-0 items-center justify-between gap-2 border-b border-white/10 bg-[#0c1220] px-2 py-1.5 sm:px-3 sm:py-2">
         <div className="flex min-w-0 items-center gap-2">
-          <span className="h-2 w-2 shrink-0 rounded-full bg-[var(--ok-neon)] shadow-[0_0_8px_rgba(184,255,46,0.45)]" />
+          <span className="h-2 w-2 shrink-0 rounded-full bg-[var(--ok-neon)] shadow-[0_0_8px_oklch(0.55 0.2 265 / 0.45)]" />
           <span className="truncate font-semibold tracking-tight text-white">{t.brand}</span>
           <span className="hidden rounded border border-white/10 px-1.5 py-0.5 text-[9px] text-zinc-500 sm:inline">
             {t.draft}

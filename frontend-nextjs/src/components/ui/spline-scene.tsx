@@ -32,7 +32,7 @@ export function SplineScene({ scene, className }: SplineSceneProps) {
   return (
     <Suspense
       fallback={
-        <div className="flex h-full min-h-[280px] w-full items-center justify-center bg-[#0b0b0d]">
+        <div className="flex h-full min-h-[280px] w-full items-center justify-center bg-ok-ink">
           <span className="loader" aria-hidden />
         </div>
       }
@@ -62,7 +62,7 @@ class SplineErrorBoundary extends Component<
     if (this.state.hasError) {
       return (
         <div
-          className={`flex h-full min-h-[280px] w-full flex-col items-center justify-center gap-3 bg-[#0b0b0d] px-4 text-center text-sm text-ok-mute ${this.props.className ?? ""}`}
+          className={`flex h-full min-h-[280px] w-full flex-col items-center justify-center gap-3 bg-ok-ink px-4 text-center text-sm text-ok-mute ${this.props.className ?? ""}`}
         >
           <p className="max-w-[320px]">
             El visor 3D no pudo cargar el archivo. En Spline usa{" "}

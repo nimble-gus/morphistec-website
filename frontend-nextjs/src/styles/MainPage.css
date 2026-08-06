@@ -1,7 +1,7 @@
 /* Main Page Styles */
 .main-page {
   min-height: 100vh;
-  background-color: #000000;
+  background-color: var(--ok-bg, oklch(0.24 0.005 260));
   color: #ffffff;
   position: relative;
   overflow-x: hidden;
@@ -20,7 +20,7 @@ html {
 
 /* Foco solo con teclado (coherente con index.css) */
 .main-page *:focus-visible {
-  outline: 2px solid #00d36b;
+  outline: 2px solid var(--ok-accent, oklch(0.55 0.2 265));
   outline-offset: 2px;
 }
 

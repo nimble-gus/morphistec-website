@@ -122,7 +122,7 @@ export function AutomationBeforeAfterVisual() {
             width="20"
             height="20"
             rx="4"
-            fill="#0a0a0a"
+            fill="var(--ok-bg-deep)"
             stroke={nodeStroke}
             strokeWidth="1.2"
           />
@@ -132,7 +132,7 @@ export function AutomationBeforeAfterVisual() {
             width="20"
             height="20"
             rx="4"
-            fill="#0a0a0a"
+            fill="var(--ok-bg-deep)"
             stroke={nodeStroke}
             strokeWidth="1.2"
           />
@@ -158,8 +158,8 @@ export function AutomationBeforeAfterVisual() {
             width="20"
             height="20"
             rx="10"
-            fill="#0a0a0a"
-            stroke={isAuto ? "rgba(184,255,46,0.5)" : "rgba(255,255,255,0.25)"}
+            fill="var(--ok-bg-deep)"
+            stroke={isAuto ? "oklch(0.55 0.2 265 / 0.5)" : "rgba(255,255,255,0.25)"}
             strokeWidth="1.2"
           />
           {isAuto && (

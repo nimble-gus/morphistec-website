@@ -57,7 +57,7 @@ export function ProjectsCarousel() {
         </div>
 
         <div className="relative">
-          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-white/[0.08] bg-[#0a0a0a] shadow-[0_24px_80px_-20px_rgba(0,0,0,0.65)] sm:rounded-3xl md:aspect-[16/9]">
+          <div className="relative aspect-[16/10] w-full overflow-hidden rounded-2xl border border-white/[0.08] bg-ok-ink shadow-[0_24px_80px_-20px_rgba(0,0,0,0.65)] sm:rounded-3xl md:aspect-[16/9]">
             <AnimatePresence mode="wait" initial={false}>
               <motion.div
                 key={current.src}

@@ -1,86 +1,201 @@
 "use client";
 
+import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { OktaeLogo } from "./logo";
-import { useLang } from "./lang";
+import { Button, buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
+import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
+import { useScroll } from "@/components/ui/use-scroll";
+import { OktaeLogo } from "@/components/logo";
+import { useLang } from "@/components/lang";
 import { WHATSAPP_URL } from "@/lib/contact";
 
+const NAV_HREFS = ["#services", "#process", "#work", "/nosotros"] as const;
+
 export function TopNav() {
+  const [open, setOpen] = React.useState(false);
+  const scrolled = useScroll(10);
   const { lang, setLang, t } = useLang();
   const pathname = usePathname();
   const isHome = pathname === "/";
-  const navHrefs = ["#services", "#process", "#work", "/nosotros"];
 
-  function resolveHref(href: string) {
-    if (href.startsWith("#") && !isHome) {
-      return `/${href}`;
-    }
-    return href;
+  const links = t.nav.map((label, i) => {
+    const raw = NAV_HREFS[i] ?? "#";
+    const href =
+      raw.startsWith("#") && !isHome ? `/${raw}` : raw;
+    return { label, href };
+  });
+
+  React.useEffect(() => {
+    document.body.style.overflow = open ? "hidden" : "";
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [open]);
+
+  function closeMenu() {
+    setOpen(false);
   }
+
   return (
-    <header
-      className="fixed top-0 left-0 right-0 z-50 pointer-events-none px-4 pt-[max(0.75rem,env(safe-area-inset-top,0px))] md:px-6 md:pt-5"
-    >
-      <nav
-        className="pointer-events-auto mx-auto flex max-w-[min(100%,1200px)] items-center justify-between gap-2 rounded-full border border-white/[0.1] bg-ok-ink/80 py-2 pl-3 pr-2 shadow-[0_10px_40px_-4px_rgba(0,0,0,0.55),0_0_0_1px_rgba(255,255,255,0.04)_inset] backdrop-blur-xl sm:gap-3 sm:py-2.5 sm:pl-4 sm:pr-2.5 md:gap-6 md:pl-6 md:pr-3"
-        aria-label="Principal"
+    <div className="pointer-events-none fixed inset-x-0 top-0 z-50 px-3 pt-[max(0.5rem,env(safe-area-inset-top,0px))] md:px-4">
+      <header
+        className={cn(
+          "pointer-events-auto sticky top-0 z-50 mx-auto w-full max-w-5xl border-b border-transparent md:rounded-md md:border md:transition-all md:ease-out",
+          {
+            "border-border bg-background/95 shadow supports-[backdrop-filter]:bg-background/50 backdrop-blur-lg md:top-0 md:max-w-4xl":
+              scrolled && !open,
+            "border-border bg-background/90 backdrop-blur-md": open,
+            "md:border-transparent": !scrolled && !open,
+          }
+        )}
       >
-        <Link href="/" className="shrink-0">
-          <OktaeLogo size={24} />
-        </Link>
+        <nav
+          className={cn(
+            "flex h-14 w-full items-center justify-between px-4 md:h-12 md:transition-all md:ease-out",
+            {
+              "md:px-2": scrolled,
+            }
+          )}
+          aria-label="Principal"
+        >
+          <Link href="/" className="max-w-[min(200px,58vw)] shrink-0 sm:max-w-none" onClick={closeMenu}>
+            <OktaeLogo className="h-7 sm:h-[39px]" />
+          </Link>
 
-        <div className="hidden min-w-0 flex-1 items-center justify-center gap-6 md:flex lg:gap-8">
-          {t.nav.map((n, i) => {
-            const href = resolveHref(navHrefs[i] ?? "#");
-            const isHashOnHome = href.startsWith("#");
-            return isHashOnHome ? (
-              <a
-                key={i}
-                href={href}
-                className="whitespace-nowrap text-sm text-ok-mute transition-colors hover:text-ok-text"
-              >
-                {n}
+          <div className="hidden items-center gap-1 md:flex">
+            {links.map((link) =>
+              link.href.startsWith("#") || link.href.startsWith("/#") ? (
+                <a
+                  key={link.label}
+                  className={buttonVariants({
+                    variant: "ghost",
+                    className: "text-ok-mute hover:text-ok-text",
+                  })}
+                  href={link.href}
+                >
+                  {link.label}
+                </a>
+              ) : (
+                <Link
+                  key={link.label}
+                  className={buttonVariants({
+                    variant: "ghost",
+                    className: "text-ok-mute hover:text-ok-text",
+                  })}
+                  href={link.href}
+                >
+                  {link.label}
+                </Link>
+              )
+            )}
+
+            <div className="ml-1 flex rounded-full border border-border p-[2px] font-mono text-[10px]">
+              {(["es", "en"] as const).map((l) => (
+                <button
+                  key={l}
+                  type="button"
+                  onClick={() => setLang(l)}
+                  className={cn(
+                    "rounded-full px-2 py-1 font-semibold uppercase transition-colors",
+                    lang === l
+                      ? "bg-primary text-primary-foreground"
+                      : "text-ok-mute hover:text-ok-text"
+                  )}
+                >
+                  {l}
+                </button>
+              ))}
+            </div>
+
+            <Button asChild className="ml-1">
+              <a href={WHATSAPP_URL} target="_blank" rel="noopener noreferrer">
+                {t.cta_nav}
               </a>
-            ) : (
-              <Link
-                key={i}
-                href={href}
-                className="whitespace-nowrap text-sm text-ok-mute transition-colors hover:text-ok-text"
-              >
-                {n}
-              </Link>
-            );
-          })}
-        </div>
-
-        <div className="flex shrink-0 items-center gap-1.5 sm:gap-2.5">
-          <div className="flex rounded-full border border-ok-line-2 p-[3px] font-mono text-[10px] sm:text-[11px]">
-            {(["es", "en"] as const).map((l) => (
-              <button
-                key={l}
-                type="button"
-                onClick={() => setLang(l)}
-                className="rounded-full px-2 py-1 font-semibold uppercase transition-all sm:px-2.5"
-                style={{
-                  background: lang === l ? "var(--ok-neon)" : "transparent",
-                  color: lang === l ? "#050505" : "#8a8a8a",
-                }}
-              >
-                {l}
-              </button>
-            ))}
+            </Button>
           </div>
-          <a
-            href={WHATSAPP_URL}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="ok-btn ok-btn-primary rounded-full px-3 py-2 text-[11px] font-medium sm:px-4 sm:py-2.5 sm:text-[12px] md:px-5 md:text-[13px]"
+
+          <Button
+            size="icon"
+            variant="outline"
+            onClick={() => setOpen(!open)}
+            className="md:hidden"
+            aria-expanded={open}
+            aria-label={open ? "Cerrar menú" : "Abrir menú"}
           >
-            {t.cta_nav}
-          </a>
+            <MenuToggleIcon open={open} className="size-5" duration={300} />
+          </Button>
+        </nav>
+
+        <div
+          className={cn(
+            "fixed top-[calc(3.5rem+max(0.5rem,env(safe-area-inset-top,0px)))] right-0 bottom-0 left-0 z-50 flex flex-col overflow-hidden border-y border-border bg-background/95 backdrop-blur-lg md:hidden",
+            open ? "block" : "hidden"
+          )}
+        >
+          <div className="flex h-full w-full flex-col justify-between gap-y-2 p-4">
+            <div className="grid gap-y-1">
+              {links.map((link) =>
+                link.href.startsWith("#") || link.href.startsWith("/#") ? (
+                  <a
+                    key={link.label}
+                    className={buttonVariants({
+                      variant: "ghost",
+                      className: "justify-start text-base",
+                    })}
+                    href={link.href}
+                    onClick={closeMenu}
+                  >
+                    {link.label}
+                  </a>
+                ) : (
+                  <Link
+                    key={link.label}
+                    className={buttonVariants({
+                      variant: "ghost",
+                      className: "justify-start text-base",
+                    })}
+                    href={link.href}
+                    onClick={closeMenu}
+                  >
+                    {link.label}
+                  </Link>
+                )
+              )}
+            </div>
+
+            <div className="flex flex-col gap-2">
+              <div className="flex gap-2">
+                {(["es", "en"] as const).map((l) => (
+                  <Button
+                    key={l}
+                    type="button"
+                    variant={lang === l ? "default" : "outline"}
+                    className="flex-1 uppercase"
+                    onClick={() => setLang(l)}
+                  >
+                    {l}
+                  </Button>
+                ))}
+              </div>
+              <Button asChild className="w-full">
+                <a
+                  href={WHATSAPP_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={closeMenu}
+                >
+                  {t.cta_nav}
+                </a>
+              </Button>
+            </div>
+          </div>
         </div>
-      </nav>
-    </header>
+      </header>
+    </div>
   );
 }
+
+/** Alias del componente importado como Header en demos. */
+export const Header = TopNav;

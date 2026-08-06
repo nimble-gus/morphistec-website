@@ -15,7 +15,13 @@ export function OktaeMark({ size = 22 }: { size?: number }) {
 }
 
 /** Altura del logo en px; la anchura sigue la proporción del PNG. */
-export function OktaeLogo({ size = 32 }: { size?: number }) {
+export function OktaeLogo({
+  size = 32,
+  className = "",
+}: {
+  size?: number;
+  className?: string;
+}) {
   return (
     <Image
       src="/logo1.png"
@@ -23,8 +29,8 @@ export function OktaeLogo({ size = 32 }: { size?: number }) {
       width={320}
       height={96}
       priority
-      className="w-auto object-contain object-left"
-      style={{ height: size }}
+      className={`w-auto max-w-full object-contain object-left brightness-0 invert ${className}`.trim()}
+      style={className.includes("h-") || className.includes("h-[") ? undefined : { height: size }}
       sizes={`${Math.ceil(size * 4)}px`}
     />
   );

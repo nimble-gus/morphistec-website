@@ -43,7 +43,15 @@ export function Footer() {
             {t.footer_tag}
           </p>
         </div>
-        <Col title="Services" items={["E-commerce", "Custom apps", "Automations", "Dashboards"]} />
+        <Col
+          title="Services"
+          items={[
+            "E-commerce",
+            "Chatbots con IA",
+            "Automatización de ventas",
+            "Sistemas a medida",
+          ]}
+        />
         <div>
           <div className="mb-4 font-mono text-[11px] uppercase tracking-[0.12em] text-ok-dim">
             Contact

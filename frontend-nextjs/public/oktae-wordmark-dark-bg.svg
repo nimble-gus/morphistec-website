@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 140">
+  <g transform="translate(10,27) scale(1.15)">
+    
+  <rect x="6" y="8" width="72" height="26" rx="13" transform="rotate(-18 42 21)" fill="none" stroke="#fafafa" stroke-width="3"></rect>
+  <rect x="22" y="34" width="72" height="26" rx="13" transform="rotate(-18 58 47)" fill="none" stroke="#4f5fd1" stroke-width="3"></rect>
+  <rect x="2" y="60" width="72" height="26" rx="13" transform="rotate(-18 38 73)" fill="none" stroke="#e8a53d" stroke-width="3"></rect>
+
+  </g>
+  <text x="150" y="100" font-family="Monoglyphic, sans-serif" font-weight="600" font-size="72" fill="#fafafa">Oktae<tspan fill="#e8a53d">.</tspan></text>
+</svg>

@@ -156,7 +156,7 @@ export function BookCallModal({ triggerLabel }: BookCallModalProps) {
         createPortal(
         <div className="fixed inset-0 z-[120] bg-black/75 p-3 sm:p-4">
           <div className="mx-auto flex h-full w-full max-w-md items-center justify-center">
-            <div className="max-h-[92dvh] w-full overflow-y-auto rounded-2xl border border-ok-line-2 bg-[#0b0b0d] p-4 shadow-[0_20px_80px_-20px_rgba(0,0,0,0.8)] sm:p-6">
+            <div className="max-h-[92dvh] w-full overflow-y-auto rounded-2xl border border-ok-line-2 bg-ok-card p-4 shadow-[0_20px_80px_-20px_rgba(0,0,0,0.8)] sm:p-6">
             <div className="mb-4 flex items-start justify-between gap-3">
               <div>
                 <h3 className="text-xl font-semibold text-ok-text">{t.book_modal_title}</h3>
@@ -230,7 +230,7 @@ export function BookCallModal({ triggerLabel }: BookCallModalProps) {
                         className="rounded-lg border px-2 py-2 text-[11px] transition disabled:cursor-not-allowed disabled:opacity-50 sm:text-xs"
                         style={{
                           borderColor: active ? "var(--ok-neon)" : "rgba(255,255,255,0.14)",
-                          background: active ? "rgba(184,255,46,0.12)" : "rgba(0,0,0,0.2)",
+                          background: active ? "oklch(0.55 0.2 265 / 0.12)" : "rgba(0,0,0,0.2)",
                           color: active ? "var(--ok-neon)" : "#ededed",
                         }}
                       >

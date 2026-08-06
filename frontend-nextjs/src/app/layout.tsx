@@ -3,9 +3,28 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.oktae.tech"),
-  title: "Oktae — Estudio digital para PYMEs en LATAM",
+  title: "Oktae | Chatbots con IA, ventas automáticas y e-commerce",
   description:
-    "Construimos el software que tu negocio necesita ahora. E-commerce, dashboards, automatizaciones y apps a la medida.",
+    "Diseñamos el sistema comercial de tu negocio: chatbots con IA, seguimiento automático de leads y e-commerce. Del primer mensaje al cierre. Agenda un diagnóstico.",
+  icons: {
+    icon: [{ url: "/favicon.ico", type: "image/x-icon" }],
+    shortcut: "/favicon.ico",
+  },
+  openGraph: {
+    title: "Oktae — Del lead al cierre con IA",
+    description:
+      "Chatbots, automatización de ventas y e-commerce para negocios que necesitan vender más sin multiplicar el equipo.",
+    url: "/",
+    type: "website",
+    siteName: "Oktae",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Oktae | Chatbots con IA, ventas automáticas y e-commerce",
+    description:
+      "Del primer mensaje al cierre: chatbots con IA, automatización de leads y e-commerce.",
+  },
+  alternates: { canonical: "/" },
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

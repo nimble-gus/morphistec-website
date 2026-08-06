@@ -1,209 +1,460 @@
 "use client";
 
-import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { useState } from "react";
+import { motion, useReducedMotion } from "framer-motion";
 import { useLang } from "./lang";
-import { AutomationBeforeAfterVisual } from "./automation-before-after-visual";
-import { CardVisual } from "./card-visual";
+import { cn } from "@/lib/utils";
+import { WhatsAppChatMock } from "@/components/whatsapp-chat-mock";
+import { SalesPipelineMock } from "@/components/sales-pipeline-mock";
+import { EcommerceSitePreview } from "@/components/ecommerce-site-preview";
+import { ConsultingAnalyticsMock } from "@/components/consulting-analytics-mock";
+import { ChannelsIntegrationsMock } from "@/components/channels-integrations-mock";
+import { LogisticsMapMock } from "@/components/logistics-map-mock";
 
-const LAYOUT = [
-  { spanClass: "md:col-span-6 md:row-span-2", featured: true },
-  { spanClass: "md:col-span-3 md:row-span-1", featured: false },
-  { spanClass: "md:col-span-3 md:row-span-1", featured: false },
-  { spanClass: "md:col-span-3 md:row-span-1", featured: false },
-  { spanClass: "md:col-span-3 md:row-span-1", featured: false },
-  { spanClass: "md:col-span-6 md:row-span-1", featured: false },
-];
+const EASE = "cubic-bezier(0.33, 0.1, 0.25, 1)";
+const DURATION = "duration-[360ms]";
+// (efecto vinilo usa tween corto; el spring en hover/z pelearía con el click)
 
+/** E-commerce = índice 0 */
+const ECOMMERCE_INDEX = 0;
+/** Chatbots con IA = índice 1 */
+const CHATBOT_INDEX = 1;
+/** Automatización de ventas = índice 2 */
+const AUTOMATION_INDEX = 2;
+/** Consultoría y análisis = índice 3 */
+const CONSULTING_INDEX = 3;
+/** Canales e integraciones = índice 4 */
+const CHANNELS_INDEX = 4;
+/** Sistemas a medida = índice 5 */
+const CUSTOM_SYSTEMS_INDEX = 5;
+
+/** Una imagen por servicio (assets existentes en /public). */
+const SERVICE_IMAGES = [
+  "/pic6.png", // E-commerce
+  "/pic2.png", // Chatbots (fallback; se usa mock)
+  "/pic1.png", // Automatización
+  "/pic3.png", // Embudo
+  "/pic5.png", // Canales
+  "/pic4.png", // Sistemas a medida
+] as const;
+
+type ServiceItem = {
+  tag: string;
+  name: string;
+  desc: string;
+};
+
+/**
+ * Stack con acento “caja de vinilos”: profundidad sutil,
+ * títulos siempre legibles y clic al primer toque.
+ */
+function VinylCrateStack({
+  services,
+  active,
+  onSelect,
+}: {
+  services: readonly ServiceItem[];
+  active: number;
+  onSelect: (i: number) => void;
+}) {
+  const reduceMotion = useReducedMotion();
+
+  return (
+    <div
+      className="relative isolate pb-8 pt-2"
+      style={
+        reduceMotion
+          ? undefined
+          : {
+              perspective: "1600px",
+              perspectiveOrigin: "50% 20%",
+            }
+      }
+    >
+      <div
+        className="pointer-events-none absolute inset-x-6 bottom-0 h-10 rounded-[100%] bg-black/45 blur-2xl"
+        aria-hidden
+      />
+
+      <div
+        className="relative flex flex-col gap-2.5"
+        style={reduceMotion ? undefined : { transformStyle: "preserve-3d" }}
+      >
+        {services.map((s, i) => {
+          const isActive = i === active;
+          const abs = Math.min(Math.abs(i - active), 3);
+
+          // Poca inclinación: se lee el texto; el “vinilo” viene del lomo, disco y sombra
+          const rotateX = reduceMotion ? 0 : isActive ? 0 : 10 + abs * 2;
+          const translateZ = reduceMotion ? 0 : isActive ? 24 : -abs * 4;
+          const scale = reduceMotion ? 1 : isActive ? 1 : 0.99;
+
+          return (
+            <div key={s.tag} className="relative" style={{ zIndex: 10 + i }}>
+              <motion.div
+                aria-hidden
+                className={cn(
+                  "pointer-events-none relative overflow-hidden border will-change-transform",
+                  isActive
+                    ? "border-[var(--ok-indigo)] bg-[var(--ok-indigo)]"
+                    : "border-white/[0.08] bg-ok-card"
+                )}
+                style={{
+                  transformOrigin: "50% 100%",
+                  transformStyle: "preserve-3d",
+                  boxShadow: isActive
+                    ? "0 22px 40px -16px oklch(0.55 0.2 265 / 0.5), 0 1px 0 rgba(255,255,255,0.12) inset"
+                    : "0 1px 0 rgba(255,255,255,0.06) inset, 0 10px 24px -14px rgba(0,0,0,0.85), 0 3px 0 -1px oklch(0.26 0.01 260)",
+                }}
+                initial={false}
+                animate={{ rotateX, z: translateZ, scale }}
+                transition={{
+                  type: "spring",
+                  stiffness: 320,
+                  damping: 32,
+                  mass: 0.7,
+                }}
+              >
+                <span
+                  className={cn(
+                    "absolute inset-0 bg-gradient-to-b",
+                    isActive
+                      ? "from-white/10 via-transparent to-black/10"
+                      : "from-white/[0.06] via-transparent to-black/25"
+                  )}
+                />
+                {/* Lomo */}
+                <span
+                  className={cn(
+                    "absolute inset-y-0 left-0 w-[3px]",
+                    isActive
+                      ? "bg-[var(--ok-amber)]/85"
+                      : "bg-gradient-to-b from-white/30 via-white/10 to-white/5"
+                  )}
+                />
+                {/* Centro del disco */}
+                <span
+                  className={cn(
+                    "absolute left-3 top-1/2 hidden size-8 -translate-y-1/2 rounded-full border sm:block",
+                    isActive
+                      ? "border-white/28 bg-white/12"
+                      : "border-white/14 bg-black/30"
+                  )}
+                >
+                  <span className="absolute inset-[9px] rounded-full border border-white/22 bg-black/30" />
+                  <span className="absolute inset-1/2 size-1.5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-white/40" />
+                </span>
+                {/* Surcos sutiles */}
+                <span
+                  className="absolute inset-y-3 right-3 w-10 opacity-[0.09]"
+                  style={{
+                    backgroundImage:
+                      "repeating-linear-gradient(90deg, transparent 0 2px, currentColor 2px 3px)",
+                  }}
+                />
+
+                <div className="relative flex min-h-[3.5rem] items-center px-5 py-3.5 pl-5 sm:pl-14">
+                  <div className="w-full">
+                    <h3
+                      className={cn(
+                        "text-lg font-bold leading-snug sm:text-xl",
+                        isActive ? "text-white" : "text-ok-text"
+                      )}
+                    >
+                      <span className="mr-2 font-mono text-xs font-medium tracking-widest opacity-60">
+                        {s.tag}
+                      </span>
+                      {s.name}
+                    </h3>
+                    <div
+                      className={cn(
+                        "grid transition-[grid-template-rows,opacity,margin] duration-[360ms]",
+                        isActive
+                          ? "mt-2.5 grid-rows-[1fr] opacity-100"
+                          : "mt-0 grid-rows-[0fr] opacity-0"
+                      )}
+                      style={{ transitionTimingFunction: EASE }}
+                    >
+                      <div className="min-h-0 overflow-hidden">
+                        <p className="max-w-md pb-0.5 text-[14px] leading-6 text-white/80 sm:text-[15px] sm:leading-7">
+                          {s.desc}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </motion.div>
+
+              <button
+                type="button"
+                aria-expanded={isActive}
+                aria-label={`${s.tag} ${s.name}`}
+                onClick={() => onSelect(i)}
+                className={cn(
+                  "absolute inset-0 z-10 cursor-pointer border-0 bg-transparent",
+                  "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ok-indigo)]"
+                )}
+              />
+            </div>
+          );
+        })}
+      </div>
+    </div>
+  );
+}
+
+function ServiceVisual({
+  index,
+  name,
+  active,
+  fill = false,
+}: {
+  index: number;
+  name: string;
+  active: boolean;
+  fill?: boolean;
+}) {
+  if (index === ECOMMERCE_INDEX) {
+    return (
+      <div className={cn("relative h-full w-full", fill && "absolute inset-0")}>
+        <EcommerceSitePreview active={active} />
+        {!active && (
+          <div className="absolute inset-0 z-20 bg-ok-ink/35 grayscale" aria-hidden />
+        )}
+      </div>
+    );
+  }
+
+  if (index === CHATBOT_INDEX) {
+    return (
+      <div className={cn("relative h-full w-full", fill && "absolute inset-0")}>
+        <WhatsAppChatMock active={active} />
+        {!active && (
+          <div className="absolute inset-0 bg-ok-ink/35 grayscale" aria-hidden />
+        )}
+      </div>
+    );
+  }
+
+  if (index === AUTOMATION_INDEX) {
+    return (
+      <div className={cn("relative h-full w-full", fill && "absolute inset-0")}>
+        <SalesPipelineMock active={active} />
+        {!active && (
+          <div className="absolute inset-0 bg-ok-ink/35 grayscale" aria-hidden />
+        )}
+      </div>
+    );
+  }
+
+  if (index === CONSULTING_INDEX) {
+    return (
+      <div className={cn("relative h-full w-full", fill && "absolute inset-0")}>
+        <ConsultingAnalyticsMock active={active} />
+        {!active && (
+          <div className="absolute inset-0 bg-ok-ink/35 grayscale" aria-hidden />
+        )}
+      </div>
+    );
+  }
+
+  if (index === CHANNELS_INDEX) {
+    return (
+      <div className={cn("relative h-full w-full", fill && "absolute inset-0")}>
+        <ChannelsIntegrationsMock active={active} />
+        {!active && (
+          <div className="absolute inset-0 bg-ok-ink/35 grayscale" aria-hidden />
+        )}
+      </div>
+    );
+  }
+
+  if (index === CUSTOM_SYSTEMS_INDEX) {
+    return (
+      <div className={cn("relative h-full w-full", fill && "absolute inset-0")}>
+        <LogisticsMapMock active={active} />
+        {!active && (
+          <div className="absolute inset-0 bg-ok-ink/35 grayscale" aria-hidden />
+        )}
+      </div>
+    );
+  }
+
+  const src = SERVICE_IMAGES[index] ?? SERVICE_IMAGES[0];
+  return (
+    <>
+      <Image
+        src={src}
+        alt={name}
+        fill
+        sizes={fill ? "100vw" : "(max-width: 1024px) 100vw, 50vw"}
+        className={cn(
+          "object-cover transition-[transform,filter]",
+          DURATION,
+          active ? "scale-100 grayscale-0" : "scale-105 grayscale"
+        )}
+        style={{ transitionTimingFunction: EASE }}
+        priority={index === 0}
+      />
+      {!active && <div className="absolute inset-0 bg-ok-ink/40" aria-hidden />}
+    </>
+  );
+}
+
+/**
+ * Servicios expandibles (desktop split + mobile accordion).
+ * Base de interacción inspirada en el patrón Zacsa accordion/flex-grow.
+ */
 export function ServicesBento() {
   const { t } = useLang();
+  const services = t.services;
+  const [active, setActive] = useState(0);
+
   return (
-    <section id="services" className="relative scroll-mt-28 px-4 py-20 sm:px-6 md:px-10 md:py-36">
-      <div className="max-w-[1280px] mx-auto">
-        <div className="mb-10 flex flex-wrap items-end justify-between gap-6 md:mb-14 md:gap-10">
+    <section
+      id="services"
+      className="relative scroll-mt-28 px-4 py-10 sm:px-6 sm:py-12 md:px-10 md:py-16"
+    >
+      <div className="mx-auto max-w-[1280px]">
+        <div className="mb-8 flex flex-wrap items-end justify-between gap-6 md:mb-12 md:gap-10">
           <div>
             <span className="ok-eyebrow">{t.services_eyebrow}</span>
             <h2
-              className="mt-4 font-medium leading-none max-w-[700px]"
+              className="mt-3 max-w-[720px] font-medium leading-[1.05]"
               style={{
-                fontSize: "clamp(40px, 5.5vw, 84px)",
+                fontSize: "clamp(2rem, 4.5vw, 3.75rem)",
                 letterSpacing: "-0.035em",
               }}
             >
-              {t.services_title.split(",")[0]},
+              {t.services_title}
               <br />
               <em
-                className="font-serif italic font-normal"
-                style={{ color: "var(--ok-neon)" }}
+                className="font-script not-italic font-normal"
+                style={{
+                  color: "var(--ok-emphasis)",
+                  fontFamily: "var(--font-script)",
+                  fontStyle: "normal",
+                }}
               >
-                {t.services_title.split(",").slice(1).join(",").trim()}
+                {t.services_title_accent}
               </em>
             </h2>
           </div>
-          <p className="max-w-[380px] text-sm leading-snug text-ok-mute sm:text-base">
+          <p className="max-w-[360px] text-sm leading-relaxed text-ok-mute sm:text-base">
             {t.services_sub}
           </p>
         </div>
 
-        <div
-          className="grid grid-cols-1 gap-4 md:grid-cols-6"
-          style={{
-            gridAutoRows: "minmax(180px, auto)",
-          }}
-        >
-          {t.services.map((s, i) => (
-            <BentoCard
-              key={i}
-              service={s}
-              layout={LAYOUT[i]}
-              index={i}
-            />
-          ))}
+        {/* ── Desktop: vinilos (izq) + visual (der, mismo alto) ── */}
+        <div className="mt-10 hidden lg:mt-14 lg:grid lg:grid-cols-2 lg:items-stretch lg:gap-6">
+          <VinylCrateStack
+            services={services}
+            active={active}
+            onSelect={setActive}
+          />
+
+          {/* Un solo panel: mismo alto que el stack izquierdo; cambia al seleccionar */}
+          <div className="relative min-h-0 overflow-hidden border border-[var(--ok-indigo)] bg-ok-card">
+            {services.map((s, i) => {
+              const isActive = i === active;
+              return (
+                <div
+                  key={`img-${s.tag}`}
+                  aria-hidden={!isActive}
+                  className={cn(
+                    "absolute inset-0 transition-[opacity,transform]",
+                    DURATION,
+                    isActive
+                      ? "z-10 scale-100 opacity-100"
+                      : "pointer-events-none z-0 scale-[1.02] opacity-0"
+                  )}
+                  style={{ transitionTimingFunction: EASE }}
+                >
+                  <ServiceVisual index={i} name={s.name} active={isActive} fill />
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* ── Mobile / tablet ── */}
+        <div className="mt-10 flex flex-col gap-2.5 lg:hidden">
+          <div className="flex flex-col gap-2">
+            {services.map((s, i) => {
+              const isActive = i === active;
+              return (
+                <button
+                  key={`m-${s.tag}`}
+                  type="button"
+                  aria-expanded={isActive}
+                  onClick={() => setActive(i)}
+                  className={cn(
+                    "flex min-h-[52px] w-full items-center justify-between gap-3 px-5 py-3.5 text-left transition-colors duration-[280ms]",
+                    isActive ? "bg-[var(--ok-indigo)]" : "bg-ok-card"
+                  )}
+                  style={{ transitionTimingFunction: EASE }}
+                >
+                  <h3
+                    className={cn(
+                      "text-base font-bold tracking-[0.02em] sm:text-lg",
+                      isActive ? "text-white" : "text-ok-text"
+                    )}
+                  >
+                    <span className="mr-2 font-mono text-[11px] tracking-widest opacity-55">
+                      {s.tag}
+                    </span>
+                    {s.name}
+                  </h3>
+                  <span
+                    className={cn(
+                      "text-lg leading-none",
+                      isActive ? "text-white/90" : "text-ok-mute"
+                    )}
+                    aria-hidden
+                  >
+                    {isActive ? "–" : "+"}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="relative h-[min(560px,95vw)] overflow-hidden border border-[var(--ok-indigo)]/40 sm:h-[min(600px,85vw)]">
+            {services.map((s, i) => {
+              const isActive = i === active;
+              return (
+                <div
+                  key={`panel-${s.tag}`}
+                  aria-hidden={!isActive}
+                  className={cn(
+                    "absolute inset-0 flex flex-col transition-[opacity,transform]",
+                    DURATION,
+                    isActive
+                      ? "z-10 translate-y-0 opacity-100"
+                      : "pointer-events-none z-0 translate-y-1.5 opacity-0"
+                  )}
+                  style={{ transitionTimingFunction: EASE }}
+                >
+                  <div className="shrink-0 bg-[var(--ok-indigo)] px-5 py-3.5">
+                    <p className="text-[14px] leading-6 text-white/80 sm:text-[15px] sm:leading-7">
+                      {s.desc}
+                    </p>
+                  </div>
+                  <div className="relative min-h-[260px] flex-[1.85]">
+                    <ServiceVisual
+                      index={i}
+                      name={s.name}
+                      active={isActive}
+                      fill
+                    />
+                  </div>
+                </div>
+              );
+            })}
+          </div>
         </div>
       </div>
     </section>
-  );
-}
-
-type Service = { tag: string; name: string; desc: string };
-
-function BentoCard({
-  service,
-  layout,
-  index,
-}: {
-  service: Service;
-  layout: { spanClass: string; featured: boolean };
-  index: number;
-}) {
-  const router = useRouter();
-  const { t } = useLang();
-  const isEcommerce = index === 0;
-  const isCustomApps = index === 1;
-  const isAutomation = index === 2;
-  const isLinked = isEcommerce || isCustomApps || isAutomation;
-  const [hover, setHover] = useState(false);
-
-  function handleCardClick() {
-    if (isEcommerce) router.push("/ecommerce");
-    else if (isCustomApps) router.push("/apps-a-la-medida");
-    else if (isAutomation) router.push("/automatizaciones");
-  }
-
-  return (
-    <div
-      onMouseEnter={() => setHover(true)}
-      onMouseLeave={() => setHover(false)}
-      onClick={isLinked ? handleCardClick : undefined}
-      onKeyDown={
-        isLinked
-          ? (e) => {
-              if (e.key === "Enter" || e.key === " ") {
-                e.preventDefault();
-                handleCardClick();
-              }
-            }
-          : undefined
-      }
-      role={isLinked ? "link" : undefined}
-      tabIndex={isLinked ? 0 : undefined}
-      className={`relative overflow-hidden rounded-2xl transition-all duration-300 ${layout.spanClass} ${
-        isLinked ? "cursor-pointer" : "cursor-default"
-      }`}
-      style={{
-        background: layout.featured ? "#0c0c0c" : "var(--tw-color-ok-card, #0f0f10)",
-        border: `1px solid ${hover ? "rgba(184,255,46,0.28)" : "rgba(255,255,255,0.08)"}`,
-        padding: layout.featured ? 24 : 20,
-      }}
-    >
-      {!isAutomation && (
-        <div
-          className="absolute -right-5 -top-5 transition-all duration-500"
-          style={{ opacity: hover ? 0.9 : 0.7 }}
-        >
-          <CardVisual index={index} featured={layout.featured} />
-        </div>
-      )}
-
-      {isAutomation ? (
-        <div className="relative z-10 flex h-full min-h-[260px] flex-col gap-6 md:flex-row md:items-end md:justify-between md:gap-8">
-          <div className="max-w-[300px] md:pt-1">
-            <h3
-              className="mb-3 font-medium"
-              style={{
-                fontSize: layout.featured ? 30 : 22,
-                letterSpacing: "-0.02em",
-              }}
-            >
-              {service.name}
-            </h3>
-            <p
-              className="leading-snug text-ok-mute"
-              style={{
-                fontSize: layout.featured ? 16 : 14,
-                maxWidth: layout.featured ? 420 : 300,
-              }}
-            >
-              {service.desc}
-            </p>
-            <div
-              className="mt-5 flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.08em] transition-colors"
-              style={{ color: hover ? "var(--ok-neon)" : "#8a8a8a" }}
-            >
-              <span>Ver más</span>
-              <span
-                className="transition-transform"
-                style={{ transform: hover ? "translateX(4px)" : "none" }}
-              >
-                →
-              </span>
-            </div>
-          </div>
-          <div className="flex shrink-0 flex-col items-end self-end md:self-end">
-            <div
-              className="transition-opacity duration-500"
-              style={{ opacity: hover ? 0.95 : 0.85 }}
-            >
-              <AutomationBeforeAfterVisual />
-            </div>
-          </div>
-        </div>
-      ) : (
-        <div className="relative flex h-full flex-col justify-end">
-          <div>
-            <h3
-              className="mb-3 font-medium"
-              style={{
-                fontSize: layout.featured ? 30 : 22,
-                letterSpacing: "-0.02em",
-              }}
-            >
-              {service.name}
-            </h3>
-            <p
-              className="leading-snug text-ok-mute"
-              style={{
-                fontSize: layout.featured ? 16 : 14,
-                maxWidth: layout.featured ? 420 : 280,
-              }}
-            >
-              {service.desc}
-            </p>
-            <div
-              className="mt-5 flex items-center gap-2.5 font-mono text-xs uppercase tracking-[0.08em] transition-colors"
-              style={{ color: hover ? "var(--ok-neon)" : "#8a8a8a" }}
-            >
-              <span>Ver más</span>
-              <span
-                className="transition-transform"
-                style={{ transform: hover ? "translateX(4px)" : "none" }}
-              >
-                →
-              </span>
-            </div>
-          </div>
-        </div>
-      )}
-    </div>
   );
 }

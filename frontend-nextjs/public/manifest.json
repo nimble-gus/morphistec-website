@@ -4,9 +4,9 @@
   "description": "Transformamos operaciones empresariales con software personalizado, automatización e inteligencia artificial en Guatemala",
   "icons": [
     {
-      "src": "faviconoktae.png",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/png"
+      "src": "/favicon.ico",
+      "sizes": "48x48 32x32 16x16",
+      "type": "image/x-icon"
     },
     {
       "src": "assets/logo2.png",

@@ -39,7 +39,7 @@
 }
 
 .digital-test button {
-  background-color: #00d36b;
+  background-color: oklch(0.55 0.2 265);
   color: #ffffff;
   border: none;
   padding: 0.8rem 1.6rem;
@@ -58,14 +58,14 @@
 }
 
 .digital-test button:focus {
-  outline: 2px solid #00d36b;
+  outline: 2px solid oklch(0.55 0.2 265);
   outline-offset: 2px;
 }
 
 .cta-link {
   display: inline-block;
   margin-top: 1.5rem;
-  color: #00d36b;
+  color: oklch(0.55 0.2 265);
   font-weight: 600;
   text-decoration: underline;
   transition: color 0.3s ease;
@@ -78,7 +78,7 @@
 .result-highlight {
   font-size: 1.5rem;
   font-weight: 600;
-  color: #00d36b;
+  color: oklch(0.55 0.2 265);
   display: inline-block;
   margin-top: 0.5rem;
 }

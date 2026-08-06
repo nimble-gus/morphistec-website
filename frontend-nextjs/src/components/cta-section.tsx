@@ -18,7 +18,7 @@ export function CTASection() {
           height: 600,
           borderRadius: "50%",
           background:
-            "radial-gradient(circle, rgba(184,255,46,0.13) 0%, transparent 60%)",
+            "radial-gradient(circle, oklch(0.55 0.2 265 / 0.13) 0%, transparent 60%)",
           filter: "blur(40px)",
         }}
       />
