@@ -1,20 +1,28 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { Linkedin } from "lucide-react";
+import { Linkedin, Plus, Minus } from "lucide-react";
 import { LangProvider, useLang } from "@/components/lang";
 import { TopNav } from "@/components/top-nav";
 import { AboutHero } from "@/components/about-hero";
-import AetherFlowHero from "@/components/ui/aether-flow-hero";
 import { Footer } from "@/components/footer";
+import { CTASection } from "@/components/cta-section";
+import { cn } from "@/lib/utils";
 
 const HOME_SECTION_HASHES = new Set(["#services", "#process", "#work", "#contact"]);
 
+/**
+ * Estructura inspirada en Zacsa /nosotros:
+ * intro → visión / misión + equipo compacto → valores → CTA
+ * Visual e identidad: Oktae (carbon, indigo, amber, Poppins, Oldport).
+ * @see https://zacsaweb.vercel.app/nosotros
+ */
 function NosotrosContent() {
   const { t } = useLang();
   const router = useRouter();
+  const [openValue, setOpenValue] = useState(0);
 
   useEffect(() => {
     const hash = window.location.hash;
@@ -24,165 +32,243 @@ function NosotrosContent() {
   }, [router]);
 
   return (
-    <main className="relative min-h-screen">
-      <div
-        className="pointer-events-none fixed inset-0 z-[5] h-[100dvh] min-h-[100vh] w-full overflow-hidden"
-        aria-hidden
-      >
-        <div className="ok-grid-bg absolute inset-0 opacity-40" />
-        <div className="absolute inset-0 opacity-80">
-          <AetherFlowHero className="min-h-[100dvh] h-full" />
-        </div>
-        <div
-          className="pointer-events-none absolute"
-          style={{
-            left: "15%",
-            top: "35%",
-            width: 520,
-            height: 520,
-            background:
-              "radial-gradient(circle, oklch(0.55 0.2 265 / 0.08) 0%, transparent 65%)",
-            filter: "blur(80px)",
-          }}
-        />
-      </div>
-
-      <div className="relative z-10">
+    <main className="min-h-screen bg-ok-black pb-[9.5rem] sm:pb-0">
       <TopNav />
       <AboutHero />
 
-      <div className="relative">
-        {/* Mission */}
-        <section className="relative scroll-mt-28 border-b border-ok-line px-4 py-20 sm:px-6 md:px-10 md:py-36">
+      <div className="relative z-[20] bg-ok-black">
+        {/* Visión + Misión → Equipo (compacto, mobile + desktop) */}
+        <section className="px-4 py-10 sm:px-6 sm:py-14 md:px-10 md:py-20">
           <div className="mx-auto max-w-[1280px]">
-            <div className="grid grid-cols-1 gap-8 lg:grid-cols-[1fr_1.2fr] lg:gap-16">
+            <div className="grid gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-16">
+              <div>
+                <span className="ok-eyebrow">{t.about_vision_title}</span>
+                <h2
+                  className="mt-2.5 font-medium leading-[1.1] text-ok-text sm:mt-3"
+                  style={{
+                    fontSize: "clamp(1.35rem, 4.2vw, 2.25rem)",
+                    letterSpacing: "-0.03em",
+                  }}
+                >
+                  {t.about_vision_lead}
+                </h2>
+                <p className="mt-3 max-w-xl text-sm leading-relaxed text-ok-mute sm:mt-4 sm:text-[15px] sm:leading-7">
+                  {t.about_vision_body}
+                </p>
+              </div>
               <div>
                 <span className="ok-eyebrow">{t.about_mission_title}</span>
                 <h2
-                  className="mt-4 max-w-[520px] font-medium leading-none"
+                  className="mt-2.5 font-medium leading-[1.1] text-ok-text sm:mt-3"
                   style={{
-                    fontSize: "clamp(32px, 4.5vw, 64px)",
-                    letterSpacing: "-0.035em",
+                    fontSize: "clamp(1.35rem, 4.2vw, 2.25rem)",
+                    letterSpacing: "-0.03em",
                   }}
                 >
-                  {t.about_mission_title.split(" ").slice(0, 1).join(" ")}
-                  <br />
-                  <em
-                    className="font-serif italic font-normal"
-                    style={{ color: "var(--ok-neon)" }}
-                  >
-                    {t.about_mission_title.split(" ").slice(1).join(" ")}
-                  </em>
+                  {t.about_mission_lead}
                 </h2>
+                <p className="mt-3 max-w-xl text-sm leading-relaxed text-ok-mute sm:mt-4 sm:text-[15px] sm:leading-7">
+                  {t.about_mission_body}
+                </p>
               </div>
-              <p className="max-w-[560px] self-end text-base leading-relaxed text-ok-mute sm:text-lg">
-                {t.about_mission_body}
-              </p>
             </div>
-          </div>
-        </section>
 
-        {/* Values */}
-        <section className="relative border-b border-ok-line px-4 py-20 sm:px-6 md:px-10 md:py-36">
-          <div className="mx-auto max-w-[1280px]">
-            <span className="ok-eyebrow">{t.about_eyebrow}</span>
-            <div className="mt-10 grid gap-4 sm:grid-cols-2">
-              {t.about_values.map((v, i) => (
-                <div
-                  key={i}
-                  className="rounded-2xl border border-white/[0.08] bg-ok-card p-6 transition-colors duration-300 hover:border-[oklch(0.55 0.2 265 / 0.28)] sm:p-8"
+            {/* Perfil fundador — móvil: retrato + datos; sm+: banda horizontal */}
+            <div className="mt-8 border-t border-white/[0.08] pt-7 sm:mt-12 sm:pt-10 md:mt-16 md:pt-12">
+              <div className="mb-5 flex flex-col gap-1.5 sm:mb-6 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between sm:gap-3">
+                <h2
+                  className="font-medium text-ok-text"
+                  style={{
+                    fontSize: "clamp(1.35rem, 3.5vw, 1.75rem)",
+                    letterSpacing: "-0.03em",
+                  }}
                 >
-                  <span className="mb-4 block font-mono text-xs text-ok-neon">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <h3 className="mb-2 text-base font-medium text-ok-text sm:text-lg">
-                    {v.title}
-                  </h3>
-                  <p className="text-sm leading-relaxed text-ok-mute sm:text-base">
-                    {v.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
-          </div>
-        </section>
+                  {t.about_team_eyebrow}
+                </h2>
+                <p className="max-w-md text-sm leading-relaxed text-ok-mute">
+                  {t.about_team_intro}
+                </p>
+              </div>
 
-        {/* Founder */}
-        <section className="relative px-4 py-20 sm:px-6 md:px-10 md:py-36">
-          <div className="mx-auto max-w-[1280px]">
-            <span className="ok-eyebrow">{t.about_team_eyebrow}</span>
-            <h2
-              className="mt-4 max-w-[700px] font-medium leading-none"
-              style={{
-                fontSize: "clamp(32px, 4.5vw, 64px)",
-                letterSpacing: "-0.035em",
-              }}
-            >
-              {t.about_team_name.split(" ")[0]}
-              <br />
-              <em
-                className="font-serif italic font-normal"
-                style={{ color: "var(--ok-neon)" }}
-              >
-                {t.about_team_name.split(" ").slice(1).join(" ")}
-              </em>
-            </h2>
-
-            <div className="relative mt-12 max-w-2xl">
-              <div
-                className="pointer-events-none absolute -inset-4 rounded-[2rem] bg-[var(--ok-neon)]/10 blur-3xl"
-                aria-hidden
-              />
-              <div className="relative overflow-hidden rounded-2xl border border-white/15 bg-white shadow-[0_32px_90px_-24px_rgba(0,0,0,0.65)] sm:rounded-3xl">
-                <div className="flex flex-col sm:flex-row sm:items-stretch">
-                  <div className="relative h-[280px] w-full shrink-0 overflow-hidden sm:h-[300px] sm:w-[240px]">
+              <article className="border border-white/[0.08] bg-ok-card/25 sm:overflow-hidden">
+                {/* Móvil: foto cuadrada + identidad en fila */}
+                <div className="flex gap-4 p-4 sm:hidden">
+                  <div className="relative h-[112px] w-[112px] shrink-0 overflow-hidden bg-ok-card">
                     <Image
                       src="/founder.jpg"
-                      alt={`${t.about_team_name}, CEO`}
-                      width={576}
-                      height={720}
-                      sizes="240px"
-                      className="h-full w-full object-cover object-top"
+                      alt={`${t.about_team_name}, ${t.about_team_role}`}
+                      fill
+                      sizes="112px"
+                      className="object-cover object-[center_15%]"
                       priority
                     />
+                  </div>
+                  <div className="flex min-w-0 flex-1 flex-col justify-center">
+                    <h3
+                      className="text-base font-semibold text-ok-text"
+                      style={{ letterSpacing: "-0.02em" }}
+                    >
+                      {t.about_team_name}
+                    </h3>
+                    <span className="mt-0.5 text-[13px] leading-snug text-[var(--ok-emphasis)]">
+                      {t.about_team_role}
+                    </span>
+                    <a
+                      href="mailto:gus@oktae.tech"
+                      className="mt-2 w-fit text-[13px] text-ok-mute underline-offset-4 transition-colors hover:text-ok-text hover:underline"
+                    >
+                      gus@oktae.tech
+                    </a>
                     <a
                       href={t.about_team_linkedin}
                       target="_blank"
                       rel="noopener noreferrer"
-                      aria-label="LinkedIn"
-                      className="absolute bottom-3 left-3 flex h-8 w-8 items-center justify-center rounded-full bg-white shadow-md transition-transform hover:scale-105"
+                      className="mt-2.5 inline-flex w-fit items-center gap-1.5 text-[13px] text-ok-text transition-colors hover:text-[var(--ok-indigo)]"
                     >
-                      <Linkedin size={13} className="text-[#0077b5]" />
+                      <Linkedin className="h-3.5 w-3.5" strokeWidth={1.75} aria-hidden />
+                      LinkedIn
                     </a>
                   </div>
+                </div>
+                <div className="space-y-2.5 border-t border-white/[0.06] px-4 pb-5 pt-4 sm:hidden">
+                  {t.about_team_bio.map((para, i) => (
+                    <p key={i} className="text-sm leading-relaxed text-ok-mute">
+                      {para}
+                    </p>
+                  ))}
+                </div>
 
-                  <div className="flex flex-col justify-center gap-4 px-5 py-6 sm:px-6 sm:py-7">
-                    <div>
-                      <h3 className="text-xl font-semibold text-neutral-900 sm:text-2xl">
+                {/* Desktop / tablet: banda horizontal */}
+                <div className="group hidden sm:flex sm:items-stretch">
+                  <div className="relative w-[180px] shrink-0 overflow-hidden bg-ok-card md:w-[220px]">
+                    <div className="relative h-full min-h-[240px] w-full">
+                      <Image
+                        src="/founder.jpg"
+                        alt={`${t.about_team_name}, ${t.about_team_role}`}
+                        fill
+                        sizes="220px"
+                        className="object-cover object-[center_12%] scale-[1.1] origin-top transition-transform duration-500 group-hover:scale-[1.12]"
+                      />
+                      <div
+                        className="pointer-events-none absolute inset-0"
+                        style={{
+                          background:
+                            "linear-gradient(to top, oklch(0.24 0.005 260 / 0.35) 0%, transparent 40%)",
+                        }}
+                        aria-hidden
+                      />
+                    </div>
+                  </div>
+                  <div className="flex min-w-0 flex-1 flex-col justify-center px-7 py-6 md:px-8">
+                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+                      <h3
+                        className="text-xl font-semibold text-ok-text"
+                        style={{ letterSpacing: "-0.02em" }}
+                      >
                         {t.about_team_name}
                       </h3>
-                      <p className="mt-1 text-xs font-medium text-neutral-500 sm:text-sm">
+                      <span className="text-sm text-[var(--ok-emphasis)]">
                         {t.about_team_role}
-                      </p>
+                      </span>
                     </div>
-                    <div className="space-y-2.5">
+                    <a
+                      href="mailto:gus@oktae.tech"
+                      className="mt-1.5 w-fit text-sm text-ok-mute underline-offset-4 transition-colors hover:text-ok-text hover:underline"
+                    >
+                      gus@oktae.tech
+                    </a>
+                    <div className="mt-3 max-w-2xl space-y-2">
                       {t.about_team_bio.map((para, i) => (
-                        <p key={i} className="text-xs leading-relaxed text-neutral-600 sm:text-sm">
+                        <p key={i} className="text-sm leading-relaxed text-ok-mute">
                           {para}
                         </p>
                       ))}
                     </div>
+                    <a
+                      href={t.about_team_linkedin}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 inline-flex w-fit items-center gap-2 text-sm text-ok-text transition-colors hover:text-[var(--ok-indigo)]"
+                    >
+                      <Linkedin className="h-4 w-4" strokeWidth={1.75} aria-hidden />
+                      LinkedIn
+                    </a>
                   </div>
                 </div>
-              </div>
+              </article>
             </div>
           </div>
         </section>
 
-        <div className="[&_footer]:bg-transparent">
-          <Footer />
-        </div>
-      </div>
+        {/* Valores — acordeón (ritmo Zacsa) */}
+        <section className="px-4 py-16 sm:px-6 sm:py-20 md:px-10 md:py-28">
+          <div className="mx-auto max-w-[1280px]">
+            <h2
+              className="max-w-xl font-medium leading-[1.05] text-ok-text"
+              style={{
+                fontSize: "clamp(2rem, 4.5vw, 3.5rem)",
+                letterSpacing: "-0.035em",
+              }}
+            >
+              {t.about_values_title}
+            </h2>
+
+            <div className="mt-12 border-t border-white/[0.08]">
+              {t.about_values.map((v, i) => {
+                const open = openValue === i;
+                return (
+                  <div
+                    key={v.title}
+                    className="border-b border-white/[0.08]"
+                  >
+                    <button
+                      type="button"
+                      aria-expanded={open}
+                      onClick={() => setOpenValue(open ? -1 : i)}
+                      className="flex w-full items-center justify-between gap-6 py-6 text-left transition-colors hover:text-white sm:py-7"
+                    >
+                      <span className="flex min-w-0 items-baseline gap-4">
+                        <span className="shrink-0 font-mono text-xs tracking-widest text-ok-mute">
+                          {String(i + 1).padStart(2, "0")}
+                        </span>
+                        <span
+                          className="text-xl font-medium text-ok-text sm:text-2xl"
+                          style={{ letterSpacing: "-0.02em" }}
+                        >
+                          {v.title}
+                        </span>
+                      </span>
+                      <span className="shrink-0 text-ok-mute" aria-hidden>
+                        {open ? (
+                          <Minus className="h-5 w-5" strokeWidth={1.5} />
+                        ) : (
+                          <Plus className="h-5 w-5" strokeWidth={1.5} />
+                        )}
+                      </span>
+                    </button>
+                    <div
+                      className={cn(
+                        "grid transition-[grid-template-rows,opacity] duration-300 ease-out",
+                        open
+                          ? "grid-rows-[1fr] opacity-100"
+                          : "grid-rows-[0fr] opacity-0"
+                      )}
+                    >
+                      <div className="min-h-0 overflow-hidden">
+                        <p className="max-w-2xl pb-7 pl-0 text-[15px] leading-relaxed text-ok-mute sm:pl-11 sm:text-base sm:leading-7">
+                          {v.desc}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </section>
+
+        <CTASection />
+        <Footer />
       </div>
     </main>
   );

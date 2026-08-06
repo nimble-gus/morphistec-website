@@ -52,10 +52,10 @@ function RotatingKeyword({
         <motion.span
           key={word}
           className="inline-block whitespace-nowrap font-bold text-ok-indigo"
-          initial={{ y: "45%", opacity: 0, filter: "blur(5px)" }}
-          animate={{ y: "0%", opacity: 1, filter: "blur(0px)" }}
-          exit={{ y: "-45%", opacity: 0, filter: "blur(5px)" }}
-          transition={{ duration: 0.38, ease: [0.22, 1, 0.36, 1] }}
+          initial={{ y: "40%", opacity: 0 }}
+          animate={{ y: "0%", opacity: 1 }}
+          exit={{ y: "-40%", opacity: 0 }}
+          transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
         >
           {word}
         </motion.span>
@@ -107,11 +107,6 @@ export function SitesScrollShowcase() {
       id="work"
       className="relative scroll-mt-28"
     >
-      <div
-        className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_50%_0%,oklch(0.55_0.2_265_/_0.08),transparent_50%)]"
-        aria-hidden
-      />
-
       <div className="flex flex-col">
         <ContainerScroll
           titleComponent={

@@ -3,6 +3,7 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { ChevronDown } from "lucide-react";
 import { Button, buttonVariants } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { MenuToggleIcon } from "@/components/ui/menu-toggle-icon";
@@ -10,22 +11,40 @@ import { useScroll } from "@/components/ui/use-scroll";
 import { OktaeLogo } from "@/components/logo";
 import { useLang } from "@/components/lang";
 import { WHATSAPP_URL } from "@/lib/contact";
+import { LegalModal } from "@/components/ui/legal-modal";
+import type { LegalDoc } from "@/lib/legal-content";
 
-const NAV_HREFS = ["#services", "#process", "#work", "/nosotros"] as const;
+type NavItem =
+  | { kind: "link"; label: string; href: string }
+  | { kind: "legal"; label: string };
 
 export function TopNav() {
   const [open, setOpen] = React.useState(false);
+  const [legalOpen, setLegalOpen] = React.useState(false);
+  const [mobileLegalOpen, setMobileLegalOpen] = React.useState(false);
+  const [legalDoc, setLegalDoc] = React.useState<LegalDoc | null>(null);
+  const legalRef = React.useRef<HTMLDivElement>(null);
   const scrolled = useScroll(10);
   const { lang, setLang, t } = useLang();
   const pathname = usePathname();
   const isHome = pathname === "/";
 
-  const links = t.nav.map((label, i) => {
-    const raw = NAV_HREFS[i] ?? "#";
-    const href =
-      raw.startsWith("#") && !isHome ? `/${raw}` : raw;
-    return { label, href };
-  });
+  const legalItems: { doc: LegalDoc; label: string; href: string }[] = [
+    { doc: "terms", label: t.footer_terms, href: "/terminos" },
+    { doc: "privacy", label: t.footer_privacy, href: "/privacidad" },
+    { doc: "deletion", label: t.footer_deletion, href: "/eliminacion-datos" },
+  ];
+
+  const items: NavItem[] = [
+    { kind: "link", label: t.nav[0]!, href: "/" },
+    {
+      kind: "link",
+      label: t.nav[1]!,
+      href: isHome ? "#services" : "/#services",
+    },
+    { kind: "link", label: t.nav[2]!, href: "/nosotros" },
+    { kind: "legal", label: t.nav[3]! },
+  ];
 
   React.useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
@@ -34,9 +53,36 @@ export function TopNav() {
     };
   }, [open]);
 
+  React.useEffect(() => {
+    if (!legalOpen) return;
+    const onPointer = (e: MouseEvent) => {
+      if (!legalRef.current?.contains(e.target as Node)) {
+        setLegalOpen(false);
+      }
+    };
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") setLegalOpen(false);
+    };
+    document.addEventListener("mousedown", onPointer);
+    window.addEventListener("keydown", onKey);
+    return () => {
+      document.removeEventListener("mousedown", onPointer);
+      window.removeEventListener("keydown", onKey);
+    };
+  }, [legalOpen]);
+
   function closeMenu() {
     setOpen(false);
+    setMobileLegalOpen(false);
   }
+
+  function openLegal(doc: LegalDoc) {
+    setLegalDoc(doc);
+    setLegalOpen(false);
+    closeMenu();
+  }
+
+  const ghostLink = "text-ok-mute hover:text-ok-text";
 
   return (
     <div className="pointer-events-none fixed inset-x-0 top-0 z-50 px-3 pt-[max(0.5rem,env(safe-area-inset-top,0px))] md:px-4">
@@ -60,36 +106,92 @@ export function TopNav() {
           )}
           aria-label="Principal"
         >
-          <Link href="/" className="max-w-[min(200px,58vw)] shrink-0 sm:max-w-none" onClick={closeMenu}>
+          <Link
+            href="/"
+            className="max-w-[min(200px,58vw)] shrink-0 sm:max-w-none"
+            onClick={closeMenu}
+          >
             <OktaeLogo className="h-7 sm:h-[39px]" />
           </Link>
 
           <div className="hidden items-center gap-1 md:flex">
-            {links.map((link) =>
-              link.href.startsWith("#") || link.href.startsWith("/#") ? (
-                <a
-                  key={link.label}
-                  className={buttonVariants({
-                    variant: "ghost",
-                    className: "text-ok-mute hover:text-ok-text",
-                  })}
-                  href={link.href}
-                >
-                  {link.label}
-                </a>
-              ) : (
+            {items.map((item) => {
+              if (item.kind === "legal") {
+                return (
+                  <div key={item.label} ref={legalRef} className="relative">
+                    <button
+                      type="button"
+                      className={cn(
+                        buttonVariants({ variant: "ghost" }),
+                        ghostLink,
+                        "gap-1"
+                      )}
+                      aria-expanded={legalOpen}
+                      aria-haspopup="menu"
+                      onClick={() => setLegalOpen((v) => !v)}
+                    >
+                      {item.label}
+                      <ChevronDown
+                        className={cn(
+                          "h-3.5 w-3.5 transition-transform",
+                          legalOpen && "rotate-180"
+                        )}
+                        aria-hidden
+                      />
+                    </button>
+                    {legalOpen ? (
+                      <div
+                        role="menu"
+                        className="absolute left-0 top-full z-50 mt-1 min-w-[220px] overflow-hidden rounded-lg border border-white/10 bg-[var(--ok-bg-elevated)] py-1 shadow-xl shadow-black/40"
+                      >
+                        {legalItems.map((li) => (
+                          <a
+                            key={li.doc}
+                            role="menuitem"
+                            href={li.href}
+                            className="block px-3.5 py-2.5 text-sm text-ok-mute transition-colors hover:bg-white/[0.06] hover:text-ok-text"
+                            onClick={(e) => {
+                              e.preventDefault();
+                              openLegal(li.doc);
+                            }}
+                          >
+                            {li.label}
+                          </a>
+                        ))}
+                      </div>
+                    ) : null}
+                  </div>
+                );
+              }
+
+              if (item.href.startsWith("#") || item.href.startsWith("/#")) {
+                return (
+                  <a
+                    key={item.label}
+                    className={buttonVariants({
+                      variant: "ghost",
+                      className: ghostLink,
+                    })}
+                    href={item.href}
+                  >
+                    {item.label}
+                  </a>
+                );
+              }
+
+              return (
                 <Link
-                  key={link.label}
+                  key={item.label}
                   className={buttonVariants({
                     variant: "ghost",
-                    className: "text-ok-mute hover:text-ok-text",
+                    className: ghostLink,
                   })}
-                  href={link.href}
+                  href={item.href}
                 >
-                  {link.label}
+                  {item.label}
                 </Link>
-              )
-            )}
+              );
+            })}
 
             <div className="ml-1 flex rounded-full border border-border p-[2px] font-mono text-[10px]">
               {(["es", "en"] as const).map((l) => (
@@ -136,33 +238,83 @@ export function TopNav() {
         >
           <div className="flex h-full w-full flex-col justify-between gap-y-2 p-4">
             <div className="grid gap-y-1">
-              {links.map((link) =>
-                link.href.startsWith("#") || link.href.startsWith("/#") ? (
-                  <a
-                    key={link.label}
-                    className={buttonVariants({
-                      variant: "ghost",
-                      className: "justify-start text-base",
-                    })}
-                    href={link.href}
-                    onClick={closeMenu}
-                  >
-                    {link.label}
-                  </a>
-                ) : (
+              {items.map((item) => {
+                if (item.kind === "legal") {
+                  return (
+                    <div key={item.label} className="grid gap-y-0.5">
+                      <button
+                        type="button"
+                        className={cn(
+                          buttonVariants({
+                            variant: "ghost",
+                            className: "justify-between text-base",
+                          })
+                        )}
+                        aria-expanded={mobileLegalOpen}
+                        onClick={() => setMobileLegalOpen((v) => !v)}
+                      >
+                        {item.label}
+                        <ChevronDown
+                          className={cn(
+                            "h-4 w-4 transition-transform",
+                            mobileLegalOpen && "rotate-180"
+                          )}
+                          aria-hidden
+                        />
+                      </button>
+                      {mobileLegalOpen
+                        ? legalItems.map((li) => (
+                            <a
+                              key={li.doc}
+                              href={li.href}
+                              className={buttonVariants({
+                                variant: "ghost",
+                                className:
+                                  "justify-start pl-8 text-sm text-ok-mute",
+                              })}
+                              onClick={(e) => {
+                                e.preventDefault();
+                                openLegal(li.doc);
+                              }}
+                            >
+                              {li.label}
+                            </a>
+                          ))
+                        : null}
+                    </div>
+                  );
+                }
+
+                if (item.href.startsWith("#") || item.href.startsWith("/#")) {
+                  return (
+                    <a
+                      key={item.label}
+                      className={buttonVariants({
+                        variant: "ghost",
+                        className: "justify-start text-base",
+                      })}
+                      href={item.href}
+                      onClick={closeMenu}
+                    >
+                      {item.label}
+                    </a>
+                  );
+                }
+
+                return (
                   <Link
-                    key={link.label}
+                    key={item.label}
                     className={buttonVariants({
                       variant: "ghost",
                       className: "justify-start text-base",
                     })}
-                    href={link.href}
+                    href={item.href}
                     onClick={closeMenu}
                   >
-                    {link.label}
+                    {item.label}
                   </Link>
-                )
-              )}
+                );
+              })}
             </div>
 
             <div className="flex flex-col gap-2">
@@ -193,6 +345,8 @@ export function TopNav() {
           </div>
         </div>
       </header>
+
+      <LegalModal doc={legalDoc} onClose={() => setLegalDoc(null)} />
     </div>
   );
 }

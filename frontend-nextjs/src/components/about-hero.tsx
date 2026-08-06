@@ -3,57 +3,83 @@
 import Link from "next/link";
 import { useLang } from "@/components/lang";
 import { WhatsAppButton } from "@/components/whatsapp-button";
+import { useShaderBackground } from "@/hooks/use-shader-background";
+import { AboutSplineFeature } from "@/components/about-spline-feature";
 
+/** Hero Nosotros + bloque Spline sobre el mismo shader (sin corte negro). */
 export function AboutHero() {
   const { t } = useLang();
+  const canvasRef = useShaderBackground();
+  const title = t.about_hero_title[0] ?? "Nosotros";
 
   return (
-    <section className="relative min-h-[560px] overflow-hidden border-b border-ok-line px-4 pb-14 pt-28 sm:px-6 sm:pt-32 md:min-h-[680px] md:px-10 md:pb-20 md:pt-40">
-      <div className="relative z-10 mx-auto max-w-[1280px]">
-        <div className="w-full max-w-3xl pl-3 sm:pl-6 lg:pl-4">
-          <span className="ok-eyebrow">{t.about_eyebrow}</span>
-          <h1
-            className="mt-4 max-w-[900px] font-medium"
-            style={{
-              fontSize: "clamp(36px, 11vw, 96px)",
-              lineHeight: 0.95,
-              letterSpacing: "-0.045em",
-            }}
-          >
-            {t.about_hero_title.map((line, i) => (
-              <span
-                key={i}
-                className="block animate-float-in"
-                style={{ animationDelay: `${i * 0.12}s` }}
-              >
-                {i === 1 ? (
-                  <em
-                    className="font-serif italic font-normal"
-                    style={{
-                      color: "var(--ok-emphasis)",
-                      fontSize: "clamp(40px, 12vw, 108px)",
-                      lineHeight: 0.88,
-                    }}
-                  >
-                    {line}
-                  </em>
-                ) : (
-                  line
-                )}
-              </span>
-            ))}
-          </h1>
+    <section className="relative isolate w-full max-w-[100vw] overflow-hidden bg-ok-black">
+      <canvas
+        ref={canvasRef}
+        className="absolute inset-0 h-full w-full touch-none object-cover"
+        style={{ background: "var(--ok-bg)" }}
+        aria-hidden
+      />
+      {/* Vignette suave (no aplasta a negro) */}
+      <div
+        className="pointer-events-none absolute inset-0 z-[1]"
+        style={{
+          background:
+            "radial-gradient(ellipse at 50% 28%, transparent 12%, oklch(0.2 0.005 260 / 0.28) 55%, oklch(0.2 0.005 260 / 0.55) 100%)",
+        }}
+        aria-hidden
+      />
+      {/* Fundido solo al final del bloque (tras el robot) */}
+      <div
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-[2] h-40"
+        style={{
+          background:
+            "linear-gradient(to bottom, transparent 0%, var(--ok-bg, #0a0a0b) 100%)",
+        }}
+        aria-hidden
+      />
 
-          <p className="mt-8 max-w-[560px] text-base leading-snug text-ok-mute sm:text-lg">
-            {t.about_hero_sub}
-          </p>
+      {/* Título + intro → (móvil: robot → caption) / (desktop: caption + robot) */}
+      <div className="relative z-10 mx-auto max-w-[1280px] px-4 pb-4 pt-28 sm:px-6 sm:pb-6 sm:pt-32 md:px-10 md:pt-36">
+        <h1
+          className="max-w-[960px] font-medium tracking-tight text-ok-text"
+          style={{
+            fontSize: "clamp(3.25rem, 12vw, 7.5rem)",
+            lineHeight: 0.92,
+            letterSpacing: "-0.04em",
+          }}
+        >
+          {title}
+        </h1>
+        <p className="mt-5 max-w-[38rem] text-base leading-relaxed text-ok-mute sm:mt-7 sm:max-w-[640px] sm:text-lg md:mt-8 md:text-xl md:leading-relaxed">
+          {t.about_hero_sub}
+        </p>
+      </div>
 
-          <div className="mt-10 flex w-full max-w-[900px] flex-col gap-3 sm:flex-row">
-            <WhatsAppButton className="ok-btn ok-btn-primary w-full text-center sm:w-auto">
+      <div className="relative z-10 pb-14 pt-6 sm:pb-20 sm:pt-10 md:pb-24 md:pt-12">
+        <AboutSplineFeature embedded />
+      </div>
+
+      {/* CTAs flotantes solo móvil (en desktop van al cierre de la página) */}
+      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 sm:hidden">
+        <div
+          className="pointer-events-auto border-t border-white/[0.08] px-3 pt-2.5"
+          style={{
+            paddingBottom: "max(0.65rem, env(safe-area-inset-bottom, 0px))",
+            background:
+              "linear-gradient(to top, oklch(0.2 0.005 260 / 0.96) 55%, oklch(0.2 0.005 260 / 0.72) 100%)",
+            backdropFilter: "blur(12px)",
+          }}
+        >
+          <div className="mx-auto flex max-w-lg flex-col gap-2">
+            <WhatsAppButton className="ok-btn ok-btn-primary w-full justify-center text-center">
               {t.hero_cta}
             </WhatsAppButton>
-            <Link href="/" className="ok-btn ok-btn-ghost w-full text-center sm:w-auto">
-              {t.about_cta_home}
+            <Link
+              href="/#services"
+              className="ok-btn ok-btn-ghost w-full justify-center text-center"
+            >
+              {t.hero_cta_2}
             </Link>
           </div>
         </div>

@@ -91,7 +91,22 @@ function VinylCrateStack({
           const scale = reduceMotion ? 1 : isActive ? 1 : 0.99;
 
           return (
-            <div key={s.tag} className="relative" style={{ zIndex: 10 + i }}>
+            <motion.div
+              key={s.tag}
+              className="relative"
+              style={{ zIndex: isActive ? 40 : 10 + i }}
+              initial={false}
+              animate={{ opacity: isActive ? 1 : 0.38 }}
+              whileHover={
+                reduceMotion || isActive ? undefined : { opacity: 0.72 }
+              }
+              transition={{
+                type: "spring",
+                stiffness: 320,
+                damping: 32,
+                mass: 0.7,
+              }}
+            >
               <motion.div
                 aria-hidden
                 className={cn(
@@ -196,7 +211,7 @@ function VinylCrateStack({
                   "focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--ok-indigo)]"
                 )}
               />
-            </div>
+            </motion.div>
           );
         })}
       </div>
@@ -321,9 +336,9 @@ export function ServicesBento() {
           <div>
             <span className="ok-eyebrow">{t.services_eyebrow}</span>
             <h2
-              className="mt-3 max-w-[720px] font-medium leading-[1.05]"
+              className="mt-3 max-w-[960px] font-medium leading-[1.05]"
               style={{
-                fontSize: "clamp(2rem, 4.5vw, 3.75rem)",
+                fontSize: "clamp(3rem, 6.75vw, 5.625rem)",
                 letterSpacing: "-0.035em",
               }}
             >
@@ -390,8 +405,10 @@ export function ServicesBento() {
                   aria-expanded={isActive}
                   onClick={() => setActive(i)}
                   className={cn(
-                    "flex min-h-[52px] w-full items-center justify-between gap-3 px-5 py-3.5 text-left transition-colors duration-[280ms]",
-                    isActive ? "bg-[var(--ok-indigo)]" : "bg-ok-card"
+                    "flex min-h-[52px] w-full items-center justify-between gap-3 px-5 py-3.5 text-left transition-[colors,opacity] duration-[280ms]",
+                    isActive
+                      ? "bg-[var(--ok-indigo)] opacity-100"
+                      : "bg-ok-card opacity-[0.38] active:opacity-70"
                   )}
                   style={{ transitionTimingFunction: EASE }}
                 >

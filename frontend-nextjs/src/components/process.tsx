@@ -19,9 +19,9 @@ export function Process() {
           <div>
             <span className="ok-eyebrow">{t.process_eyebrow}</span>
             <h2
-              className="mt-3 max-w-[720px] font-medium leading-[1.05]"
+              className="mt-3 max-w-[960px] font-medium leading-[1.05]"
               style={{
-                fontSize: "clamp(2rem, 4.5vw, 3.75rem)",
+                fontSize: "clamp(3rem, 6.75vw, 5.625rem)",
                 letterSpacing: "-0.035em",
               }}
             >

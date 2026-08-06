@@ -2,7 +2,7 @@ export type Lang = "es" | "en";
 
 export const COPY = {
   es: {
-    nav: ["Servicios", "Principios", "Trabajo", "Nosotros"],
+    nav: ["Inicio", "Servicios", "Nosotros", "Legal"],
     cta_nav: "Hablemos",
     hero_eyebrow: "Ventas digitales con IA · LATAM",
     hero_title: ["Tecnología que", "crece", "con tu negocio"],
@@ -86,10 +86,11 @@ export const COPY = {
         desc: "Lanzar no es el final. Medimos uso real, detectamos fricciones y afinamos la solución con tu operación del día a día.",
       },
     ],
-    cta_title: "¿Listo para dejar de perder leads?",
-    cta_sub: "Agenda un diagnóstico y revisamos juntos tu embudo, canales e IA comercial.",
-    cta_button: "Agendar diagnóstico",
-    cta_pill: "Próximo paso",
+    cta_title: "¿Listo para construir lo que tu negocio necesita?",
+    cta_sub:
+      "Conversemos sobre tu operación y te proponemos la solución digital que mejor encaje: sitio web, automatización, IA o un sistema a medida.",
+    cta_button: "Agendar una conversación",
+    cta_pill: "Empecemos",
     book_modal_title: "Agenda una llamada",
     book_modal_subtitle: "Elige fecha y comparte tus datos para contactarte.",
     book_modal_close: "Cerrar",
@@ -116,7 +117,7 @@ export const COPY = {
     book_modal_success: "Listo. Te contactamos pronto para confirmar la llamada.",
     book_modal_network_error: "Ocurrió un error de red. Intenta nuevamente.",
     book_modal_server_error: "No se pudo enviar la solicitud.",
-    footer_tag: "Sistemas de venta digital: IA, automatización y e-commerce.",
+    footer_tag: "Tecnología que crece con tu negocio",
     footer_made: "Hecho en Guatemala",
     footer_terms: "Términos y condiciones",
     footer_privacy: "Política de privacidad",
@@ -138,20 +139,43 @@ export const COPY = {
     custom_apps_spline_empty:
       "Añade la URL de Embed de tu escena Spline en el archivo de configuración (ver comentarios en el archivo).",
     footer_status: "Aceptando proyectos",
-    about_eyebrow: "Quiénes somos",
-    about_hero_title: ["Ventas", "con sistema."],
+    about_eyebrow: "Oktae",
+    about_hero_title: ["Nosotros"],
     about_hero_sub:
-      "Oktae construye el sistema digital con el que tu negocio responde, da seguimiento y vende. No vendemos horas sueltas: entregamos un flujo comercial que trabaja contigo.",
+      "Estudio de tecnología para LATAM: sitios, tiendas, chatbots con IA y automatizaciones. Sistemas listos para usarse y escalar — sin capas de agencia.",
+    about_featured_alt: "Trabajo Oktae en producción",
+    about_featured_caption: "Sitios web",
+    about_spline_title: "Presencia digital de alto valor",
+    about_spline_body:
+      "Diseñamos y construimos sitios que se ven premium, cargan rápido y están listos para convertir — no plantillas genéricas.",
+    about_vision_title: "Nuestra visión",
+    about_vision_lead:
+      "Ser el partner tecnológico que las empresas eligen para digitalizar su operación con sistemas claros, útiles y listos para crecer.",
+    about_vision_body:
+      "Queremos que un negocio mediano compita con la agilidad de un producto maduro: procesos conectados, canales que responden y software hecho alrededor de cómo trabaja su equipo — no al revés.",
     about_mission_title: "Nuestra misión",
+    about_mission_lead:
+      "Acercar soluciones digitales de alto nivel a empresas en LATAM que no tienen un equipo de producto propio.",
     about_mission_body:
-      "Acercar ventas automatizadas e IA a empresas en LATAM que no tienen un equipo de producto. Creemos que un negocio bien digitalizado en su embudo puede competir con cualquiera.",
+      "Diseñamos, integramos y operamos sitios, e-commerce, IA conversacional y automatizaciones end to end. Medimos en la operación real y nos quedamos después del go-live para afinar lo que importa.",
+    about_values_title: "Valores",
     about_values: [
-      { icon: "⚡", title: "Velocidad con criterio", desc: "Entregamos rápido sin saltarnos lo importante. Prototipo en días, producto sólido." },
-      { icon: "🔩", title: "Sin intermediarios", desc: "El equipo que diseña es el que construye y opera. Sin agencias de por medio." },
-      { icon: "📐", title: "A medida, siempre", desc: "No usamos templates. Cada solución se diseña desde el problema real del cliente." },
-      { icon: "🌎", title: "LATAM + USA", desc: "Operamos en dos contextos distintos y sabemos cómo conectarlos." },
+      {
+        title: "Velocidad con criterio",
+        desc: "Entregamos rápido sin saltarnos lo que sostiene el producto. Prototipo en días, base sólida para escalar.",
+      },
+      {
+        title: "Sin intermediarios",
+        desc: "El equipo que diseña es el que construye y opera. Conversación directa, menos fricción, más ownership.",
+      },
+      {
+        title: "A medida, siempre",
+        desc: "Partimos del problema real de tu operación. La solución se adapta a cómo trabajás — no a un template genérico.",
+      },
     ],
-    about_team_eyebrow: "Liderazgo",
+    about_team_eyebrow: "Equipo",
+    about_team_intro:
+      "Un equipo compacto de ingeniería y producto, enfocado en soluciones a la medida y en que el sistema siga funcionando después del lanzamiento.",
     about_team_name: "Gustavo Ortiz",
     about_team_role: "Director de Tecnología & Fundador",
     about_team_linkedin: "https://www.linkedin.com/in/ortizggustavo/",
@@ -160,6 +184,9 @@ export const COPY = {
       "Fundó Oktae con la convicción de que las empresas medianas merecen el mismo nivel de tecnología que las grandes corporaciones, entregado con la agilidad de un equipo compacto y comprometido.",
     ],
     about_cta_home: "Volver al inicio",
+    about_cta_title: "¿Listo para empezar?",
+    about_cta_sub: "Hablemos de tu próxima solución digital.",
+    about_cta_button: "Agendar diagnóstico",
     clients: ["NIDRA", "Calexa", "Veridian", "Polara", "Mantis Co.", "Atlas Fresh", "Norte", "Helio", "Lumière"],
     projects_eyebrow: "Trabajo",
     projects_title: "Proyectos recientes",
@@ -228,7 +255,7 @@ export const COPY = {
     ecommerce_frame_caption: "Ejemplo visual · cliente telecom retail",
   },
   en: {
-    nav: ["Services", "Principles", "Work", "About"],
+    nav: ["Home", "Services", "About", "Legal"],
     cta_nav: "Let’s talk",
     hero_eyebrow: "AI-powered digital sales · LATAM",
     hero_title: ["Tech That", "Grows", "with Your Business"],
@@ -312,10 +339,11 @@ export const COPY = {
         desc: "Launch isn’t the end. We measure real use, surface friction, and tune the solution with how you operate day to day.",
       },
     ],
-    cta_title: "Ready to stop losing leads?",
-    cta_sub: "Book a diagnostic and we’ll review your funnel, channels, and commercial AI together.",
-    cta_button: "Book a diagnostic",
-    cta_pill: "Next step",
+    cta_title: "Ready to build what your business needs?",
+    cta_sub:
+      "Let’s talk about how you operate and map the right digital solution — site, automation, AI, or a custom system.",
+    cta_button: "Book a conversation",
+    cta_pill: "Let’s begin",
     book_modal_title: "Book a call",
     book_modal_subtitle: "Choose a date and share your details so we can contact you.",
     book_modal_close: "Close",
@@ -342,7 +370,7 @@ export const COPY = {
     book_modal_success: "Done. We will contact you soon to confirm the call.",
     book_modal_network_error: "A network error occurred. Please try again.",
     book_modal_server_error: "Could not send the request.",
-    footer_tag: "Digital sales systems: AI, automation, and e-commerce.",
+    footer_tag: "Technology that grows with your business",
     footer_made: "Built in Guatemala, active anywhere",
     footer_terms: "Terms and conditions",
     footer_privacy: "Privacy policy",
@@ -364,20 +392,43 @@ export const COPY = {
     custom_apps_spline_empty:
       "Add your Spline embed URL in the config file (see comments there).",
     footer_status: "",
-    about_eyebrow: "Who we are",
-    about_hero_title: ["Sales", "with a system."],
+    about_eyebrow: "Oktae",
+    about_hero_title: ["About"],
     about_hero_sub:
-      "Oktae builds the digital system that helps your business reply, follow up, and sell. We don’t sell loose hours — we deliver a commercial flow that works with you.",
+      "A technology studio for LATAM: sites, stores, AI chatbots, and automation. Systems ready to use and scale — no agency layers.",
+    about_featured_alt: "Oktae work in production",
+    about_featured_caption: "Websites",
+    about_spline_title: "High-value digital presence",
+    about_spline_body:
+      "We design and build sites that look premium, load fast, and are ready to convert — not generic templates.",
+    about_vision_title: "Our vision",
+    about_vision_lead:
+      "To be the technology partner companies choose to digitalize operations with clear, useful systems built to grow.",
+    about_vision_body:
+      "We want a mid-sized business to move with the agility of a mature product team: connected processes, channels that respond, and software shaped around how people actually work — not the other way around.",
     about_mission_title: "Our mission",
+    about_mission_lead:
+      "Bring high-caliber digital solutions to LATAM companies that don’t have an in-house product team.",
     about_mission_body:
-      "To bring automated sales and AI to LATAM businesses that don’t have an in-house product team. A well-digitalized funnel can compete with anyone.",
+      "We design, integrate, and operate sites, e-commerce, conversational AI, and automation end to end. We measure against real operations and stay after go-live to refine what matters.",
+    about_values_title: "Values",
     about_values: [
-      { icon: "⚡", title: "Speed with judgment", desc: "We ship fast without cutting corners. Prototype in days, solid product." },
-      { icon: "🔩", title: "No middlemen", desc: "The team that designs is the one that builds and operates. No agency layers." },
-      { icon: "📐", title: "Custom, always", desc: "We don't use templates. Every solution is designed from the client's real problem." },
-      { icon: "🌎", title: "LATAM + USA", desc: "We operate in two different contexts and know how to connect them." },
+      {
+        title: "Speed with judgment",
+        desc: "We ship fast without cutting what keeps a product solid. Prototype in days, foundation ready to scale.",
+      },
+      {
+        title: "No middlemen",
+        desc: "The team that designs builds and operates. Direct conversation, less friction, more ownership.",
+      },
+      {
+        title: "Custom, always",
+        desc: "We start from your real operational problem. The solution fits how you work — not a generic template.",
+      },
     ],
-    about_team_eyebrow: "Leadership",
+    about_team_eyebrow: "Team",
+    about_team_intro:
+      "A compact engineering and product team focused on tailored solutions — and on systems that keep working after launch.",
     about_team_name: "Gustavo Ortiz",
     about_team_role: "Chief Technology Officer & Founder",
     about_team_linkedin: "https://www.linkedin.com/in/ortizggustavo/",
@@ -386,6 +437,9 @@ export const COPY = {
       "He founded Oktae with the belief that mid-sized companies deserve the same level of technology as large corporations — delivered with the agility of a tight, committed team.",
     ],
     about_cta_home: "Back to home",
+    about_cta_title: "Ready to start?",
+    about_cta_sub: "Let’s talk about your next digital solution.",
+    about_cta_button: "Book a diagnostic",
     clients: ["NIDRA", "Calexa", "Veridian", "Polara", "Mantis Co.", "Atlas Fresh", "Norte", "Helio", "Lumière"],
     projects_eyebrow: "Work",
     projects_title: "Recent projects",
