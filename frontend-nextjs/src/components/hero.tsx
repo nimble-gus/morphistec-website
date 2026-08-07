@@ -12,7 +12,7 @@ export function Hero() {
   const canvasRef = useShaderBackground();
 
   return (
-    <section className="hero-section relative isolate min-h-[min(100svh,900px)] w-full max-w-full overflow-hidden bg-ok-black sm:min-h-[88dvh] md:min-h-[90dvh]">
+    <section className="hero-section relative isolate min-h-0 w-full max-w-full overflow-hidden bg-ok-black sm:min-h-[88dvh] md:min-h-[90dvh]">
       <canvas
         ref={canvasRef}
         className="absolute inset-0 h-full w-full touch-none object-cover"
@@ -38,7 +38,7 @@ export function Hero() {
         aria-hidden
       />
 
-      <div className="relative z-10 mx-auto flex min-h-[min(100svh,900px)] w-full max-w-[1280px] flex-col justify-center px-4 pb-5 pt-[4.75rem] sm:min-h-[88dvh] sm:px-6 sm:pb-10 sm:pt-28 md:min-h-[90dvh] md:px-10 md:pb-12 md:pt-32">
+      <div className="relative z-10 mx-auto flex min-h-0 w-full max-w-[1280px] flex-col justify-start px-4 pb-8 pt-[5.25rem] sm:min-h-[88dvh] sm:justify-center sm:px-6 sm:pb-10 sm:pt-28 md:min-h-[90dvh] md:px-10 md:pb-12 md:pt-32">
         <h1 className="max-w-[min(100%,22rem)] font-semibold tracking-tight text-ok-text sm:max-w-[36rem] sm:font-medium md:max-w-[1000px]">
           {t.hero_title.map((line, i) => {
             const isScript = i === SCRIPT_LINE_INDEX;
@@ -83,7 +83,7 @@ export function Hero() {
           <p className="max-w-[32rem] text-[0.9375rem] leading-relaxed text-ok-mute sm:text-base sm:leading-snug md:text-lg">
             {t.hero_sub}
           </p>
-          <div className="hidden w-full flex-col gap-2.5 sm:flex sm:w-auto sm:flex-row sm:gap-3">
+          <div className="flex w-full flex-col gap-2.5 sm:w-auto sm:flex-row sm:gap-3">
             <WhatsAppButton className="ok-btn ok-btn-primary w-full justify-center px-5 py-3.5 text-sm sm:w-auto sm:px-6 sm:py-3.5 sm:text-[15px]">
               {t.hero_cta}
             </WhatsAppButton>

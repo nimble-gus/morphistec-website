@@ -9,6 +9,7 @@ import { TopNav } from "@/components/top-nav";
 import { AboutHero } from "@/components/about-hero";
 import { Footer } from "@/components/footer";
 import { CTASection } from "@/components/cta-section";
+import { Reveal } from "@/components/reveal";
 import { cn } from "@/lib/utils";
 
 const HOME_SECTION_HASHES = new Set(["#services", "#process", "#work", "#contact"]);
@@ -38,6 +39,7 @@ function NosotrosContent() {
 
       <div className="relative z-[20] bg-ok-black">
         {/* Visión + Misión → Equipo (compacto, mobile + desktop) */}
+        <Reveal>
         <section className="px-4 py-10 sm:px-6 sm:py-14 md:px-10 md:py-20">
           <div className="mx-auto max-w-[1280px]">
             <div className="grid gap-8 sm:gap-10 lg:grid-cols-2 lg:gap-16">
@@ -199,8 +201,10 @@ function NosotrosContent() {
             </div>
           </div>
         </section>
+        </Reveal>
 
         {/* Valores — acordeón (ritmo Zacsa) */}
+        <Reveal>
         <section className="px-4 py-16 sm:px-6 sm:py-20 md:px-10 md:py-28">
           <div className="mx-auto max-w-[1280px]">
             <h2
@@ -266,9 +270,14 @@ function NosotrosContent() {
             </div>
           </div>
         </section>
+        </Reveal>
 
-        <CTASection />
-        <Footer />
+        <Reveal>
+          <CTASection />
+        </Reveal>
+        <Reveal y={20}>
+          <Footer />
+        </Reveal>
       </div>
     </main>
   );

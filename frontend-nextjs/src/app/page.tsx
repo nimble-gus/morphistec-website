@@ -8,6 +8,7 @@ import { ServicesBento } from "@/components/services-bento";
 import { Process } from "@/components/process";
 import { CTASection } from "@/components/cta-section";
 import { Footer } from "@/components/footer";
+import { Reveal } from "@/components/reveal";
 
 export default function Page() {
   return (
@@ -15,12 +16,24 @@ export default function Page() {
       <TopNav />
       <Hero />
       <div className="relative z-[20] bg-ok-black">
-        <ClientsMarquee />
-        <SitesScrollShowcase />
-        <ServicesBento />
-        <Process />
-        <CTASection />
-        <Footer />
+        <Reveal>
+          <ClientsMarquee />
+        </Reveal>
+        <Reveal>
+          <SitesScrollShowcase />
+        </Reveal>
+        <Reveal>
+          <ServicesBento />
+        </Reveal>
+        <Reveal>
+          <Process />
+        </Reveal>
+        <Reveal>
+          <CTASection />
+        </Reveal>
+        <Reveal y={20}>
+          <Footer />
+        </Reveal>
       </div>
     </main>
   );

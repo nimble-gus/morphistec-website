@@ -68,16 +68,10 @@ html, body {
 }
 html { scroll-behavior: smooth; }
 
-/* CTA flotante: oculto mientras el menú móvil está abierto */
+/* WhatsApp flotante: oculto mientras el menú móvil está abierto */
 body.nav-menu-open .mobile-floating-cta {
   visibility: hidden;
   pointer-events: none;
-}
-
-@media (max-width: 639px) {
-  body:has(.mobile-floating-cta) {
-    padding-bottom: 5.5rem;
-  }
 }
 a { color: inherit; text-decoration: none; }
 button { font-family: inherit; cursor: pointer; }

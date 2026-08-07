@@ -51,10 +51,10 @@ export function Case() {
   }, [api, current]);
 
   return (
-    <div className="w-full py-10 sm:py-14 lg:py-16">
+    <div className="w-full py-6 sm:py-12 lg:py-16">
       <div className="mx-auto w-full max-w-[1280px] px-4 sm:px-6 md:px-10">
-        <div className="flex flex-col gap-6 sm:gap-8">
-          <h2 className="max-w-xl text-left text-xl font-medium tracking-tight text-ok-text sm:text-2xl md:text-3xl lg:max-w-2xl lg:text-4xl">
+        <div className="flex flex-col gap-4 sm:gap-8">
+          <h2 className="max-w-xl text-left text-lg font-medium tracking-tight text-ok-text sm:text-2xl md:text-3xl lg:max-w-2xl lg:text-4xl">
             {t.clients_title}
           </h2>
           <Carousel

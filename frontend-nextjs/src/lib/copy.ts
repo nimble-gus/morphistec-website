@@ -14,7 +14,7 @@ export const COPY = {
     clients_title: "Empresas que confían en nosotros para escalar",
     sites_scroll_eyebrow: "Sitios en producción",
     sites_scroll_aria: "Sitios web que creamos",
-    sites_scroll_lead: "Creamos sitios web que",
+    sites_scroll_lead: "Creamos sitios que",
     sites_scroll_switcher: "Cambiar de sitio",
     sites_scroll_open: "Abrir",
     sites_scroll_pending: "Vista no disponible.",
