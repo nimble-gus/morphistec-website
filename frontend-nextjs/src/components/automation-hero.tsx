@@ -9,7 +9,7 @@ export function AutomationHero() {
   const { t } = useLang();
 
   return (
-    <section className="relative min-h-[720px] overflow-hidden border-b border-ok-line px-4 pb-14 pt-28 sm:px-6 sm:pt-32 md:min-h-[880px] md:px-10 md:pb-20 md:pt-40">
+    <section className="relative min-h-0 overflow-hidden border-b border-ok-line px-4 pb-14 pt-28 sm:px-6 sm:pt-32 md:min-h-[880px] md:px-10 md:pb-20 md:pt-40">
       <div
         className="pointer-events-none fixed inset-0 z-[5] h-[100dvh] min-h-[100vh] w-full overflow-hidden"
         aria-hidden
@@ -30,7 +30,7 @@ export function AutomationHero() {
       </div>
 
       <div className="relative z-10 mx-auto max-w-[1600px]">
-        <div className="relative grid min-h-[620px] grid-cols-1 gap-10 py-8 md:min-h-[760px] lg:grid-cols-[440px_minmax(0,1fr)] lg:items-start lg:gap-x-6 lg:gap-y-10 lg:py-8 xl:gap-x-10">
+        <div className="relative grid min-h-0 grid-cols-1 gap-10 py-8 md:min-h-[760px] lg:grid-cols-[440px_minmax(0,1fr)] lg:items-start lg:gap-x-6 lg:gap-y-10 lg:py-8 xl:gap-x-10">
           <div className="w-full max-w-xl pl-3 sm:pl-6 lg:max-w-xl lg:pl-4 lg:pr-4">
             <span className="ok-eyebrow">{t.automation_eyebrow}</span>
             <h1

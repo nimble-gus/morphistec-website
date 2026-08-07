@@ -31,7 +31,7 @@ export function AboutSplineFeature({
       <div className="mx-auto max-w-[1280px]">
         <div
           className={cn(
-            "relative w-full overflow-visible md:overflow-hidden",
+            "relative w-full overflow-hidden",
             "md:h-[min(676px,85vh)] md:min-h-[416px]",
             embedded
               ? "bg-transparent"
@@ -57,9 +57,9 @@ export function AboutSplineFeature({
             </div>
 
             {/* Robot: arriba en móvil, derecha en desktop */}
-            <div className="relative order-1 h-[min(420px,58vh)] min-h-[280px] flex-[1.35] md:order-2 md:h-auto md:min-h-0">
+            <div className="relative order-1 h-[min(380px,52vh)] min-h-[260px] flex-[1.35] md:order-2 md:h-auto md:min-h-0">
               <div
-                className="absolute inset-0 origin-center scale-[1.25] md:scale-[1.3]"
+                className="absolute inset-0 origin-center scale-[1.1] md:scale-[1.3]"
                 style={{
                   WebkitMaskImage:
                     "linear-gradient(to bottom, black 0%, black 55%, transparent 90%)",

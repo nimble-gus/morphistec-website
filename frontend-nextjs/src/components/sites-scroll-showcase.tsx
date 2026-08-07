@@ -111,8 +111,8 @@ export function SitesScrollShowcase() {
         <ContainerScroll
           titleComponent={
             <div className="flex justify-center px-4">
-              <h2 className="inline-flex max-w-full flex-wrap items-baseline justify-center gap-x-[0.3em] text-center text-[clamp(1.85rem,5vw,3.5rem)] font-semibold leading-[1.12] tracking-tight text-ok-text">
-                <span className="whitespace-nowrap">{t.sites_scroll_lead}</span>
+              <h2 className="inline-flex max-w-full flex-wrap items-baseline justify-center gap-x-[0.3em] text-center text-[clamp(1.5rem,5.2vw,3.5rem)] font-semibold leading-[1.15] tracking-tight text-ok-text">
+                <span className="max-w-full text-balance">{t.sites_scroll_lead}</span>
                 <RotatingKeyword words={words} index={wordIndex} />
               </h2>
             </div>

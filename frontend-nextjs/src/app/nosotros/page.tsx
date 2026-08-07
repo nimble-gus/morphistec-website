@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 import { Linkedin, Plus, Minus } from "lucide-react";
-import { LangProvider, useLang } from "@/components/lang";
+import { useLang } from "@/components/lang";
 import { TopNav } from "@/components/top-nav";
 import { AboutHero } from "@/components/about-hero";
 import { Footer } from "@/components/footer";
@@ -32,7 +32,7 @@ function NosotrosContent() {
   }, [router]);
 
   return (
-    <main className="min-h-screen bg-ok-black pb-[9.5rem] sm:pb-0">
+    <main className="min-h-screen bg-ok-black">
       <TopNav />
       <AboutHero />
 
@@ -275,9 +275,5 @@ function NosotrosContent() {
 }
 
 export default function NosotrosPage() {
-  return (
-    <LangProvider>
-      <NosotrosContent />
-    </LangProvider>
-  );
+  return <NosotrosContent />;
 }

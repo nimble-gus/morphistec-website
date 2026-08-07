@@ -12,7 +12,7 @@ export function Hero() {
   const canvasRef = useShaderBackground();
 
   return (
-    <section className="hero-section relative isolate min-h-[min(100svh,900px)] w-full max-w-[100vw] overflow-hidden bg-ok-black sm:min-h-[88dvh] md:min-h-[90dvh]">
+    <section className="hero-section relative isolate min-h-[min(100svh,900px)] w-full max-w-full overflow-hidden bg-ok-black sm:min-h-[88dvh] md:min-h-[90dvh]">
       <canvas
         ref={canvasRef}
         className="absolute inset-0 h-full w-full touch-none object-cover"
@@ -83,7 +83,7 @@ export function Hero() {
           <p className="max-w-[32rem] text-[0.9375rem] leading-relaxed text-ok-mute sm:text-base sm:leading-snug md:text-lg">
             {t.hero_sub}
           </p>
-          <div className="flex w-full flex-col gap-2.5 sm:w-auto sm:flex-row sm:gap-3">
+          <div className="hidden w-full flex-col gap-2.5 sm:flex sm:w-auto sm:flex-row sm:gap-3">
             <WhatsAppButton className="ok-btn ok-btn-primary w-full justify-center px-5 py-3.5 text-sm sm:w-auto sm:px-6 sm:py-3.5 sm:text-[15px]">
               {t.hero_cta}
             </WhatsAppButton>

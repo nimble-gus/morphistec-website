@@ -308,8 +308,8 @@ export function AutomationLaptopUI() {
                   backgroundSize: "14px 14px",
                 }}
               >
-                <div className="relative z-10 flex items-center justify-center px-1 py-4 sm:px-2 sm:py-5">
-                  <div className="relative z-10 flex w-full max-w-[100%] items-center justify-between gap-0">
+                <div className="relative z-10 flex items-center justify-center overflow-hidden px-1 py-4 sm:px-2 sm:py-5">
+                  <div className="relative z-10 flex w-full max-w-[100%] origin-center scale-[0.78] items-center justify-between gap-0 sm:scale-100">
                     {nodesMeta.map((meta, i) => (
                       <div key={meta.title} className="contents">
                         <N8nNode
@@ -323,7 +323,7 @@ export function AutomationLaptopUI() {
                         {i < nodesMeta.length - 1 && (
                           <Wire
                             lit={nodeStates[i] === "done" || nodeStates[i] === "running"}
-                            className="min-h-[40px] max-h-[52px] self-center"
+                            className="min-h-[40px] max-h-[52px] min-w-[12px] self-center sm:min-w-[18px]"
                           />
                         )}
                       </div>

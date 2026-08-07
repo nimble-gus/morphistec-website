@@ -1,8 +1,6 @@
 "use client";
 
-import Link from "next/link";
 import { useLang } from "@/components/lang";
-import { WhatsAppButton } from "@/components/whatsapp-button";
 import { useShaderBackground } from "@/hooks/use-shader-background";
 import { AboutSplineFeature } from "@/components/about-spline-feature";
 
@@ -13,7 +11,7 @@ export function AboutHero() {
   const title = t.about_hero_title[0] ?? "Nosotros";
 
   return (
-    <section className="relative isolate w-full max-w-[100vw] overflow-hidden bg-ok-black">
+    <section className="relative isolate w-full max-w-full overflow-hidden bg-ok-black">
       <canvas
         ref={canvasRef}
         className="absolute inset-0 h-full w-full touch-none object-cover"
@@ -58,31 +56,6 @@ export function AboutHero() {
 
       <div className="relative z-10 pb-14 pt-6 sm:pb-20 sm:pt-10 md:pb-24 md:pt-12">
         <AboutSplineFeature embedded />
-      </div>
-
-      {/* CTAs flotantes solo móvil (en desktop van al cierre de la página) */}
-      <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 sm:hidden">
-        <div
-          className="pointer-events-auto border-t border-white/[0.08] px-3 pt-2.5"
-          style={{
-            paddingBottom: "max(0.65rem, env(safe-area-inset-bottom, 0px))",
-            background:
-              "linear-gradient(to top, oklch(0.2 0.005 260 / 0.96) 55%, oklch(0.2 0.005 260 / 0.72) 100%)",
-            backdropFilter: "blur(12px)",
-          }}
-        >
-          <div className="mx-auto flex max-w-lg flex-col gap-2">
-            <WhatsAppButton className="ok-btn ok-btn-primary w-full justify-center text-center">
-              {t.hero_cta}
-            </WhatsAppButton>
-            <Link
-              href="/#services"
-              className="ok-btn ok-btn-ghost w-full justify-center text-center"
-            >
-              {t.hero_cta_2}
-            </Link>
-          </div>
-        </div>
       </div>
     </section>
   );

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useLang } from "./lang";
 import { cn } from "@/lib/utils";
@@ -325,6 +325,15 @@ export function ServicesBento() {
   const { t } = useLang();
   const services = t.services;
   const [active, setActive] = useState(0);
+  const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    if (reduceMotion || services.length <= 1) return;
+    const id = window.setInterval(() => {
+      setActive((i) => (i + 1) % services.length);
+    }, 3000);
+    return () => window.clearInterval(id);
+  }, [reduceMotion, services.length, active]);
 
   return (
     <section
@@ -437,7 +446,7 @@ export function ServicesBento() {
             })}
           </div>
 
-          <div className="relative h-[min(560px,95vw)] overflow-hidden border border-[var(--ok-indigo)]/40 sm:h-[min(600px,85vw)]">
+          <div className="relative flex min-h-[420px] flex-col overflow-hidden border border-[var(--ok-indigo)]/40 sm:min-h-[520px] sm:h-[min(600px,85vw)]">
             {services.map((s, i) => {
               const isActive = i === active;
               return (
@@ -453,12 +462,12 @@ export function ServicesBento() {
                   )}
                   style={{ transitionTimingFunction: EASE }}
                 >
-                  <div className="shrink-0 bg-[var(--ok-indigo)] px-5 py-3.5">
-                    <p className="text-[14px] leading-6 text-white/80 sm:text-[15px] sm:leading-7">
+                  <div className="shrink-0 bg-[var(--ok-indigo)] px-4 py-3 sm:px-5 sm:py-3.5">
+                    <p className="text-[13px] leading-5 text-white/80 sm:text-[15px] sm:leading-7">
                       {s.desc}
                     </p>
                   </div>
-                  <div className="relative min-h-[260px] flex-[1.85]">
+                  <div className="relative min-h-0 flex-1">
                     <ServiceVisual
                       index={i}
                       name={s.name}
