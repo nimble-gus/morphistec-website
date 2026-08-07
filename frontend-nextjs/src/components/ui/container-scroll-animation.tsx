@@ -30,11 +30,12 @@ export const ContainerScroll = ({
     return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
-  const scaleDimensions = () => (isMobile ? [0.94, 1] : [1.02, 1]);
+  const scaleDimensions = () => (isMobile ? [0.97, 1] : [1.02, 1]);
 
-  const rotate = useTransform(scrollYProgress, [0, 1], [isMobile ? 12 : 18, 0]);
+  // En móvil menos rotateX: el foreshortening hace que el iPhone se vea achatado
+  const rotate = useTransform(scrollYProgress, [0, 1], [isMobile ? 6 : 18, 0]);
   const scale = useTransform(scrollYProgress, [0, 1], scaleDimensions());
-  const translate = useTransform(scrollYProgress, [0, 1], [0, isMobile ? -12 : -28]);
+  const translate = useTransform(scrollYProgress, [0, 1], [0, isMobile ? -8 : -28]);
 
   return (
     <div
@@ -90,10 +91,10 @@ const Card = ({
       }}
       className={[
         "relative mx-auto overflow-hidden bg-[#0c0c0c]",
-        // iPhone (default → < md) — un poco más grande en móvil
-        "h-[min(42rem,78svh)] w-[min(20.5rem,90vw)] rounded-[2.85rem] border-[5px] border-[#2c2c2e] p-[5px]",
+        // iPhone: ratio real (~9/19.5); el ancho baja si el alto del viewport es corto
+        "h-auto w-[min(17.5rem,78vw,calc(84svh*9/19.5))] aspect-[9/19.5] max-h-[84svh] rounded-[2.6rem] border-[5px] border-[#2c2c2e] p-[5px]",
         // Tablet (md+)
-        "md:h-[38rem] md:w-full md:max-w-5xl md:rounded-[30px] md:border-4 md:border-[#6C6C6C] md:bg-[#222222] md:p-5",
+        "md:aspect-auto md:h-[38rem] md:w-full md:max-w-5xl md:max-h-none md:rounded-[30px] md:border-4 md:border-[#6C6C6C] md:bg-[#222222] md:p-5",
       ].join(" ")}
     >
       {/* Dynamic Island — solo iPhone */}
