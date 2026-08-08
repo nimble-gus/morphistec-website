@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
@@ -14,6 +14,8 @@ const ROTATING_WORDS = {
 } as const;
 
 const SPRING = { type: "spring" as const, stiffness: 260, damping: 28, mass: 0.7 };
+/** Gestos de scroll en el preview antes de mostrar CTA al sitio real */
+const PREVIEW_SCROLL_LIMIT = 3;
 
 /** Palabra que gira con ancho animado — el lead no salta en seco. */
 function RotatingKeyword({
@@ -42,7 +44,6 @@ function RotatingKeyword({
       transition={SPRING}
       style={{ minHeight: "1.15em", verticalAlign: "baseline" }}
     >
-      {/* medidor invisible — misma tipografía que la palabra visible */}
       <span
         ref={measureRef}
         className="invisible absolute left-0 top-0 whitespace-nowrap font-bold"
@@ -85,6 +86,141 @@ const SITES = [
   },
 ] as const;
 
+/**
+ * Iframe a tamaño del marco + scroll nativo del sitio (pointer-events activos).
+ * Tras ~3 gestos de scroll sobre el preview → chip CTA (sin tapar el scroll).
+ */
+function SitePreview({
+  site,
+  moreLabel,
+  moreHint,
+}: {
+  site: (typeof SITES)[number];
+  moreLabel: string;
+  moreHint: string;
+}) {
+  const [step, setStep] = useState(0);
+  const showCta = step >= PREVIEW_SCROLL_LIMIT;
+  const rootRef = useRef<HTMLDivElement>(null);
+  const touchStartY = useRef<number | null>(null);
+  const wheelLock = useRef(false);
+
+  const bump = useCallback(() => {
+    setStep((s) => Math.min(PREVIEW_SCROLL_LIMIT, s + 1));
+  }, []);
+
+  useEffect(() => {
+    setStep(0);
+    touchStartY.current = null;
+    wheelLock.current = false;
+    // Fallback: si el iframe se come los eventos (cross-origin), igual mostramos CTA
+    const fallback = window.setTimeout(() => {
+      setStep(PREVIEW_SCROLL_LIMIT);
+    }, 5500);
+    return () => window.clearTimeout(fallback);
+  }, [site.id]);
+
+  useEffect(() => {
+    const root = rootRef.current;
+    if (!root || showCta) return;
+
+    const onWheel = (e: WheelEvent) => {
+      if (!root.contains(e.target as Node)) return;
+      if (Math.abs(e.deltaY) < 10) return;
+      if (wheelLock.current) return;
+      wheelLock.current = true;
+      bump();
+      window.setTimeout(() => {
+        wheelLock.current = false;
+      }, 480);
+    };
+
+    const onTouchStart = (e: TouchEvent) => {
+      if (!root.contains(e.target as Node)) return;
+      touchStartY.current = e.touches[0]?.clientY ?? null;
+    };
+
+    const onTouchEnd = (e: TouchEvent) => {
+      if (!root.contains(e.target as Node)) return;
+      if (touchStartY.current == null) return;
+      const y = e.changedTouches[0]?.clientY;
+      if (y == null) return;
+      const dy = touchStartY.current - y;
+      touchStartY.current = null;
+      if (Math.abs(dy) < 40) return;
+      bump();
+    };
+
+    root.addEventListener("wheel", onWheel, { capture: true, passive: true });
+    root.addEventListener("touchstart", onTouchStart, { capture: true, passive: true });
+    root.addEventListener("touchend", onTouchEnd, { capture: true, passive: true });
+    return () => {
+      root.removeEventListener("wheel", onWheel, true);
+      root.removeEventListener("touchstart", onTouchStart, true);
+      root.removeEventListener("touchend", onTouchEnd, true);
+    };
+  }, [bump, showCta, site.id]);
+
+  return (
+    <div ref={rootRef} className="absolute inset-0 overflow-hidden bg-white">
+      {/* Scroll nativo del sitio; tamaño = marco del teléfono */}
+      <iframe
+        title={`${site.name} website`}
+        src={site.url}
+        className="absolute inset-0 z-0 h-full w-full border-0 bg-white"
+        loading="lazy"
+        referrerPolicy="no-referrer-when-downgrade"
+        sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+        onPointerDown={bump}
+      />
+
+      {/* CTA inferior: no bloquea el scroll del iframe */}
+      <AnimatePresence>
+        {showCta ? (
+          <motion.div
+            key="cta"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 12 }}
+            transition={{ duration: 0.3 }}
+            className="pointer-events-none absolute inset-x-0 bottom-0 z-20 flex flex-col items-center gap-2 bg-gradient-to-t from-black/70 via-black/35 to-transparent px-3 pb-5 pt-10"
+          >
+            <p className="pointer-events-none text-xs font-medium text-white/90">
+              {moreHint}
+            </p>
+            <a
+              href={site.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="pointer-events-auto ok-btn ok-btn-primary inline-flex w-full max-w-[240px] items-center justify-center gap-2 px-4 py-2.5 text-sm"
+            >
+              {moreLabel}
+              <ExternalLink className="h-3.5 w-3.5" aria-hidden />
+            </a>
+          </motion.div>
+        ) : null}
+      </AnimatePresence>
+
+      {!showCta && step > 0 ? (
+        <div
+          className="pointer-events-none absolute bottom-3 left-1/2 z-20 flex -translate-x-1/2 gap-1.5"
+          aria-hidden
+        >
+          {Array.from({ length: PREVIEW_SCROLL_LIMIT }).map((_, i) => (
+            <span
+              key={i}
+              className={cn(
+                "h-1 w-1 rounded-full transition-colors",
+                i < step ? "bg-white" : "bg-white/35"
+              )}
+            />
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
 export function SitesScrollShowcase() {
   const { lang, t } = useLang();
   const words = ROTATING_WORDS[lang];
@@ -121,7 +257,6 @@ export function SitesScrollShowcase() {
           }
         >
           <div className="relative flex h-full w-full flex-col">
-            {/* Chrome / switcher */}
             <div className="z-20 flex shrink-0 items-center gap-1.5 border-b border-white/[0.08] bg-[#1a1a1a] px-2 py-2 pt-7 md:gap-3 md:px-4 md:py-2.5 md:pt-2.5">
               <div className="mr-1 hidden items-center gap-1.5 md:flex" aria-hidden>
                 <span className="h-2.5 w-2.5 rounded-full bg-[#ff5f57]" />
@@ -181,7 +316,6 @@ export function SitesScrollShowcase() {
               ) : null}
             </div>
 
-            {/* Viewport del sitio */}
             <div className="relative min-h-0 flex-1 bg-white pb-4 md:bg-ok-ink md:pb-0">
               <AnimatePresence mode="wait" initial={false}>
                 <motion.div
@@ -192,13 +326,10 @@ export function SitesScrollShowcase() {
                   transition={{ duration: 0.35 }}
                   className="absolute inset-0"
                 >
-                  <iframe
-                    title={`${site.name} website`}
-                    src={site.url}
-                    className="h-full w-full border-0 bg-white"
-                    loading="lazy"
-                    referrerPolicy="no-referrer-when-downgrade"
-                    sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                  <SitePreview
+                    site={site}
+                    moreLabel={t.sites_scroll_more}
+                    moreHint={t.sites_scroll_more_hint}
                   />
                 </motion.div>
               </AnimatePresence>

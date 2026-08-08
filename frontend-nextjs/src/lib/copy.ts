@@ -18,6 +18,8 @@ export const COPY = {
     sites_scroll_switcher: "Cambiar de sitio",
     sites_scroll_open: "Abrir",
     sites_scroll_pending: "Vista no disponible.",
+    sites_scroll_more: "Ver sitio completo",
+    sites_scroll_more_hint: "¿Quieres ver más?",
     stats: [
       { k: "24/7", v: "respuesta en tus canales" },
       { k: "1", v: "sistema del lead al cierre" },
@@ -271,6 +273,8 @@ export const COPY = {
     sites_scroll_switcher: "Switch site",
     sites_scroll_open: "Open",
     sites_scroll_pending: "Preview unavailable.",
+    sites_scroll_more: "View full site",
+    sites_scroll_more_hint: "Want to see more?",
     stats: [
       { k: "24/7", v: "coverage on your channels" },
       { k: "1", v: "system from lead to close" },
