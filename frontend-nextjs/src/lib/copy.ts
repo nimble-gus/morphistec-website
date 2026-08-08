@@ -84,7 +84,7 @@ export const COPY = {
       },
       {
         n: "04",
-        name: "Con vos después del live",
+        name: "Te acompañamos después de la entrega final",
         desc: "Lanzar no es el final. Medimos uso real, detectamos fricciones y afinamos la solución con tu operación del día a día.",
       },
     ],
