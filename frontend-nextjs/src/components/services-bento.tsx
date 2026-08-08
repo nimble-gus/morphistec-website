@@ -11,6 +11,12 @@ import { EcommerceSitePreview } from "@/components/ecommerce-site-preview";
 import { ConsultingAnalyticsMock } from "@/components/consulting-analytics-mock";
 import { ChannelsIntegrationsMock } from "@/components/channels-integrations-mock";
 import { LogisticsMapMock } from "@/components/logistics-map-mock";
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  type CarouselApi,
+} from "@/components/ui/carousel";
 
 const EASE = "cubic-bezier(0.33, 0.1, 0.25, 1)";
 const DURATION = "duration-[360ms]";
@@ -224,11 +230,14 @@ function ServiceVisual({
   name,
   active,
   fill = false,
+  compact = false,
 }: {
   index: number;
   name: string;
   active: boolean;
   fill?: boolean;
+  /** Modo deck móvil: chat más rápido */
+  compact?: boolean;
 }) {
   if (index === ECOMMERCE_INDEX) {
     return (
@@ -244,7 +253,7 @@ function ServiceVisual({
   if (index === CHATBOT_INDEX) {
     return (
       <div className={cn("relative h-full w-full", fill && "absolute inset-0")}>
-        <WhatsAppChatMock active={active} />
+        <WhatsAppChatMock active={active} compact={compact} />
         {!active && (
           <div className="absolute inset-0 bg-ok-ink/35 grayscale" aria-hidden />
         )}
@@ -318,8 +327,109 @@ function ServiceVisual({
 }
 
 /**
- * Servicios expandibles (desktop split + mobile accordion).
- * Base de interacción inspirada en el patrón Zacsa accordion/flex-grow.
+ * Carrusel horizontal clásico (móvil): una slide = un servicio + su visual.
+ */
+function ServicesMobileCarousel({
+  services,
+}: {
+  services: readonly ServiceItem[];
+}) {
+  const [api, setApi] = useState<CarouselApi>();
+  const [current, setCurrent] = useState(0);
+  const reduceMotion = useReducedMotion();
+
+  useEffect(() => {
+    if (!api) return;
+    const onSelect = () => setCurrent(api.selectedScrollSnap());
+    onSelect();
+    api.on("select", onSelect);
+    return () => {
+      api.off("select", onSelect);
+    };
+  }, [api]);
+
+  useEffect(() => {
+    if (!api || reduceMotion || services.length <= 1) return;
+    const id = window.setInterval(() => {
+      api.scrollNext();
+    }, 6200);
+    return () => window.clearInterval(id);
+  }, [api, reduceMotion, services.length, current]);
+
+  return (
+    <Carousel
+      setApi={setApi}
+      opts={{ loop: true, align: "start", duration: 28 }}
+      className="w-full"
+      aria-label="Servicios"
+    >
+      <CarouselContent className="-ml-0">
+        {services.map((s, i) => {
+          const isActive = i === current;
+          return (
+            <CarouselItem key={s.tag} className="basis-full pl-0">
+              <article className="overflow-hidden rounded-2xl border border-white/[0.1] bg-ok-card">
+                <div className="relative h-[min(92vw,480px)] min-h-[420px] w-full overflow-hidden bg-ok-ink sm:h-[500px]">
+                  <ServiceVisual
+                    index={i}
+                    name={s.name}
+                    active={isActive}
+                    fill
+                    compact
+                  />
+                </div>
+                <div className="px-5 py-5 sm:px-6 sm:py-6">
+                  <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ok-mute">
+                    {s.tag}
+                  </span>
+                  <h3
+                    className="mt-2 font-medium text-ok-text"
+                    style={{
+                      fontSize: "clamp(1.35rem, 5vw, 1.75rem)",
+                      letterSpacing: "-0.03em",
+                      lineHeight: 1.15,
+                    }}
+                  >
+                    {s.name}
+                  </h3>
+                  <p className="mt-2.5 text-[14px] leading-relaxed text-ok-mute sm:text-[15px] sm:leading-7">
+                    {s.desc}
+                  </p>
+                </div>
+              </article>
+            </CarouselItem>
+          );
+        })}
+      </CarouselContent>
+
+      <div
+        className="mt-5 flex items-center justify-center gap-1.5"
+        role="tablist"
+        aria-label="Servicios"
+      >
+        {services.map((s, i) => (
+          <button
+            key={`dot-${s.tag}`}
+            type="button"
+            role="tab"
+            aria-selected={i === current}
+            aria-label={`${s.tag} ${s.name}`}
+            onClick={() => api?.scrollTo(i)}
+            className={cn(
+              "h-1.5 rounded-full transition-all",
+              i === current
+                ? "w-6 bg-[var(--ok-indigo)]"
+                : "w-1.5 bg-white/25"
+            )}
+          />
+        ))}
+      </div>
+    </Carousel>
+  );
+}
+
+/**
+ * Servicios: desktop = vinilos + visual; móvil = carrusel horizontal.
  */
 export function ServicesBento() {
   const { t } = useLang();
@@ -370,7 +480,7 @@ export function ServicesBento() {
           </p>
         </div>
 
-        {/* ── Desktop: vinilos (izq) + visual (der, mismo alto) ── */}
+        {/* Desktop: vinilos + visual */}
         <div className="mt-10 hidden lg:mt-14 lg:grid lg:grid-cols-2 lg:items-stretch lg:gap-6">
           <VinylCrateStack
             services={services}
@@ -378,7 +488,6 @@ export function ServicesBento() {
             onSelect={setActive}
           />
 
-          {/* Un solo panel: mismo alto que el stack izquierdo; cambia al seleccionar */}
           <div className="relative min-h-0 overflow-hidden border border-[var(--ok-indigo)] bg-ok-card">
             {services.map((s, i) => {
               const isActive = i === active;
@@ -402,83 +511,9 @@ export function ServicesBento() {
           </div>
         </div>
 
-        {/* ── Mobile / tablet ── */}
-        <div className="mt-10 flex flex-col gap-2.5 lg:hidden">
-          <div className="flex flex-col gap-2">
-            {services.map((s, i) => {
-              const isActive = i === active;
-              return (
-                <button
-                  key={`m-${s.tag}`}
-                  type="button"
-                  aria-expanded={isActive}
-                  onClick={() => setActive(i)}
-                  className={cn(
-                    "flex min-h-[52px] w-full items-center justify-between gap-3 px-5 py-3.5 text-left transition-[colors,opacity] duration-[280ms]",
-                    isActive
-                      ? "bg-[var(--ok-indigo)] opacity-100"
-                      : "bg-ok-card opacity-[0.38] active:opacity-70"
-                  )}
-                  style={{ transitionTimingFunction: EASE }}
-                >
-                  <h3
-                    className={cn(
-                      "text-base font-bold tracking-[0.02em] sm:text-lg",
-                      isActive ? "text-white" : "text-ok-text"
-                    )}
-                  >
-                    <span className="mr-2 font-mono text-[11px] tracking-widest opacity-55">
-                      {s.tag}
-                    </span>
-                    {s.name}
-                  </h3>
-                  <span
-                    className={cn(
-                      "text-lg leading-none",
-                      isActive ? "text-white/90" : "text-ok-mute"
-                    )}
-                    aria-hidden
-                  >
-                    {isActive ? "–" : "+"}
-                  </span>
-                </button>
-              );
-            })}
-          </div>
-
-          <div className="relative flex min-h-[420px] flex-col overflow-hidden border border-[var(--ok-indigo)]/40 sm:min-h-[520px] sm:h-[min(600px,85vw)]">
-            {services.map((s, i) => {
-              const isActive = i === active;
-              return (
-                <div
-                  key={`panel-${s.tag}`}
-                  aria-hidden={!isActive}
-                  className={cn(
-                    "absolute inset-0 flex flex-col transition-[opacity,transform]",
-                    DURATION,
-                    isActive
-                      ? "z-10 translate-y-0 opacity-100"
-                      : "pointer-events-none z-0 translate-y-1.5 opacity-0"
-                  )}
-                  style={{ transitionTimingFunction: EASE }}
-                >
-                  <div className="shrink-0 bg-[var(--ok-indigo)] px-4 py-3 sm:px-5 sm:py-3.5">
-                    <p className="text-[13px] leading-5 text-white/80 sm:text-[15px] sm:leading-7">
-                      {s.desc}
-                    </p>
-                  </div>
-                  <div className="relative min-h-0 flex-1">
-                    <ServiceVisual
-                      index={i}
-                      name={s.name}
-                      active={isActive}
-                      fill
-                    />
-                  </div>
-                </div>
-              );
-            })}
-          </div>
+        {/* Móvil / tablet: carrusel */}
+        <div className="mt-8 lg:hidden">
+          <ServicesMobileCarousel services={services} />
         </div>
       </div>
     </section>

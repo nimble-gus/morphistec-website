@@ -77,6 +77,12 @@ export function WhatsAppChatMock({
     setVisible(0);
     setTyping(false);
 
+    // Compact (carrusel móvil): más lento para que se lea bien
+    const pauseBot = compact ? 900 : 650;
+    const pauseNext = compact ? 1400 : 1000;
+    const pauseUser = compact ? 1200 : 850;
+    const pauseStart = compact ? 500 : 350;
+
     const schedule = (fn: () => void, ms: number) => {
       timer = window.setTimeout(() => {
         if (!cancelled) fn();
@@ -92,22 +98,22 @@ export function WhatsAppChatMock({
           setTyping(false);
           i += 1;
           setVisible(i);
-          schedule(step, 1000);
-        }, 650);
+          schedule(step, pauseNext);
+        }, pauseBot);
       } else {
         i += 1;
         setTyping(false);
         setVisible(i);
-        schedule(step, 850);
+        schedule(step, pauseUser);
       }
     };
 
-    schedule(step, 350);
+    schedule(step, pauseStart);
     return () => {
       cancelled = true;
       window.clearTimeout(timer);
     };
-  }, [active, lang, all]);
+  }, [active, lang, all, compact]);
 
   const shown = all.slice(0, visible);
 
