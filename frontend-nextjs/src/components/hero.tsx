@@ -3,6 +3,8 @@
 import { useLang } from "./lang";
 import { WhatsAppButton } from "@/components/whatsapp-button";
 import { useShaderBackground } from "@/hooks/use-shader-background";
+import { oldportScript } from "@/lib/fonts";
+import { cn } from "@/lib/utils";
 
 /** Línea de énfasis en script (índice 1: "Grows" / "crece"). */
 const SCRIPT_LINE_INDEX = 1;
@@ -38,41 +40,40 @@ export function Hero() {
         aria-hidden
       />
 
-      <div className="relative z-10 mx-auto flex min-h-0 w-full max-w-[1280px] flex-col justify-start px-4 pb-8 pt-[5.25rem] sm:min-h-[88dvh] sm:justify-center sm:px-6 sm:pb-10 sm:pt-28 md:min-h-[90dvh] md:px-10 md:pb-12 md:pt-32">
-        <h1 className="max-w-[min(100%,22rem)] overflow-visible font-semibold tracking-tight text-ok-text sm:max-w-[36rem] sm:font-medium md:max-w-[1000px]">
+      <div className="relative z-10 mx-auto flex min-h-0 w-full max-w-[1280px] flex-col justify-start px-3 pb-8 pt-[5.25rem] sm:min-h-[88dvh] sm:justify-center sm:px-6 sm:pb-10 sm:pt-28 md:min-h-[90dvh] md:px-10 md:pb-12 md:pt-32">
+        {/* Móvil: sin tope 22rem — Oldport “crece” necesita más ancho */}
+        <h1 className="w-full max-w-none overflow-visible font-semibold tracking-tight text-ok-text sm:max-w-[36rem] sm:font-medium md:max-w-[1000px]">
           {t.hero_title.map((line, i) => {
             const isScript = i === SCRIPT_LINE_INDEX;
             return (
               <span
                 key={i}
-                className="block max-w-full overflow-visible animate-float-in"
+                className="block w-full overflow-visible animate-float-in"
                 style={{
                   animationDelay: `${i * 0.08}s`,
                   fontSize: isScript
-                    ? "clamp(3.1rem, 15.5vw, 11rem)"
-                    : "clamp(2.85rem, 15vw, 9.25rem)",
-                  /* Script tiene ascenders/descenders amplios: line-height < 1 lo recorta en el 1er paint */
-                  lineHeight: isScript ? 1.15 : 0.9,
+                    ? "clamp(2.85rem, 14vw, 11rem)"
+                    : "clamp(2.75rem, 14.5vw, 9.25rem)",
+                  lineHeight: isScript ? 1.22 : 0.92,
                   letterSpacing: isScript ? "0.01em" : "-0.045em",
                   ...(isScript
-                    ? { paddingBlock: "0.06em", marginBlock: "-0.02em" }
+                    ? { paddingBlock: "0.1em", marginBlock: "0.02em" }
                     : null),
                 }}
               >
                 {isScript ? (
                   <em
-                    className="font-script not-italic font-normal"
+                    className={cn(
+                      oldportScript.className,
+                      "not-italic font-normal"
+                    )}
                     style={{
                       color: "var(--ok-emphasis)",
-                      fontFamily: "var(--font-script)",
                       fontStyle: "normal",
                       display: "inline-block",
-                      maxWidth: "100%",
                       overflow: "visible",
-                      /* Reserva métricas estables mientras carga Oldport */
-                      fontSize: "1em",
-                      lineHeight: "inherit",
-                      paddingInline: "0.02em",
+                      whiteSpace: "nowrap",
+                      paddingInline: "0.04em 0.08em",
                     }}
                   >
                     {line}

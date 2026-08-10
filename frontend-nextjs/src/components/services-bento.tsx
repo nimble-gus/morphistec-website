@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { motion, useReducedMotion } from "framer-motion";
 import { useLang } from "./lang";
 import { cn } from "@/lib/utils";
@@ -17,6 +17,11 @@ import {
   CarouselItem,
   type CarouselApi,
 } from "@/components/ui/carousel";
+
+/** Intervalo normal entre slides del carrusel móvil */
+const CAROUSEL_AUTOPLAY_MS = 7700;
+/** Tras interacción manual, sostener antes de reanudar autoplay */
+const CAROUSEL_HOLD_MS = 8000;
 
 const EASE = "cubic-bezier(0.33, 0.1, 0.25, 1)";
 const DURATION = "duration-[360ms]";
@@ -337,24 +342,45 @@ function ServicesMobileCarousel({
   const [api, setApi] = useState<CarouselApi>();
   const [current, setCurrent] = useState(0);
   const reduceMotion = useReducedMotion();
+  const holdUntilRef = useRef(0);
+
+  const holdAutoplay = useCallback(() => {
+    holdUntilRef.current = Date.now() + CAROUSEL_HOLD_MS;
+  }, []);
 
   useEffect(() => {
     if (!api) return;
     const onSelect = () => setCurrent(api.selectedScrollSnap());
+    const onPointerDown = () => holdAutoplay();
     onSelect();
     api.on("select", onSelect);
+    api.on("pointerDown", onPointerDown);
     return () => {
       api.off("select", onSelect);
+      api.off("pointerDown", onPointerDown);
     };
-  }, [api]);
+  }, [api, holdAutoplay]);
 
   useEffect(() => {
     if (!api || reduceMotion || services.length <= 1) return;
-    const id = window.setInterval(() => {
-      api.scrollNext();
-    }, 7700);
-    return () => window.clearInterval(id);
-  }, [api, reduceMotion, services.length, current]);
+
+    let timeoutId = 0;
+    const schedule = () => {
+      const holdLeft = holdUntilRef.current - Date.now();
+      const delay = holdLeft > 0 ? holdLeft : CAROUSEL_AUTOPLAY_MS;
+      timeoutId = window.setTimeout(() => {
+        if (Date.now() < holdUntilRef.current) {
+          schedule();
+          return;
+        }
+        api.scrollNext();
+        schedule();
+      }, delay);
+    };
+
+    schedule();
+    return () => window.clearTimeout(timeoutId);
+  }, [api, reduceMotion, services.length]);
 
   return (
     <Carousel
@@ -414,7 +440,10 @@ function ServicesMobileCarousel({
             role="tab"
             aria-selected={i === current}
             aria-label={`${s.tag} ${s.name}`}
-            onClick={() => api?.scrollTo(i)}
+            onClick={() => {
+              holdAutoplay();
+              api?.scrollTo(i);
+            }}
             className={cn(
               "h-1.5 rounded-full transition-all",
               i === current
@@ -436,14 +465,33 @@ export function ServicesBento() {
   const services = t.services;
   const [active, setActive] = useState(0);
   const reduceMotion = useReducedMotion();
+  const desktopHoldUntilRef = useRef(0);
+
+  const selectDesktopService = useCallback((i: number) => {
+    desktopHoldUntilRef.current = Date.now() + CAROUSEL_HOLD_MS;
+    setActive(i);
+  }, []);
 
   useEffect(() => {
     if (reduceMotion || services.length <= 1) return;
-    const id = window.setInterval(() => {
-      setActive((i) => (i + 1) % services.length);
-    }, 3000);
-    return () => window.clearInterval(id);
-  }, [reduceMotion, services.length, active]);
+
+    let timeoutId = 0;
+    const schedule = () => {
+      const holdLeft = desktopHoldUntilRef.current - Date.now();
+      const delay = holdLeft > 0 ? holdLeft : 3000;
+      timeoutId = window.setTimeout(() => {
+        if (Date.now() < desktopHoldUntilRef.current) {
+          schedule();
+          return;
+        }
+        setActive((i) => (i + 1) % services.length);
+        schedule();
+      }, delay);
+    };
+
+    schedule();
+    return () => window.clearTimeout(timeoutId);
+  }, [reduceMotion, services.length]);
 
   return (
     <section
@@ -485,7 +533,7 @@ export function ServicesBento() {
           <VinylCrateStack
             services={services}
             active={active}
-            onSelect={setActive}
+            onSelect={selectDesktopService}
           />
 
           <div className="relative min-h-0 overflow-hidden border border-[var(--ok-indigo)] bg-ok-card">

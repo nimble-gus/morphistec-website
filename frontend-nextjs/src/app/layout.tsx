@@ -1,17 +1,7 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import { LangProvider } from "@/components/lang";
+import { oldportScript } from "@/lib/fonts";
 import "./globals.css";
-
-/** Precarga Oldport para evitar que “crece” se corte en el primer paint (móvil). */
-const oldportScript = localFont({
-  src: "../../public/fonts/Oldport Script.ttf",
-  variable: "--font-oldport",
-  display: "swap",
-  preload: true,
-  weight: "400",
-  style: "normal",
-});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.oktae.tech"),
