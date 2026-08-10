@@ -68,22 +68,85 @@ const COPY = {
   },
 };
 
+function LeadChip({
+  lead,
+  auto,
+  compact,
+}: {
+  lead: LeadCard;
+  auto?: boolean;
+  compact?: boolean;
+}) {
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, y: 8, scale: 0.96 }}
+      animate={{ opacity: 1, y: 0, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ type: "spring", stiffness: 380, damping: 28 }}
+      className={cn(
+        "rounded-md border border-white/10 bg-[#141a24] shadow-lg shadow-black/20",
+        compact ? "px-2.5 py-2" : "p-1.5 sm:p-2"
+      )}
+    >
+      <p
+        className={cn(
+          "truncate font-semibold text-ok-text",
+          compact ? "text-[12px]" : "text-[10px] sm:text-[11px]"
+        )}
+      >
+        {lead.name}
+      </p>
+      <div className="mt-1 flex flex-wrap items-center gap-1">
+        <span
+          className={cn(
+            "rounded bg-white/5 px-1.5 py-px text-ok-mute",
+            compact ? "text-[9px]" : "text-[8px] sm:text-[9px]"
+          )}
+        >
+          {lead.source}
+        </span>
+        <span
+          className={cn(
+            "rounded bg-[var(--ok-indigo)]/15 px-1.5 py-px text-[var(--ok-indigo)]",
+            compact ? "text-[9px]" : "text-[8px] sm:text-[9px]"
+          )}
+        >
+          {lead.meta}
+        </span>
+      </div>
+      {auto ? (
+        <div
+          className={cn(
+            "mt-1.5 flex items-center gap-0.5 text-[var(--ok-emphasis)]",
+            compact ? "text-[9px]" : "text-[8px] sm:text-[9px]"
+          )}
+        >
+          <Zap className="h-2.5 w-2.5" />
+          Auto
+        </div>
+      ) : null}
+    </motion.div>
+  );
+}
+
 /**
  * Simulación de pipeline CRM: leads avanzan de etapa a etapa.
- * Para el panel de “Automatización de ventas”.
+ * Desktop = columnas; compact (móvil) = embudo vertical legible.
  */
 export function SalesPipelineMock({
   className,
   active = true,
+  compact = false,
 }: {
   className?: string;
   active?: boolean;
+  compact?: boolean;
 }) {
   const { lang } = useLang();
   const t = COPY[lang] ?? COPY.es;
   const stages = t.stages as Stage[];
 
-  // posición por lead (índice de stage 0..n-1)
   const [positions, setPositions] = useState<number[]>([0, 1, 2]);
   const [step, setStep] = useState(0);
   const [showToast, setShowToast] = useState(false);
@@ -125,7 +188,6 @@ export function SalesPipelineMock({
     };
   }, [active, stageCount]);
 
-  // Group leads under stages based on positions
   const byStage: Record<number, LeadCard[]> = {};
   stages.forEach((_, i) => {
     byStage[i] = [];
@@ -136,6 +198,7 @@ export function SalesPipelineMock({
   });
 
   const hotStage = Math.max(...positions, 0);
+
   return (
     <div
       className={cn(
@@ -144,7 +207,6 @@ export function SalesPipelineMock({
       )}
       aria-hidden
     >
-      {/* ambient */}
       <div
         className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,oklch(0.55_0.2_265_/_0.18),transparent_55%)]"
         aria-hidden
@@ -159,7 +221,6 @@ export function SalesPipelineMock({
         aria-hidden
       />
 
-      {/* header */}
       <div className="relative z-10 flex shrink-0 items-center justify-between gap-2 border-b border-white/[0.06] px-3 py-2.5 sm:px-4">
         <div className="min-w-0">
           <div className="flex items-center gap-1.5">
@@ -180,86 +241,118 @@ export function SalesPipelineMock({
         </span>
       </div>
 
-      {/* pipeline columns */}
-      <div className="relative z-10 flex min-h-0 flex-1 gap-1.5 overflow-x-auto overflow-y-hidden p-2 sm:gap-2 sm:p-3">
-        {stages.map((stage, si) => {
-          const cards = byStage[si] ?? [];
-          const isHot = si === hotStage;
-          return (
-            <div
-              key={stage.id}
-              className={cn(
-                "flex min-w-[4.75rem] flex-1 flex-col rounded-lg border bg-white/[0.03] sm:min-w-0",
-                isHot
-                  ? "border-[var(--ok-indigo)]/45"
-                  : "border-white/[0.06]"
-              )}
-            >
-              <div className="flex items-center gap-1 border-b border-white/[0.05] px-1.5 py-1.5 sm:px-2">
-                <span
-                  className={cn(
-                    "flex h-4 w-4 items-center justify-center rounded text-[10px]",
-                    isHot
-                      ? "bg-[var(--ok-indigo)]/30 text-[var(--ok-indigo)]"
-                      : "bg-white/5 text-ok-mute"
-                  )}
-                >
-                  {stage.icon}
-                </span>
-                <span className="truncate text-[9px] font-semibold uppercase tracking-wide text-ok-mute sm:text-[10px]">
-                  {stage.label}
-                </span>
-              </div>
-
-              <div className="flex flex-1 flex-col gap-1.5 p-1.5 sm:p-2">
-                <AnimatePresence mode="popLayout">
-                  {cards.map((lead) => (
-                    <motion.div
-                      key={lead.id}
-                      layout
-                      initial={{ opacity: 0, y: 8, scale: 0.96 }}
-                      animate={{ opacity: 1, y: 0, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.95 }}
-                      transition={{
-                        type: "spring",
-                        stiffness: 380,
-                        damping: 28,
-                      }}
-                      className="rounded-md border border-white/10 bg-[#141a24] p-1.5 shadow-lg shadow-black/20 sm:p-2"
-                    >
-                      <p className="truncate text-[10px] font-semibold text-ok-text sm:text-[11px]">
-                        {lead.name}
-                      </p>
-                      <div className="mt-1 flex flex-wrap items-center gap-1">
-                        <span className="rounded bg-white/5 px-1 py-px text-[8px] text-ok-mute sm:text-[9px]">
-                          {lead.source}
-                        </span>
-                        <span className="rounded bg-[var(--ok-indigo)]/15 px-1 py-px text-[8px] text-[var(--ok-indigo)] sm:text-[9px]">
-                          {lead.meta}
-                        </span>
-                      </div>
-                      {si >= 3 && (
-                        <div className="mt-1.5 flex items-center gap-0.5 text-[8px] text-[var(--ok-emphasis)] sm:text-[9px]">
-                          <Zap className="h-2.5 w-2.5" />
-                          Auto
-                        </div>
-                      )}
-                    </motion.div>
-                  ))}
-                </AnimatePresence>
-
-                {cards.length === 0 && (
-                  <div className="flex flex-1 items-center justify-center py-2">
-                    <div className="h-1 w-6 rounded-full bg-white/5" />
-                  </div>
+      {compact ? (
+        /* Móvil: embudo vertical — etapas completas, sin columnas aplastadas */
+        <div className="relative z-10 flex min-h-0 flex-1 flex-col gap-1.5 overflow-y-auto px-3 py-3">
+          {stages.map((stage, si) => {
+            const cards = byStage[si] ?? [];
+            const isHot = si === hotStage;
+            return (
+              <div
+                key={stage.id}
+                className={cn(
+                  "flex items-stretch gap-2.5 rounded-xl border px-2.5 py-2 transition-colors",
+                  isHot
+                    ? "border-[var(--ok-indigo)]/50 bg-[var(--ok-indigo)]/10"
+                    : "border-white/[0.06] bg-white/[0.03]"
                 )}
-              </div>
-            </div>
-          );
-        })}
-      </div>
+              >
+                <div className="flex w-[5.75rem] shrink-0 flex-col justify-center gap-1">
+                  <span
+                    className={cn(
+                      "inline-flex h-6 w-6 items-center justify-center rounded-md",
+                      isHot
+                        ? "bg-[var(--ok-indigo)]/35 text-[var(--ok-indigo)]"
+                        : "bg-white/5 text-ok-mute"
+                    )}
+                  >
+                    {stage.icon}
+                  </span>
+                  <span
+                    className={cn(
+                      "text-[11px] font-semibold leading-tight tracking-wide",
+                      isHot ? "text-ok-text" : "text-ok-mute"
+                    )}
+                  >
+                    {stage.label}
+                  </span>
+                </div>
 
-      {/* progress bar */}
+                <div className="min-w-0 flex-1">
+                  <AnimatePresence mode="popLayout">
+                    {cards.length > 0 ? (
+                      <div className="flex flex-col gap-1.5">
+                        {cards.map((lead) => (
+                          <LeadChip
+                            key={lead.id}
+                            lead={lead}
+                            auto={si >= 3}
+                            compact
+                          />
+                        ))}
+                      </div>
+                    ) : (
+                      <div className="flex h-full min-h-[2.75rem] items-center">
+                        <div className="h-1 w-8 rounded-full bg-white/8" />
+                      </div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      ) : (
+        /* Desktop: columnas kanban */
+        <div className="relative z-10 flex min-h-0 flex-1 gap-1.5 overflow-x-auto overflow-y-hidden p-2 sm:gap-2 sm:p-3">
+          {stages.map((stage, si) => {
+            const cards = byStage[si] ?? [];
+            const isHot = si === hotStage;
+            return (
+              <div
+                key={stage.id}
+                className={cn(
+                  "flex min-w-[4.75rem] flex-1 flex-col rounded-lg border bg-white/[0.03] sm:min-w-0",
+                  isHot
+                    ? "border-[var(--ok-indigo)]/45"
+                    : "border-white/[0.06]"
+                )}
+              >
+                <div className="flex items-center gap-1 border-b border-white/[0.05] px-1.5 py-1.5 sm:px-2">
+                  <span
+                    className={cn(
+                      "flex h-4 w-4 items-center justify-center rounded text-[10px]",
+                      isHot
+                        ? "bg-[var(--ok-indigo)]/30 text-[var(--ok-indigo)]"
+                        : "bg-white/5 text-ok-mute"
+                    )}
+                  >
+                    {stage.icon}
+                  </span>
+                  <span className="truncate text-[9px] font-semibold uppercase tracking-wide text-ok-mute sm:text-[10px]">
+                    {stage.label}
+                  </span>
+                </div>
+
+                <div className="flex flex-1 flex-col gap-1.5 p-1.5 sm:p-2">
+                  <AnimatePresence mode="popLayout">
+                    {cards.map((lead) => (
+                      <LeadChip key={lead.id} lead={lead} auto={si >= 3} />
+                    ))}
+                  </AnimatePresence>
+
+                  {cards.length === 0 && (
+                    <div className="flex flex-1 items-center justify-center py-2">
+                      <div className="h-1 w-6 rounded-full bg-white/5" />
+                    </div>
+                  )}
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      )}
+
       <div className="relative z-10 border-t border-white/[0.06] px-3 py-2 sm:px-4">
         <div className="mb-1 flex items-center justify-between text-[9px] text-ok-mute">
           <span className="inline-flex items-center gap-1">
@@ -279,7 +372,6 @@ export function SalesPipelineMock({
         </div>
       </div>
 
-      {/* toast */}
       <AnimatePresence>
         {showToast && active && (
           <motion.div

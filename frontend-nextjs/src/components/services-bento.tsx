@@ -264,7 +264,7 @@ function ServiceVisual({
   if (index === AUTOMATION_INDEX) {
     return (
       <div className={cn("relative h-full w-full", fill && "absolute inset-0")}>
-        <SalesPipelineMock active={active} />
+        <SalesPipelineMock active={active} compact={compact} />
         {!active && (
           <div className="absolute inset-0 bg-ok-ink/35 grayscale" aria-hidden />
         )}
@@ -352,7 +352,7 @@ function ServicesMobileCarousel({
     if (!api || reduceMotion || services.length <= 1) return;
     const id = window.setInterval(() => {
       api.scrollNext();
-    }, 6200);
+    }, 7700);
     return () => window.clearInterval(id);
   }, [api, reduceMotion, services.length, current]);
 
