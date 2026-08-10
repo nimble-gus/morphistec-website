@@ -1,6 +1,17 @@
 import type { Metadata } from "next";
+import localFont from "next/font/local";
 import { LangProvider } from "@/components/lang";
 import "./globals.css";
+
+/** Precarga Oldport para evitar que “crece” se corte en el primer paint (móvil). */
+const oldportScript = localFont({
+  src: "../../public/fonts/Oldport Script.ttf",
+  variable: "--font-oldport",
+  display: "swap",
+  preload: true,
+  weight: "400",
+  style: "normal",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.oktae.tech"),
@@ -8,7 +19,10 @@ export const metadata: Metadata = {
   description:
     "Diseñamos el sistema comercial de tu negocio: chatbots con IA, seguimiento automático de leads y e-commerce. Del primer mensaje al cierre. Agenda un diagnóstico.",
   icons: {
-    icon: [{ url: "/favicon.ico", type: "image/x-icon" }],
+    icon: [
+      { url: "/favicon.png", type: "image/png", sizes: "256x256" },
+      { url: "/favicon.ico", type: "image/x-icon" },
+    ],
     shortcut: "/favicon.ico",
   },
   openGraph: {
@@ -30,7 +44,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="es">
+    <html lang="es" className={oldportScript.variable}>
       <body>
         <LangProvider>{children}</LangProvider>
       </body>

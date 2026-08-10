@@ -12,7 +12,7 @@ export function Hero() {
   const canvasRef = useShaderBackground();
 
   return (
-    <section className="hero-section relative isolate min-h-0 w-full max-w-full overflow-hidden bg-ok-black sm:min-h-[88dvh] md:min-h-[90dvh]">
+    <section className="hero-section relative isolate min-h-0 w-full max-w-full overflow-x-clip overflow-y-visible bg-ok-black sm:min-h-[88dvh] md:min-h-[90dvh]">
       <canvas
         ref={canvasRef}
         className="absolute inset-0 h-full w-full touch-none object-cover"
@@ -39,20 +39,24 @@ export function Hero() {
       />
 
       <div className="relative z-10 mx-auto flex min-h-0 w-full max-w-[1280px] flex-col justify-start px-4 pb-8 pt-[5.25rem] sm:min-h-[88dvh] sm:justify-center sm:px-6 sm:pb-10 sm:pt-28 md:min-h-[90dvh] md:px-10 md:pb-12 md:pt-32">
-        <h1 className="max-w-[min(100%,22rem)] font-semibold tracking-tight text-ok-text sm:max-w-[36rem] sm:font-medium md:max-w-[1000px]">
+        <h1 className="max-w-[min(100%,22rem)] overflow-visible font-semibold tracking-tight text-ok-text sm:max-w-[36rem] sm:font-medium md:max-w-[1000px]">
           {t.hero_title.map((line, i) => {
             const isScript = i === SCRIPT_LINE_INDEX;
             return (
               <span
                 key={i}
-                className="block max-w-full animate-float-in"
+                className="block max-w-full overflow-visible animate-float-in"
                 style={{
                   animationDelay: `${i * 0.08}s`,
                   fontSize: isScript
-                    ? "clamp(3.35rem, 17.5vw, 11rem)"
+                    ? "clamp(3.1rem, 15.5vw, 11rem)"
                     : "clamp(2.85rem, 15vw, 9.25rem)",
-                  lineHeight: isScript ? 0.98 : 0.9,
+                  /* Script tiene ascenders/descenders amplios: line-height < 1 lo recorta en el 1er paint */
+                  lineHeight: isScript ? 1.15 : 0.9,
                   letterSpacing: isScript ? "0.01em" : "-0.045em",
+                  ...(isScript
+                    ? { paddingBlock: "0.06em", marginBlock: "-0.02em" }
+                    : null),
                 }}
               >
                 {isScript ? (
@@ -64,6 +68,11 @@ export function Hero() {
                       fontStyle: "normal",
                       display: "inline-block",
                       maxWidth: "100%",
+                      overflow: "visible",
+                      /* Reserva métricas estables mientras carga Oldport */
+                      fontSize: "1em",
+                      lineHeight: "inherit",
+                      paddingInline: "0.02em",
                     }}
                   >
                     {line}

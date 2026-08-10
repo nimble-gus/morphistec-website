@@ -4,15 +4,6 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Oldport Script — public/fonts/Oldport Script.ttf */
-@font-face {
-  font-family: "Oldport Script";
-  src: url("/fonts/Oldport%20Script.ttf") format("truetype");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
-}
-
 :root {
   /* Brand manual N.º 01 — paleta Oktae */
   --ok-carbon: oklch(0.24 0.005 260);
@@ -35,7 +26,8 @@
   --font-sans: 'Poppins', ui-sans-serif, system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', ui-monospace, monospace;
   --font-serif: 'Instrument Serif', ui-serif, Georgia, serif;
-  --font-script: "Oldport Script", cursive;
+  /* --font-oldport viene de next/font/local (preload) */
+  --font-script: var(--font-oldport), cursive;
 
   /* Tokens shadcn / header (mapeados a manual Oktae) */
   --background: oklch(0.2 0.005 260);

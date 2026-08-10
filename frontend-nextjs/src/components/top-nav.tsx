@@ -22,7 +22,6 @@ type NavItem =
 export function TopNav() {
   const [open, setOpen] = React.useState(false);
   const [legalOpen, setLegalOpen] = React.useState(false);
-  const [mobileLegalOpen, setMobileLegalOpen] = React.useState(false);
   const [legalDoc, setLegalDoc] = React.useState<LegalDoc | null>(null);
   const legalRef = React.useRef<HTMLDivElement>(null);
   const scrolled = useScroll(10);
@@ -58,7 +57,6 @@ export function TopNav() {
 
   React.useEffect(() => {
     setOpen(false);
-    setMobileLegalOpen(false);
   }, [pathname]);
 
   React.useEffect(() => {
@@ -90,8 +88,11 @@ export function TopNav() {
 
   function closeMenu() {
     setOpen(false);
-    setMobileLegalOpen(false);
   }
+
+  const primaryItems = items.filter(
+    (item): item is Extract<NavItem, { kind: "link" }> => item.kind === "link"
+  );
 
   function openLegal(doc: LegalDoc) {
     setLegalDoc(doc);
@@ -119,63 +120,18 @@ export function TopNav() {
             style={{ height: headerOffset }}
             aria-hidden
           />
-          <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain border-t border-border bg-[var(--ok-bg)]/98 px-4 pb-[max(1rem,env(safe-area-inset-bottom,0px))] pt-2 backdrop-blur-xl">
-            <div className="grid flex-1 content-start gap-y-1 py-2">
-              {items.map((item) => {
-                if (item.kind === "legal") {
-                  return (
-                    <div key={item.label} className="grid gap-y-0.5">
-                      <button
-                        type="button"
-                        className={cn(
-                          buttonVariants({
-                            variant: "ghost",
-                            className: "h-12 justify-between px-3 text-base",
-                          })
-                        )}
-                        aria-expanded={mobileLegalOpen}
-                        onClick={() => setMobileLegalOpen((v) => !v)}
-                      >
-                        {item.label}
-                        <ChevronDown
-                          className={cn(
-                            "h-4 w-4 transition-transform",
-                            mobileLegalOpen && "rotate-180"
-                          )}
-                          aria-hidden
-                        />
-                      </button>
-                      {mobileLegalOpen
-                        ? legalItems.map((li) => (
-                            <a
-                              key={li.doc}
-                              href={li.href}
-                              className={buttonVariants({
-                                variant: "ghost",
-                                className:
-                                  "h-11 justify-start pl-8 text-sm text-ok-mute",
-                              })}
-                              onClick={(e) => {
-                                e.preventDefault();
-                                openLegal(li.doc);
-                              }}
-                            >
-                              {li.label}
-                            </a>
-                          ))
-                        : null}
-                    </div>
-                  );
-                }
+          <div className="flex min-h-0 flex-1 flex-col overflow-y-auto overscroll-contain border-t border-border bg-[var(--ok-bg)]/98 px-5 pb-[max(1.25rem,env(safe-area-inset-bottom,0px))] pt-4 backdrop-blur-xl">
+            {/* Primario: misma jerarquía, sin mezclar Legal */}
+            <nav className="flex flex-col gap-1" aria-label="Secciones">
+              {primaryItems.map((item) => {
+                const className =
+                  "flex min-h-12 items-center rounded-md px-1 text-[1.35rem] font-medium tracking-[-0.02em] text-ok-text transition-colors active:text-ok-mute";
 
                 if (item.href.startsWith("#") || item.href.startsWith("/#")) {
                   return (
                     <a
                       key={item.label}
-                      className={buttonVariants({
-                        variant: "ghost",
-                        className: "h-12 justify-start px-3 text-base",
-                      })}
+                      className={className}
                       href={item.href}
                       onClick={closeMenu}
                     >
@@ -187,10 +143,7 @@ export function TopNav() {
                 return (
                   <Link
                     key={item.label}
-                    className={buttonVariants({
-                      variant: "ghost",
-                      className: "h-12 justify-start px-3 text-base",
-                    })}
+                    className={className}
                     href={item.href}
                     onClick={closeMenu}
                   >
@@ -198,6 +151,29 @@ export function TopNav() {
                   </Link>
                 );
               })}
+            </nav>
+
+            {/* Legal: bloque secundario al pie, siempre visible */}
+            <div className="mt-auto border-t border-white/[0.08] pt-5">
+              <p className="mb-3 text-[11px] font-medium uppercase tracking-[0.14em] text-ok-mute">
+                {t.nav[3]}
+              </p>
+              <ul className="flex flex-col gap-0.5">
+                {legalItems.map((li) => (
+                  <li key={li.doc}>
+                    <a
+                      href={li.href}
+                      className="flex min-h-11 items-center text-[15px] text-ok-mute transition-colors active:text-ok-text"
+                      onClick={(e) => {
+                        e.preventDefault();
+                        openLegal(li.doc);
+                      }}
+                    >
+                      {li.label}
+                    </a>
+                  </li>
+                ))}
+              </ul>
             </div>
           </div>
         </div>
