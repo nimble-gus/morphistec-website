@@ -21,7 +21,9 @@ export default function Login() {
       });
       const b = await r.json();
       if (!r.ok) throw new Error(b.error);
-      window.location.assign("/admin");
+      window.location.assign(
+        b.redirect === "/admin/change-password" ? b.redirect : "/admin",
+      );
     } catch (e) {
       setError(
         e instanceof Error

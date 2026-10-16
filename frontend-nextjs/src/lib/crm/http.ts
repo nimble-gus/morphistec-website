@@ -1,8 +1,8 @@
 import "server-only";
 import { NextRequest, NextResponse } from "next/server";
 import { session } from "./auth";
-import {HttpError} from './errors';
-export {HttpError} from './errors';
+import { HttpError } from "./errors";
+export { HttpError } from "./errors";
 export function checkOrigin(req: NextRequest) {
   const origin = req.headers.get("origin");
   const expected =
@@ -11,11 +11,20 @@ export function checkOrigin(req: NextRequest) {
   if (!expected || origin !== new URL(expected).origin)
     throw new HttpError(403, "Origen no permitido. Recarga el portal.");
 }
-export async function authorized(req: NextRequest, mutation = false) {
+export async function authorized(
+  req: NextRequest,
+  mutation = false,
+  allowPasswordChange = false,
+) {
   if (mutation) checkOrigin(req);
   const user = await session();
   if (!user)
     throw new HttpError(401, "Tu sesión terminó. Inicia sesión de nuevo.");
+  if (user.must_change_password && !allowPasswordChange)
+    throw new HttpError(
+      403,
+      "Debes cambiar tu contraseña antes de usar el CRM.",
+    );
   return user;
 }
 export function failure(e: unknown) {

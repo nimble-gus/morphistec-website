@@ -763,6 +763,7 @@ export default function Crm({
                 habilitar cobros reales.
               </p>
               <h2>Acceso del equipo</h2>
+            <p><Link href="/admin/change-password">Cambiar mi contraseña</Link></p>
               <p>
                 El portal no permite crear cuentas públicamente. Las cuentas
                 autorizadas se habilitan desde la administración del servidor.

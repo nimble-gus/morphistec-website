@@ -10,7 +10,7 @@ Requiere Node.js 22 o posterior. Desde `frontend-nextjs`:
 
 1. Copiar `.env.example` a `.env` únicamente si todavía no existe. Conservar la `DATABASE_URL` configurada. El esquema es `oktae` y no modifica otras tablas.
 2. `npm install` y `npm run db:migrate`.
-3. Completar `OKTAE_ADMIN_EMAIL` y `OKTAE_ADMIN_PASSWORD` (mínimo 14 caracteres) en `.env`. Ejecutar `npm run admin:create`. Después borrar el valor de la contraseña del `.env`: solo se almacena su hash scrypt en la base. El comando crea una cuenta y rechaza correos ya existentes; no cambia contraseñas.
+3. Completar `OKTAE_ADMIN_EMAIL` y `OKTAE_ADMIN_PASSWORD` (mínimo 14 caracteres) en `.env`. Ejecutar `npm run admin:create`. Después borrar el valor de la contraseña del `.env`: solo se almacena su hash scrypt en la base. El comando crea una cuenta con cambio obligatorio de contraseña al primer ingreso y rechaza correos ya existentes; no cambia contraseñas de cuentas existentes. El administrador no puede usar las APIs del CRM hasta completar ese cambio. Al cambiar su contraseña se revocan todas las sesiones anteriores y se emite una sesión nueva.
 4. `APP_URL=http://127.0.0.1:3000` y `npm run dev -- --hostname 127.0.0.1`. Abrir `http://127.0.0.1:3000/admin`. Si ya existe otra instancia del sitio, usar `OKTAE_BUILD_DIR=.next-crm npm run build` y `OKTAE_BUILD_DIR=.next-crm npm run start -- --hostname 127.0.0.1 --port 3000` para separar sus archivos de compilación.
 
 No subir `.env`, contraseñas o claves a Git. La cuenta inicial no se crea automáticamente ni tiene una contraseña predeterminada.

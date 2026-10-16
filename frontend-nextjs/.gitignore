@@ -47,3 +47,5 @@ next-env.d.ts
 
 # Evidencia local de revisiones
 .impeccable/review/
+
+.next-crm*/

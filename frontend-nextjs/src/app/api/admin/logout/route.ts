@@ -5,7 +5,7 @@ import { cookieName, digest } from "@/lib/crm/auth";
 import { authorized, failure } from "@/lib/crm/http";
 export async function POST(req: NextRequest) {
   try {
-    await authorized(req, true);
+    await authorized(req, true, true);
     const jar = await cookies();
     const token = jar.get(cookieName)?.value;
     if (token)

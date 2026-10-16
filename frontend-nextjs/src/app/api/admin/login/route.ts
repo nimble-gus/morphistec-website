@@ -25,18 +25,23 @@ export async function POST(req: NextRequest) {
     if (limits[0].attempts > 5)
       throw new HttpError(429, "Demasiados intentos. Espera 15 minutos.");
     const { rows } = await db().query(
-      "SELECT id,password_hash FROM oktae.users WHERE email=$1",
+      "SELECT id,password_hash,must_change_password,credential_version FROM oktae.users WHERE email=$1",
       [email],
     );
     const valid = verifyPassword(password, rows[0]?.password_hash || dummyHash);
     if (!rows[0] || !valid)
       throw new HttpError(401, "Correo o contraseña incorrectos.");
-    await createSession(rows[0].id);
+    await createSession(rows[0].id, rows[0].credential_version);
     await db().query(
       "DELETE FROM oktae.login_attempts WHERE identity_hash=$1",
       [key],
     );
-    return NextResponse.json({ ok: true });
+    return NextResponse.json({
+      ok: true,
+      redirect: rows[0].must_change_password
+        ? "/admin/change-password"
+        : "/admin",
+    });
   } catch (e) {
     return failure(e);
   }

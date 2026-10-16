@@ -38,9 +38,10 @@
   "include": [
     "**/*.ts",
     "**/*.tsx",
+    ".next-crm/types/**/*.ts",
     ".next/types/**/*.ts",
     "next-env.d.ts",
-    ".next-crm/types/**/*.ts"
+    ".next-crm-test/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"
