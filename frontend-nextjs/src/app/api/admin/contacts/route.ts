@@ -6,7 +6,8 @@ export async function GET(req: NextRequest) {
   try {
     await authorized(req);
     const { rows } = await db().query(
-      "SELECT * FROM oktae.contacts ORDER BY updated_at DESC LIMIT 1000",
+      `SELECT c.*,m.interest AS messenger_interest,m.stage AS messenger_stage,m.last_contact_at AS messenger_last_contact_at
+ FROM oktae.contacts c LEFT JOIN oktae.messenger_leads m ON m.contact_id=c.id ORDER BY c.updated_at DESC LIMIT 1000`,
     );
     return NextResponse.json(rows);
   } catch (e) {

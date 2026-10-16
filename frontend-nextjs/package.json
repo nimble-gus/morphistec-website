@@ -11,8 +11,9 @@
     "type-check": "tsc --noEmit",
     "db:migrate": "node scripts/migrate.mjs",
     "admin:create": "tsx scripts/create-admin.ts",
-    "test:crm": "tsx --test tests/crm.test.ts && node --conditions=react-server --import tsx --test tests/recurrente.test.ts",
-    "test:crm:integration": "node scripts/test-crm-integration.mjs"
+    "test:crm": "tsx --test tests/crm.test.ts tests/messenger.test.ts && node --conditions=react-server --import tsx --test tests/recurrente.test.ts",
+    "test:crm:integration": "node scripts/test-crm-integration.mjs",
+    "test:messenger:integration": "tsx scripts/test-messenger-sync.ts"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",

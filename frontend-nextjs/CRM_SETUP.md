@@ -39,9 +39,22 @@ El webhook atiende `intent.succeeded` y su evento legacy equivalente cuando cont
 
 ## Alcance pendiente
 
-Conexión de la cuenta Recurrente y prueba real de Sandbox requieren claves del usuario. Integración automática del bot n8n/Messenger, importación de leads históricos, roles diferenciados, recuperación de contraseña por correo y facturación FEL no están incluidas en esta primera entrega. Todas las cuentas autorizadas tienen acceso al mismo CRM.
+Conexión de la cuenta Recurrente y prueba real de Sandbox requieren claves del usuario. La sincronización de Messenger está implementada y requiere configurar la clave en Vercel y la credencial Header Auth del nuevo flujo n8n. Roles diferenciados, recuperación de contraseña por correo y facturación FEL quedan pendientes. Todas las cuentas autorizadas tienen acceso al mismo CRM.
 
 ## Verificación
 
 `npm run type-check`, `npm run test:crm`, lint sobre los archivos nuevos y `npm run build`.
 `npm run test:crm:integration` con el servidor local encendido crea y elimina una cuenta y prospecto temporales en la base configurada. Requiere autorización para esa cuenta; ejecutar solo con esa aprobación. No genera cobros externos.
+
+## Messenger → CRM
+
+- Receptor: `POST https://www.oktae.tech/api/integrations/messenger`. Solo acepta Bearer `CRM_MESSENGER_SYNC_TOKEN` (mínimo 32 caracteres), sin acceso a otras funciones del CRM. Configurar el mismo valor en Vercel Production y en la credencial Header Auth de n8n. No subirlo a Git.
+- Flujo independiente en `integrations/n8n/messenger-crm.workflow.json`: cada minuto lee los leads de la base actual del bot, en lotes de 25, y los envía al CRM. Reutiliza la credencial Postgres ya existente; no escribe en la base de origen ni envía mensajes.
+- Seleccionar Header Auth (Name `Authorization`, Value `Bearer <clave>`), restringido a `www.oktae.tech`, y probar antes de publicar el flujo.
+- El contrato del lote es `{observed_at: ISO, leads: [{psid, page_id, channel, name, phone, email, interest, stage, last_contact_at, created_at}]}`. Máximo 100 leads y 2 MB por petición; `page_id` se limita a la página Oktae 1248689791655149.
+- Identidad: combinación page_id + psid. Reintentos y snapshots antiguos no generan duplicados ni revierten datos más recientes. Se conserva la última información no vacía del bot.
+- Nombre, teléfono y correo se actualizan si todavía coinciden con lo importado o están vacíos. Las ediciones manuales diferentes prevalecen. No se cambian empresa, etapa comercial ni fecha de seguimiento ya establecidos en el CRM. El interés, calificación del bot y último contacto se muestran por separado.
+- La lista del CRM se actualiza cada 30 segundos cuando está visible y no se está editando. No se copian conversaciones completas ni la memoria del agente.
+- Se sincroniza una fotografía completa de los leads de esta página, por lo que los cambios tardíos de la IA llegan en el siguiente ciclo. Un fallo deja un registro de ejecución en n8n y se reintenta hasta tres veces; el siguiente minuto vuelve a consultar. Para volúmenes grandes deberá evolucionar a outbox/incremental. Borrar un lead en origen no lo borra en el CRM.
+
+Prueba sin mensajes externos: `npm run test:messenger:integration`; crea y elimina un lead temporal en el CRM.

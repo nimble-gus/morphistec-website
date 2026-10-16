@@ -25,6 +25,9 @@ type Contact = {
   stage: string;
   source: string;
   next_follow_up: string | null;
+  messenger_interest?: string | null;
+  messenger_stage?: string | null;
+  messenger_last_contact_at?: string | null;
 };
 type Note = { id: string; body: string; created_at: string };
 type Payment = {
@@ -125,6 +128,21 @@ export default function Crm({
       .catch((e) => setError(e.message))
       .finally(() => setLoading(false));
   }, [refresh]);
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      if (
+        document.hidden ||
+        busy ||
+        newContact ||
+        ["INPUT", "TEXTAREA", "SELECT"].includes(
+          document.activeElement?.tagName || "",
+        )
+      )
+        return;
+      refresh().catch(() => {});
+    }, 30000);
+    return () => window.clearInterval(timer);
+  }, [refresh, busy, newContact]);
   useEffect(() => {
     const version = ++notesVersion.current;
     setNotes([]);
@@ -564,6 +582,39 @@ export default function Crm({
                       <dt>Origen</dt>
                       <dd>{contact.source}</dd>
                     </dl>
+                    {contact.source === "messenger" && (
+                      <div className="messenger-context">
+                        <h3>Conversación de Messenger</h3>
+                        {contact.messenger_interest && (
+                          <p>{contact.messenger_interest}</p>
+                        )}
+                        <dl className="contact-data">
+                          <dt>Calificación</dt>
+                          <dd>
+                            {{
+                              new: "Nuevo",
+                              qualifying: "En evaluación",
+                              qualified: "Calificado",
+                              handoff_wa: "Derivado a WhatsApp",
+                            }[contact.messenger_stage || "new"] ||
+                              contact.messenger_stage}
+                          </dd>
+                          {contact.messenger_last_contact_at && (
+                            <>
+                              <dt>Último contacto</dt>
+                              <dd>
+                                {new Intl.DateTimeFormat("es-GT", {
+                                  dateStyle: "medium",
+                                  timeStyle: "short",
+                                }).format(
+                                  new Date(contact.messenger_last_contact_at),
+                                )}
+                              </dd>
+                            </>
+                          )}
+                        </dl>
+                      </div>
+                    )}
                     <form className="followup-form" onSubmit={updateContact}>
                       <label>
                         Nombre
@@ -763,7 +814,9 @@ export default function Crm({
                 habilitar cobros reales.
               </p>
               <h2>Acceso del equipo</h2>
-            <p><Link href="/admin/change-password">Cambiar mi contraseña</Link></p>
+              <p>
+                <Link href="/admin/change-password">Cambiar mi contraseña</Link>
+              </p>
               <p>
                 El portal no permite crear cuentas públicamente. Las cuentas
                 autorizadas se habilitan desde la administración del servidor.
@@ -771,9 +824,10 @@ export default function Crm({
               </p>
               <h2>Mensajes y prospectos</h2>
               <p>
-                Esta versión registra prospectos manualmente. La conexión
-                automática con el agente de Messenger en n8n queda pendiente; no
-                se importan conversaciones existentes.
+                Los prospectos de Messenger aparecen aquí cuando la conexión
+                está activa. Conservamos el interés identificado y el último
+                contacto; tus cambios manuales de seguimiento tienen prioridad.
+                También puedes registrar prospectos manualmente.
               </p>
             </section>
           )}

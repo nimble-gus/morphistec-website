@@ -1,0 +1,120 @@
+{
+  "name": "Oktae - Messenger al CRM",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "minutes",
+              "minutesInterval": 1
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        240,
+        240
+      ],
+      "id": "28f36ec7-8c8f-427f-9127-176e6a2b29c7",
+      "name": "Cada minuto"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        240,
+        440
+      ],
+      "id": "c3348a0f-b9f4-46f3-9dfc-e2061dce42e6",
+      "name": "Prueba manual"
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "-- Solo lectura. El flujo del bot conserva su base y su funcionamiento.\n-- Cada fila es un lote para un nodo HTTP Request de n8n.\nWITH source_leads AS (\n SELECT to_jsonb(l) AS d, row_number() OVER(ORDER BY l.psid) AS rn\n FROM leads l\n WHERE to_jsonb(l)->>'page_id' = '1248689791655149'\n   AND lower(COALESCE(NULLIF(to_jsonb(l)->>'channel',''),'messenger')) = 'messenger'\n), prepared AS (\n SELECT (rn-1)/25 AS batch_id, d->>'psid' AS psid,\n jsonb_build_object('psid',d->>'psid','page_id',d->>'page_id','channel','messenger',\n 'name',COALESCE(d->>'name',''),'phone',COALESCE(d->>'phone',''),'email',COALESCE(d->>'email',''),\n 'interest',COALESCE(d->>'interest',''),'stage',COALESCE(d->>'stage','new'),\n 'last_contact_at',d->>'last_contact_at','created_at',COALESCE(d->>'created_at',d->>'first_contact_at')) AS lead\n FROM source_leads\n)\nSELECT jsonb_build_object('observed_at',CURRENT_TIMESTAMP,'leads',jsonb_agg(lead ORDER BY psid)) AS crm_payload\nFROM prepared GROUP BY batch_id ORDER BY batch_id;\n",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        520,
+        300
+      ],
+      "id": "88a38013-b97c-4fa9-b5cc-ee2609822e53",
+      "name": "Leer leads de Messenger",
+      "notes": "Seleccionar la misma credencial Postgres account que usa Oktae Chat. Consulta de solo lectura; lotes de 25.",
+      "notesInFlow": true
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://www.oktae.tech/api/integrations/messenger",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ $json.crm_payload }}",
+        "options": {
+          "timeout": 60000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        820,
+        300
+      ],
+      "id": "8a0eec0b-7935-4154-80ed-f35bde66c43b",
+      "name": "Sincronizar con CRM",
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 5000,
+      "notes": "Credencial Header Auth: Name Authorization / Value Bearer <CRM_MESSENGER_SYNC_TOKEN>. El mismo valor debe configurarse en Vercel Production.",
+      "notesInFlow": true
+    }
+  ],
+  "connections": {
+    "Cada minuto": {
+      "main": [
+        [
+          {
+            "node": "Leer leads de Messenger",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prueba manual": {
+      "main": [
+        [
+          {
+            "node": "Leer leads de Messenger",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Leer leads de Messenger": {
+      "main": [
+        [
+          {
+            "node": "Sincronizar con CRM",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false,
+  "pinData": {}
+}
