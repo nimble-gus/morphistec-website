@@ -38,3 +38,12 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Credenciales locales
+.env*
+!.env.example
+
+.next-crm/
+
+# Evidencia local de revisiones
+.impeccable/review/

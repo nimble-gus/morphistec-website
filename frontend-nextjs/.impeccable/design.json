@@ -1,0 +1,393 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-16T19:15:34.276227+00:00",
+  "title": "Design System: Oktae CRM privado",
+  "extensions": {
+    "colorMeta": {
+      "primary": {
+        "role": "primary",
+        "displayName": "Primary",
+        "tonalRamp": [
+          "oklch(15% 0.12 265)",
+          "oklch(26% 0.12 265)",
+          "oklch(38% 0.12 265)",
+          "oklch(49% 0.12 265)",
+          "oklch(61% 0.12 265)",
+          "oklch(72% 0.12 265)",
+          "oklch(84% 0.12 265)",
+          "oklch(95% 0.12 265)"
+        ]
+      },
+      "primary-hover": {
+        "role": "primary",
+        "displayName": "Primary Hover",
+        "tonalRamp": [
+          "oklch(15% 0.12 265)",
+          "oklch(26% 0.12 265)",
+          "oklch(38% 0.12 265)",
+          "oklch(49% 0.12 265)",
+          "oklch(61% 0.12 265)",
+          "oklch(72% 0.12 265)",
+          "oklch(84% 0.12 265)",
+          "oklch(95% 0.12 265)"
+        ]
+      },
+      "canvas": {
+        "role": "neutral",
+        "displayName": "Canvas",
+        "tonalRamp": [
+          "oklch(15% 0.015 265)",
+          "oklch(26% 0.015 265)",
+          "oklch(38% 0.015 265)",
+          "oklch(49% 0.015 265)",
+          "oklch(61% 0.015 265)",
+          "oklch(72% 0.015 265)",
+          "oklch(84% 0.015 265)",
+          "oklch(95% 0.015 265)"
+        ]
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Surface",
+        "tonalRamp": [
+          "oklch(15% 0.015 265)",
+          "oklch(26% 0.015 265)",
+          "oklch(38% 0.015 265)",
+          "oklch(49% 0.015 265)",
+          "oklch(61% 0.015 265)",
+          "oklch(72% 0.015 265)",
+          "oklch(84% 0.015 265)",
+          "oklch(95% 0.015 265)"
+        ]
+      },
+      "carbon": {
+        "role": "neutral",
+        "displayName": "Carbon",
+        "tonalRamp": [
+          "oklch(15% 0.015 265)",
+          "oklch(26% 0.015 265)",
+          "oklch(38% 0.015 265)",
+          "oklch(49% 0.015 265)",
+          "oklch(61% 0.015 265)",
+          "oklch(72% 0.015 265)",
+          "oklch(84% 0.015 265)",
+          "oklch(95% 0.015 265)"
+        ]
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "tonalRamp": [
+          "oklch(15% 0.015 265)",
+          "oklch(26% 0.015 265)",
+          "oklch(38% 0.015 265)",
+          "oklch(49% 0.015 265)",
+          "oklch(61% 0.015 265)",
+          "oklch(72% 0.015 265)",
+          "oklch(84% 0.015 265)",
+          "oklch(95% 0.015 265)"
+        ]
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Muted",
+        "tonalRamp": [
+          "oklch(15% 0.015 265)",
+          "oklch(26% 0.015 265)",
+          "oklch(38% 0.015 265)",
+          "oklch(49% 0.015 265)",
+          "oklch(61% 0.015 265)",
+          "oklch(72% 0.015 265)",
+          "oklch(84% 0.015 265)",
+          "oklch(95% 0.015 265)"
+        ]
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Line",
+        "tonalRamp": [
+          "oklch(15% 0.015 265)",
+          "oklch(26% 0.015 265)",
+          "oklch(38% 0.015 265)",
+          "oklch(49% 0.015 265)",
+          "oklch(61% 0.015 265)",
+          "oklch(72% 0.015 265)",
+          "oklch(84% 0.015 265)",
+          "oklch(95% 0.015 265)"
+        ]
+      },
+      "control-line": {
+        "role": "neutral",
+        "displayName": "Control Line",
+        "tonalRamp": [
+          "oklch(15% 0.015 265)",
+          "oklch(26% 0.015 265)",
+          "oklch(38% 0.015 265)",
+          "oklch(49% 0.015 265)",
+          "oklch(61% 0.015 265)",
+          "oklch(72% 0.015 265)",
+          "oklch(84% 0.015 265)",
+          "oklch(95% 0.015 265)"
+        ]
+      },
+      "focus": {
+        "role": "neutral",
+        "displayName": "Focus",
+        "tonalRamp": [
+          "oklch(15% 0.12 265)",
+          "oklch(26% 0.12 265)",
+          "oklch(38% 0.12 265)",
+          "oklch(49% 0.12 265)",
+          "oklch(61% 0.12 265)",
+          "oklch(72% 0.12 265)",
+          "oklch(84% 0.12 265)",
+          "oklch(95% 0.12 265)"
+        ]
+      },
+      "selected": {
+        "role": "neutral",
+        "displayName": "Selected",
+        "tonalRamp": [
+          "oklch(15% 0.12 265)",
+          "oklch(26% 0.12 265)",
+          "oklch(38% 0.12 265)",
+          "oklch(49% 0.12 265)",
+          "oklch(61% 0.12 265)",
+          "oklch(72% 0.12 265)",
+          "oklch(84% 0.12 265)",
+          "oklch(95% 0.12 265)"
+        ]
+      },
+      "nav-active": {
+        "role": "neutral",
+        "displayName": "Nav Active",
+        "tonalRamp": [
+          "oklch(15% 0.12 265)",
+          "oklch(26% 0.12 265)",
+          "oklch(38% 0.12 265)",
+          "oklch(49% 0.12 265)",
+          "oklch(61% 0.12 265)",
+          "oklch(72% 0.12 265)",
+          "oklch(84% 0.12 265)",
+          "oklch(95% 0.12 265)"
+        ]
+      },
+      "positive-bg": {
+        "role": "semantic",
+        "displayName": "Positive Bg",
+        "tonalRamp": [
+          "oklch(15% 0.07 150)",
+          "oklch(26% 0.07 150)",
+          "oklch(38% 0.07 150)",
+          "oklch(49% 0.07 150)",
+          "oklch(61% 0.07 150)",
+          "oklch(72% 0.07 150)",
+          "oklch(84% 0.07 150)",
+          "oklch(95% 0.07 150)"
+        ]
+      },
+      "positive-ink": {
+        "role": "semantic",
+        "displayName": "Positive Ink",
+        "tonalRamp": [
+          "oklch(15% 0.07 150)",
+          "oklch(26% 0.07 150)",
+          "oklch(38% 0.07 150)",
+          "oklch(49% 0.07 150)",
+          "oklch(61% 0.07 150)",
+          "oklch(72% 0.07 150)",
+          "oklch(84% 0.07 150)",
+          "oklch(95% 0.07 150)"
+        ]
+      },
+      "attention-bg": {
+        "role": "semantic",
+        "displayName": "Attention Bg",
+        "tonalRamp": [
+          "oklch(15% 0.08 35)",
+          "oklch(26% 0.08 35)",
+          "oklch(38% 0.08 35)",
+          "oklch(49% 0.08 35)",
+          "oklch(61% 0.08 35)",
+          "oklch(72% 0.08 35)",
+          "oklch(84% 0.08 35)",
+          "oklch(95% 0.08 35)"
+        ]
+      },
+      "attention-ink": {
+        "role": "semantic",
+        "displayName": "Attention Ink",
+        "tonalRamp": [
+          "oklch(15% 0.08 35)",
+          "oklch(26% 0.08 35)",
+          "oklch(38% 0.08 35)",
+          "oklch(49% 0.08 35)",
+          "oklch(61% 0.08 35)",
+          "oklch(72% 0.08 35)",
+          "oklch(84% 0.08 35)",
+          "oklch(95% 0.08 35)"
+        ]
+      },
+      "stage-bg": {
+        "role": "semantic",
+        "displayName": "Stage Bg",
+        "tonalRamp": [
+          "oklch(15% 0.12 265)",
+          "oklch(26% 0.12 265)",
+          "oklch(38% 0.12 265)",
+          "oklch(49% 0.12 265)",
+          "oklch(61% 0.12 265)",
+          "oklch(72% 0.12 265)",
+          "oklch(84% 0.12 265)",
+          "oklch(95% 0.12 265)"
+        ]
+      },
+      "stage-ink": {
+        "role": "semantic",
+        "displayName": "Stage Ink",
+        "tonalRamp": [
+          "oklch(15% 0.12 265)",
+          "oklch(26% 0.12 265)",
+          "oklch(38% 0.12 265)",
+          "oklch(49% 0.12 265)",
+          "oklch(61% 0.12 265)",
+          "oklch(72% 0.12 265)",
+          "oklch(84% 0.12 265)",
+          "oklch(95% 0.12 265)"
+        ]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Workspace page heading."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Contact or section title."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "Main workspace reading."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Persistent field labels."
+      }
+    },
+    "shadows": [],
+    "motion": [
+      {
+        "name": "control-transition",
+        "value": "background 0.16s ease, box-shadow 0.16s ease",
+        "purpose": "Button state transitions; disabled under prefers-reduced-motion: reduce."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "single-detail",
+        "value": "1100px"
+      },
+      {
+        "name": "mobile-header",
+        "value": "650px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Indigo action for creating a contact or payment link.",
+      "html": "<button class=\"ds-primary\">Nuevo prospecto</button>",
+      "css": ".ds-primary{font-family:var(--font-sans, 'Poppins', sans-serif);font-size:14px;line-height:1.5;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid #ccd1dd;border-radius:7px;padding:9px 13px;font-weight:500;cursor:pointer;transition:background .16s ease,box-shadow .16s ease;background:#4655be;color:white;border-color:#4655be}.ds-primary:hover{background:#35449d}.ds-primary:focus-visible{outline:3px solid #9aa8ed;outline-offset:3px;}.ds-primary:disabled{opacity:.6;cursor:wait}@media(prefers-reduced-motion:reduce){.ds-primary{transition:none}}"
+    },
+    {
+      "name": "Secondary button",
+      "kind": "button",
+      "refersTo": "button-secondary",
+      "description": "Neutral save or follow-up action.",
+      "html": "<button class=\"ds-secondary\">Guardar seguimiento</button>",
+      "css": ".ds-secondary{font-family:var(--font-sans, 'Poppins', sans-serif);font-size:14px;line-height:1.5;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid #ccd1dd;border-radius:7px;padding:9px 13px;font-weight:500;cursor:pointer;transition:background .16s ease,box-shadow .16s ease;background:white;color:#242832}.ds-secondary:hover{background:#edf0f7}.ds-secondary:focus-visible{outline:3px solid #9aa8ed;outline-offset:3px;}.ds-secondary:disabled{opacity:.6;cursor:wait}@media(prefers-reduced-motion:reduce){.ds-secondary{transition:none}}"
+    },
+    {
+      "name": "Labeled field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Persistent visible label above an editable text field.",
+      "html": "<label class=\"ds-label\">Nombre<input class=\"ds-field\" placeholder=\"Nombre del prospecto\"></label>",
+      "css": ".ds-label{font-family:var(--font-sans, 'Poppins', sans-serif);font-size:14px;line-height:1.5;display:flex;flex-direction:column;gap:6px;font-size:12px;font-weight:500;color:#424959}.ds-field{font-family:var(--font-sans, 'Poppins', sans-serif);font-size:14px;line-height:1.5;box-sizing:border-box;width:100%;min-height:41px;border:1px solid #cbd0db;border-radius:6px;padding:9px 11px;background:white;color:#242832;caret-color:#4655be}.ds-field::placeholder{color:#667084;opacity:1}.ds-field:focus-visible{outline:3px solid #9aa8ed;outline-offset:3px;}"
+    },
+    {
+      "name": "Client stage",
+      "kind": "chip",
+      "refersTo": "stage-positive",
+      "description": "Text-bearing positive commercial state.",
+      "html": "<span class=\"ds-stage\">Cliente</span>",
+      "css": ".ds-stage{font-family:var(--font-sans, 'Poppins', sans-serif);font-size:14px;line-height:1.5;display:inline-block;font-size:10px;border-radius:4px;padding:4px 7px;background:#e1f1e8;color:#24613b;white-space:nowrap}"
+    },
+    {
+      "name": "Working panel",
+      "kind": "card",
+      "refersTo": "panel",
+      "description": "White bordered surface for a contact detail or settings group.",
+      "html": "<section class=\"ds-panel\"><h2>Notas de seguimiento</h2><p>Conserva el contexto del próximo paso.</p></section>",
+      "css": ".ds-panel{font-family:var(--font-sans, 'Poppins', sans-serif);font-size:14px;line-height:1.5;background:white;color:#242832;border:1px solid #dce0e8;border-radius:10px;padding:24px}.ds-panel h2{margin:0;font-size:19px;font-weight:600;line-height:1.4}.ds-panel p{margin:12px 0 0;color:#5e6574}"
+    },
+    {
+      "name": "Active navigation",
+      "kind": "nav",
+      "refersTo": "navigation-active",
+      "description": "Labeled navigation within the charcoal frame.",
+      "html": "<nav class=\"ds-nav\"><button aria-current=\"page\"><svg width=\"17\" height=\"17\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2\"/><circle cx=\"9\" cy=\"7\" r=\"4\"/><path d=\"M22 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75\"/></svg>Prospectos</button></nav>",
+      "css": ".ds-nav{background:#252830;padding:20px;width:178px}.ds-nav button{font-family:var(--font-sans, 'Poppins', sans-serif);font-size:14px;line-height:1.5;display:inline-flex;align-items:center;justify-content:center;gap:8px;border:1px solid #ccd1dd;border-radius:7px;padding:9px 13px;font-weight:500;cursor:pointer;transition:background .16s ease,box-shadow .16s ease;width:100%;justify-content:flex-start;border:0;background:#414a74;color:white;padding:12px;font-size:13px}.ds-nav button:hover{background:#353a46}.ds-nav button:focus-visible{outline:3px solid #9aa8ed;outline-offset:3px;}"
+    },
+    {
+      "name": "Selected contact",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "Compact row pairing identity and explicit stage.",
+      "html": "<button class=\"ds-contact\"><span class=\"ds-avatar\">P</span><span class=\"ds-info\"><strong>Prospecto</strong><span>Empresa</span></span><span class=\"ds-contact-stage\">Demostración</span></button>",
+      "css": ".ds-contact{font-family:var(--font-sans, 'Poppins', sans-serif);font-size:14px;line-height:1.5;display:flex;align-items:center;text-align:left;gap:12px;width:100%;background:#edf0fc;border:0;border-bottom:1px solid #e8ebf1;padding:18px 20px;color:#242832;cursor:pointer}.ds-contact:hover{background:#f7f8fd}.ds-contact:focus-visible{outline:3px solid #9aa8ed;outline-offset:3px;}.ds-avatar{display:grid;place-items:center;flex-shrink:0;width:36px;height:36px;border-radius:50%;background:#eceef5;color:#4b5671;font-weight:500}.ds-info{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}.ds-info strong{font-size:13px;font-weight:600;overflow-wrap:anywhere}.ds-info>span{font-size:12px;color:#5e6574}.ds-contact-stage{font-size:10px;border-radius:4px;padding:4px 7px;white-space:nowrap;background:#e9edff;color:#3849a5}"
+    }
+  ],
+  "narrative": {
+    "northStar": "Agenda operativa de Oktae",
+    "overview": "This is a descriptive name for the built /admin interface, not evidence of an approved concept exercise. The private workspace inherits Poppins, charcoal framing, indigo actions, and the amber punctuation of the Oktae wordmark. White working surfaces and a pale canvas support sustained reading and editing.\n\nThe system is compact, restrained, and explicit: contacts use rows, details use a bordered panel, and labels describe the action or state in Spanish. This document records only the private CRM; the public site's darker, pill-shaped components remain a separate incumbent system.",
+    "keyCharacteristics": [
+      "Charcoal navigation surrounding a light workspace.",
+      "Indigo actions and selection, with text-bearing semantic status badges.",
+      "Flat bordered containers and modestly rounded controls.",
+      "One Poppins family with a compact hierarchy."
+    ],
+    "rules": [
+      {
+        "name": "The State Has a Name Rule.",
+        "body": "Preserve visible status text alongside its color, especially when distinguishing a generated link from a paid transaction.",
+        "section": "colors"
+      },
+      {
+        "name": "The Selection Keeps Context Rule.",
+        "body": "Keep list and detail side by side when space supports both; in the single-panel layout, retain the explicit return to prospects.",
+        "section": "layout"
+      },
+      {
+        "name": "The Bordered Workspace Rule.",
+        "body": "Use the established surface, divider, and selection treatments to express grouping and state.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do use charcoal framing, light working surfaces, and indigo action emphasis within the CRM.",
+      "Do preserve visible labels, keyboard focus, and explicit status names.",
+      "Do keep detail return navigation available when the list is hidden.",
+      "Do keep configuration and payment state messages precise in Spanish."
+    ],
+    "donts": [
+      "Don't communicate payment confirmation through color alone.",
+      "Don't treat a generated checkout link as a received payment.",
+      "Don't inherit the public site's pill controls or serif display treatment into this recorded CRM without a deliberate design change."
+    ]
+  }
+}
