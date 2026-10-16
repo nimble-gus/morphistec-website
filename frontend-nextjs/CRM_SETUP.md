@@ -32,7 +32,7 @@ El webhook atiende `intent.succeeded` y su evento legacy equivalente cuando cont
 
 - No hay enlace al administrador en la web pública. Las páginas de datos exigen sesión en servidor y todas las APIs privadas verifican sesión.
 - Sesiones opacas con token hash en PostgreSQL; cookies HttpOnly, SameSite Strict, Secure en producción y vencimiento de 8 horas.
-- Validación de origen en escrituras; límite de 5 intentos de login por correo en una ventana de 15 minutos, persistido en PostgreSQL.
+- Validación de origen en escrituras (producción acepta los dominios exactos https://oktae.tech y https://www.oktae.tech; APP_URL permite declarar un origen HTTPS adicional de despliegue); límite de 5 intentos de login por correo en una ventana de 15 minutos, persistido en PostgreSQL.
 - Sin indexación ni caché para administración. Es protección por autenticación: `/admin/login` puede ser alcanzable públicamente. Si se necesita que ni siquiera el formulario sea público, añadir VPN o control de acceso del hosting.
 - En producción usar HTTPS, `APP_URL` con el origen exacto y una credencial PostgreSQL restringida al esquema `oktae` (la URL actual usa el usuario propietario de la base). No se crean roles ni se cambian permisos de la base existente automáticamente.
 - Desplegar tras ejecutar migraciones. Configurar las variables en Railway o el hosting elegido y construir con `npm run build`; iniciar con `npm start`.

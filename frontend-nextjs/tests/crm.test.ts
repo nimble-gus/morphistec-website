@@ -29,3 +29,51 @@ test("El webhook rechaza firmas falsas, expiradas y contenido alterado", () => {
   );
   assert.throws(() => wh.verify(body, { ...headers, "svix-timestamp": "1" }));
 });
+
+import { isAllowedOrigin } from "../src/lib/crm/origin";
+test("Producción acepta los dominios exactos de Oktae incluso con configuración local heredada", () => {
+  for (const appUrl of [
+    undefined,
+    "https://oktae.tech",
+    "https://www.oktae.tech",
+    "http://127.0.0.1:3000",
+    "not a url",
+  ]) {
+    for (const origin of ["https://oktae.tech", "https://www.oktae.tech"])
+      assert.equal(isAllowedOrigin(origin, { production: true, appUrl }), true);
+  }
+});
+test("La validación de origen sigue rechazando sitios externos, HTTP, localhost y encabezados falsificados", () => {
+  for (const origin of [
+    null,
+    "null",
+    "https://attacker.invalid",
+    "https://oktae.tech.attacker.invalid",
+    "https://www.oktae.tech:8443",
+    "http://www.oktae.tech",
+    "http://127.0.0.1:3000",
+  ])
+    assert.equal(
+      isAllowedOrigin(origin, {
+        production: true,
+        appUrl: "http://127.0.0.1:3000",
+        developmentOrigin: "https://attacker.invalid",
+      }),
+      false,
+    );
+  assert.equal(
+    isAllowedOrigin("http://127.0.0.1:3000", {
+      production: false,
+      appUrl: "http://127.0.0.1:3000",
+    }),
+    true,
+  );
+  assert.equal(
+    isAllowedOrigin("https://attacker.invalid", {
+      production: false,
+      appUrl: "http://127.0.0.1:3000",
+      developmentOrigin: "https://attacker.invalid",
+    }),
+    false,
+  );
+});

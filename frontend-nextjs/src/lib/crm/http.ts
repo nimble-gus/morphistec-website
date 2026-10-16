@@ -1,14 +1,17 @@
 import "server-only";
 import { NextRequest, NextResponse } from "next/server";
 import { session } from "./auth";
+import { isAllowedOrigin } from "./origin";
 import { HttpError } from "./errors";
 export { HttpError } from "./errors";
 export function checkOrigin(req: NextRequest) {
-  const origin = req.headers.get("origin");
-  const expected =
-    process.env.APP_URL ||
-    (process.env.NODE_ENV !== "production" ? req.nextUrl.origin : "");
-  if (!expected || origin !== new URL(expected).origin)
+  if (
+    !isAllowedOrigin(req.headers.get("origin"), {
+      production: process.env.NODE_ENV === "production",
+      appUrl: process.env.APP_URL,
+      developmentOrigin: req.nextUrl.origin,
+    })
+  )
     throw new HttpError(403, "Origen no permitido. Recarga el portal.");
 }
 export async function authorized(
