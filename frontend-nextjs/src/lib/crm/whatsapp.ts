@@ -19,11 +19,13 @@ export async function whatsappStatus() {
     db().query("SELECT waba_id,phone_number_id,display_phone_number,token_expires_at,status,connected_at FROM oktae.whatsapp_connections WHERE id=1"),
     db().query("SELECT count(*)::integer AS count FROM oktae.whatsapp_events"),
   ]);
+  const synchronization=await db().query("SELECT sync_type,status,request_id FROM oktae.whatsapp_sync_requests WHERE phone_number_id=$1 ORDER BY sync_type",[connection.rows[0]?.phone_number_id??'']);
   const replies = await db().query("SELECT count(*) FILTER(WHERE status='answered')::integer AS answered,count(*) FILTER(WHERE status IN ('failed','send_uncertain'))::integer AS review FROM oktae.whatsapp_jobs");
-  return { ...environment, botConfigured:botConfigured(),botEnabled:botEnabled(),answered:replies.rows[0].answered as number,review:replies.rows[0].review as number,onboardingEnabled: process.env.WHATSAPP_ONBOARDING_ENABLED === "true", webhookVerified: Boolean(setup.rows[0]?.webhook_verified_at), connection: connection.rows[0] ?? null, receivedEvents: events.rows[0].count as number };
+  return { ...environment, synchronization:synchronization.rows, botConfigured:botConfigured(),botEnabled:botEnabled(),answered:replies.rows[0].answered as number,review:replies.rows[0].review as number,onboardingEnabled: process.env.WHATSAPP_ONBOARDING_ENABLED === "true", webhookVerified: Boolean(setup.rows[0]?.webhook_verified_at), connection: connection.rows[0] ?? null, receivedEvents: events.rows[0].count as number };
 }
 export async function beginWhatsappOnboarding(userId: string) {
   const status = await whatsappStatus();
+  if(status.connection && status.connection.status !== "linked_bot_paused") throw new HttpError(409,"Ya hay una conexión pendiente de sincronización o revisión. Revisa su estado antes de volver a vincular el número.");
   if (!status.ready) throw new HttpError(503, "Faltan las claves de WhatsApp en el servidor.");
   if (!status.webhookVerified) throw new HttpError(409, "Primero verifica el webhook de WhatsApp en Meta.");
   if (!status.onboardingEnabled) throw new HttpError(409, "La finalización de coexistencia todavía está en preparación. El número no se modificó.");
@@ -64,6 +66,7 @@ export async function finishWhatsappOnboarding(userId: string, body: Record<stri
   if (!whatsappEnvironment().ready) throw new HttpError(503, "Faltan las claves de WhatsApp en el servidor.");
   if (process.env.WHATSAPP_ONBOARDING_ENABLED !== "true") throw new HttpError(409, "La conexión está en preparación. Intenta cuando finalice la configuración.");
   if (typeof body.nonce !== "string" || !/^[a-f0-9]{64}$/.test(body.nonce) || typeof body.code !== "string" || body.code.length < 10 || body.code.length > 8192 || !metaId(body.wabaId) || body.event !== COEXISTENCE_EVENT) throw new HttpError(400, "La conexión no corresponde al flujo de coexistencia. Vuelve a abrirla desde el portal.");
+  if(body.syncConsent !== true) throw new HttpError(400, "Confirma la recepción privada de contactos e historial antes de conectar.");
   const claim = await db().query("UPDATE oktae.whatsapp_onboarding_attempts SET consumed_at=now() WHERE nonce_hash=$1 AND user_id=$2 AND expires_at>now() AND consumed_at IS NULL RETURNING nonce_hash", [hash(body.nonce),userId]);
   if (!claim.rowCount) throw new HttpError(409, "Esta conexión ya se utilizó o expiró. Inicia una nueva.");
   const { token, expiresIn } = await exchangeCode(body.code);
@@ -79,9 +82,10 @@ export async function finishWhatsappOnboarding(userId: string, body: Record<stri
     ON CONFLICT(id) DO UPDATE SET waba_id=EXCLUDED.waba_id,phone_number_id=EXCLUDED.phone_number_id,display_phone_number=EXCLUDED.display_phone_number,token_encrypted=EXCLUDED.token_encrypted,token_expires_at=EXCLUDED.token_expires_at,status='subscription_pending',connected_by=EXCLUDED.connected_by,connected_at=now()`,
     [body.wabaId,phone.id,phone.display_phone_number,encrypted,expiresIn,userId]);
   // Coexistence numbers are already registered. NEVER call /register or /deregister.
-  // Do not import history/contacts or send messages during onboarding.
+  // Sync requests are durably queued only after explicit administrator consent. No message is sent.
   const subscribed = await graph(`${body.wabaId}/subscribed_apps`, token, { method: "POST" });
   if (subscribed.success !== true) throw new HttpError(502, "El número quedó guardado, pero falta suscribir los eventos en Meta. El bot sigue pendiente.");
-  await db().query("UPDATE oktae.whatsapp_connections SET status='linked_bot_paused' WHERE id=1 AND waba_id=$1", [body.wabaId]);
+  await db().query("INSERT INTO oktae.whatsapp_sync_requests(phone_number_id,sync_type,consent_by) VALUES($1,'smb_app_state_sync',$2),($1,'history',$2) ON CONFLICT DO NOTHING",[phone.id,userId]);
+  await db().query("UPDATE oktae.whatsapp_connections SET status='sync_pending' WHERE id=1 AND waba_id=$1", [body.wabaId]);
   return { linked: true, botActive: false };
 }

@@ -44,7 +44,7 @@ async function claimJob() {
   await client.query("BEGIN");
   // Expired leases are safe to retry only before an outbound send was attempted.
   await client.query("UPDATE oktae.whatsapp_jobs SET status=CASE WHEN attempts<3 THEN 'queued' ELSE 'failed' END,lease_id=NULL,lease_until=NULL WHERE status='processing' AND lease_until<now()");
-  const selected=await client.query(`SELECT j.* FROM oktae.whatsapp_jobs j JOIN oktae.whatsapp_connections c ON c.waba_id=j.waba_id AND c.id=1
+  const selected=await client.query(`SELECT j.* FROM oktae.whatsapp_jobs j JOIN oktae.whatsapp_connections c ON c.waba_id=j.waba_id AND c.id=1 AND c.status='linked_bot_paused'
    WHERE j.status='queued' AND j.attempts<3 AND (j.attempts=0 OR j.updated_at<now()-interval '30 seconds') AND NOT EXISTS(SELECT 1 FROM oktae.whatsapp_jobs other WHERE other.waba_id=j.waba_id AND other.sender_id=j.sender_id AND (other.status='processing' OR (other.status='send_uncertain' AND other.updated_at>now()-interval '2 minutes')))
    ORDER BY j.created_at LIMIT 1 FOR UPDATE OF j SKIP LOCKED`);
   if(!selected.rowCount){await client.query("COMMIT");return null;}
@@ -69,7 +69,7 @@ async function processOne() {
   if(!ai.ok)throw new Error("Agent unavailable");
   const raw=await ai.text();if(raw.length>15000)throw new Error("Agent response too large");
   const answer=parseAgentAnswer(JSON.parse(raw));
-  const connection=(await db().query("SELECT waba_id,phone_number_id,token_encrypted,token_expires_at,connected_by FROM oktae.whatsapp_connections WHERE id=1 AND waba_id=$1",[job.waba_id])).rows[0];
+  const connection=(await db().query("SELECT waba_id,phone_number_id,token_encrypted,token_expires_at,connected_by FROM oktae.whatsapp_connections WHERE id=1 AND waba_id=$1 AND status='linked_bot_paused'",[job.waba_id])).rows[0];
   if(!connection||new Date(connection.token_expires_at).getTime()<=Date.now())throw new Error("Connection expired");
   const token=openToken(connection.token_encrypted,encryptionKey(process.env.WHATSAPP_ENCRYPTION_KEY),connection.waba_id);
   // Recheck human pause and service window after the AI returns, before any send.

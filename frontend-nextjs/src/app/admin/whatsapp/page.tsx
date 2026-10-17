@@ -17,10 +17,11 @@ export default async function WhatsAppPage() {
         <div><dt>Claves del servidor</dt><dd>{status.ready ? "Configuradas" : "Pendientes"}</dd></div>
         <div><dt>Recepción de eventos</dt><dd>{status.webhookVerified ? "Webhook verificado" : "Pendiente de verificar en Meta"}</dd></div>
         <div><dt>Finalización de coexistencia</dt><dd>{status.onboardingEnabled ? "Habilitada" : "Pendiente de preparar sincronización y n8n"}</dd></div>
-        <div><dt>Número de WhatsApp</dt><dd>{connection ? `${connection.display_phone_number} · coexistencia verificada` : "Pendiente de vincular"}</dd></div>
-        <div><dt>Respuestas automáticas</dt><dd>{status.botEnabled && connection ? status.answered>0 ? "Activas" : "Habilitadas · primera respuesta pendiente" : "Pendientes de conectar y probar en n8n"}</dd></div>
+        <div><dt>Número de WhatsApp</dt><dd>{connection ? `${connection.display_phone_number} · ${connection.status === "disconnected" ? "desconectado de Meta" : "coexistencia verificada"}` : "Pendiente de vincular"}</dd></div>
+        <div><dt>Respuestas automáticas</dt><dd>{status.botEnabled && connection?.status === "linked_bot_paused" ? status.answered>0 ? "Activas" : "Habilitadas · primera respuesta pendiente" : "Pendientes de conectar y probar en n8n"}</dd></div>
       </dl>
-      {connection && <p className="crm-notice">Número guardado. {connection.status === "subscription_pending" ? "Falta suscribir los eventos en Meta. " : "Los eventos que entregue Meta se guardan en el portal. "}{status.botEnabled ? "Las respuestas automáticas están habilitadas." : "El bot todavía no responde en WhatsApp."} La autorización vence el {new Intl.DateTimeFormat("es-GT", {dateStyle:"long", timeZone:"America/Guatemala"}).format(new Date(connection.token_expires_at))}.</p>}
+      {connection && <p className="crm-notice">Número guardado. {connection.status === "subscription_pending" ? "Falta suscribir los eventos en Meta. " : "Los eventos que entregue Meta se guardan en el portal. "}{status.botEnabled && connection.status === "linked_bot_paused" ? "Las respuestas automáticas están habilitadas." : "El bot todavía no responde en WhatsApp."} La autorización vence el {new Intl.DateTimeFormat("es-GT", {dateStyle:"long", timeZone:"America/Guatemala"}).format(new Date(connection.token_expires_at))}.</p>}
+      {connection && <p role="status">{connection.status === "sync_pending" ? "Sincronización inicial en curso. Mantén WhatsApp Business abierto en el teléfono." : connection.status === "sync_review" ? "La sincronización requiere revisión. El bot permanece pausado; no vuelvas a vincular el número para reintentar." : status.synchronization.length === 2 && status.synchronization.every(r=>r.status === "accepted") ? "Meta aceptó las dos solicitudes de sincronización. El historial recibido dependerá de lo que hayas autorizado en el teléfono." : "La sincronización inicial está pendiente."}</p>}
       <WhatsAppConnect ready={status.ready && status.webhookVerified && status.onboardingEnabled} appId={status.appId} configId={status.configId} connected={Boolean(connection)} />
     </section>
     {(!status.ready || !status.webhookVerified) && <section className="wa-panel" aria-labelledby="wa-setup-title">
@@ -30,7 +31,7 @@ export default async function WhatsAppPage() {
       <p>En Meta, usa esta dirección como callback de WhatsApp y el valor de <code>WHATSAPP_VERIFY_TOKEN</code> como token de verificación:</p>
       <p className="wa-endpoint">https://www.oktae.tech/api/webhooks/whatsapp</p>
       <p>Habilita los eventos <code>messages</code>, <code>smb_message_echoes</code>, <code>history</code> y <code>smb_app_state_sync</code>. El portal valida la firma de Meta y guarda cada evento antes de confirmar su recepción.</p>
-      <p>Para finalizar el alta habrá que atender la sincronización de coexistencia dentro del plazo de Meta. Esta pantalla no importa tu historial ni activa el bot por sí sola.</p>
+      <p>Para finalizar el alta habrá que atender la sincronización de coexistencia dentro del plazo de Meta. Meta te permite decidir si compartes el historial. El bot permanece pausado durante la sincronización inicial.</p>
     </section>}
     <section className="wa-next"><h2>Después de vincular el número</h2><p>Conectaremos los mensajes nuevos al agente de n8n, probaremos una respuesta y la pausa al atender tú, y validaremos qué conversaciones pasan al CRM. Los eventos recibidos no se convierten automáticamente en prospectos calificados.</p><p>Respuestas enviadas: <strong>{status.answered}</strong>. Respuestas que requieren revisión: <strong>{status.review}</strong>.</p><p>Eventos recibidos por el portal: <strong>{status.receivedEvents}</strong></p></section>
   </main>;

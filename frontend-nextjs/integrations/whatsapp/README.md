@@ -55,3 +55,9 @@ Fuentes oficiales:
 - https://developers.facebook.com/documentation/business-messaging/whatsapp/embedded-signup/implementation
 - https://developers.facebook.com/documentation/business-messaging/whatsapp/embedded-signup/version-4
 - https://developers.facebook.com/documentation/business-messaging/whatsapp/embedded-signup/onboarding-customers-as-a-tech-provider
+
+## Sincronización inicial
+
+El alta requiere consentimiento explícito del administrador para recibir contactos y el historial que comparta en Meta. Después de suscribir la cuenta, se encolan las solicitudes `smb_app_state_sync` y `history`. Se inicia inmediatamente después de guardar el alta y el disparador privado de n8n recupera solicitudes pendientes cada minuto. Los identificadores de solicitud se conservan. Una respuesta ambigua no se reintenta: deja el bot pausado y requiere revisión. La aceptación de las solicitudes no confirma que el usuario haya compartido historial. El historial y los contactos recibidos permanecen como eventos privados; no se convierten en leads ni entran en la memoria de IA.
+
+La tabla conserva una solicitud por tipo y número. Una nueva alta después de una desconexión requiere revisar manualmente este registro para establecer un nuevo ciclo; no borrar ni reiniciar una sincronización incierta automáticamente. Suscribir también `account_update`: `PARTNER_REMOVED` pausa el canal inmediatamente.

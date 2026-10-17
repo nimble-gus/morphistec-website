@@ -41,6 +41,7 @@ export async function POST(req: NextRequest) {
       for (const change of entry.changes) {
         if (!change || typeof change.field !== "string" || change.field.length > 100 || !change.value || typeof change.value !== "object") throw new Error("Invalid change");
         if (!isTest && change.field === "smb_message_echoes") await recordHumanEchoes(client,entry.id,change.value);
+        if(!isTest && change.field === "account_update" && change.value.event === "PARTNER_REMOVED") await client.query("UPDATE oktae.whatsapp_connections SET status='disconnected' WHERE id=1 AND waba_id=$1",[entry.id]);
         const body = JSON.stringify(change.value);
         const eventKey = createHash("sha256").update(`${entry.id}:${change.field}:${body}`).digest("hex");
         await client.query("INSERT INTO oktae.whatsapp_events(event_key,waba_id,field,payload,is_test) VALUES($1,$2,$3,$4::jsonb,$5) ON CONFLICT DO NOTHING", [eventKey, entry.id, change.field, body, isTest]);

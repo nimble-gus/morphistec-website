@@ -27,7 +27,7 @@ export default function WhatsAppConnect({ready, appId, configId, connected}: {re
     current.saving = true;
     if (deadline.current) clearTimeout(deadline.current);
     setStage("saving");
-    void post("finish", {nonce:current.nonce, code:current.code, wabaId:current.wabaId, event:COEXISTENCE_EVENT}).then(() => {
+    void post("finish", {nonce:current.nonce, code:current.code, wabaId:current.wabaId, event:COEXISTENCE_EVENT,syncConsent:true}).then(() => {
       pending.current = null; setStage("done"); window.location.reload();
     }).catch((e: Error) => {pending.current = null; setStage("idle"); setError(e.message);});
   };
@@ -66,8 +66,8 @@ export default function WhatsAppConnect({ready, appId, configId, connected}: {re
     {ready && <Script id="oktae-meta-sdk" src="https://connect.facebook.net/es_LA/sdk.js" strategy="afterInteractive" onReady={() => {
       sdk()?.init({appId,version:GRAPH_VERSION,xfbml:false,cookie:false}); setLoaded(Boolean(sdk()));
     }} onError={() => setError("No se pudo cargar Meta. Revisa los bloqueadores del navegador y recarga la página.")} />}
-    <p>Usaremos la opción de conectar tu cuenta existente de WhatsApp Business. Meta puede desvincular dispositivos asociados y cambiar funciones como las listas de difusión. No se solicita importar el historial desde este portal.</p>
-    <label className="wa-consent"><input type="checkbox" checked={accepted} disabled={busy || !ready} onChange={event=>setAccepted(event.target.checked)} /><span>Quiero conectar +502 3117 4640 conservando WhatsApp Business en el teléfono. Revisaré los permisos y los cambios que indique Meta.</span></label>
+    <p>Usaremos la opción de conectar tu cuenta existente de WhatsApp Business. Meta puede desvincular dispositivos asociados y cambiar funciones como las listas de difusión. Solicitaremos la sincronización de contactos y del historial que decidas compartir en Meta. Se guardan de forma privada y no se convierten en prospectos ni se envían a la IA. Mantén abierta la aplicación durante la sincronización.</p>
+    <label className="wa-consent"><input type="checkbox" checked={accepted} disabled={busy || !ready} onChange={event=>setAccepted(event.target.checked)} /><span>Quiero conectar +502 3117 4640 conservando WhatsApp Business en el teléfono. Autorizo recibir en el portal privado mis contactos y el historial que elija compartir en Meta. Revisaré los cambios que indique Meta.</span></label>
     <button type="button" className="primary" disabled={!ready || !loaded || !accepted || busy} onClick={stage === "prepared" ? launch : prepare}>
       {stage === "preparing" ? "Preparando conexión…" : stage === "meta" ? "Completa los pasos en Meta…" : stage === "saving" ? "Verificando coexistencia…" : stage === "done" ? "Número vinculado" : stage === "prepared" ? "Continuar con Meta" : connected ? "Renovar conexión con Meta" : "Preparar conexión"}
     </button>

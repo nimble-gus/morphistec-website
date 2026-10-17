@@ -4,6 +4,7 @@ import { randomBytes, randomUUID, createHmac } from "node:crypto";
 import pg from "pg";
 import { NextRequest } from "next/server";
 import { finishWhatsappOnboarding, beginWhatsappOnboarding } from "../src/lib/crm/whatsapp";
+import {runWhatsappSync} from "../src/lib/crm/whatsapp-sync";
 import { openToken } from "../src/lib/crm/whatsapp-protocol";
 import { GET, POST } from "../src/app/api/webhooks/whatsapp/route";
 try { process.loadEnvFile(".env"); } catch {}
@@ -22,6 +23,7 @@ test("onboarding consumes nonce once, validates number and coexistence, encrypts
   process.env.WHATSAPP_ENCRYPTION_KEY=key.toString("hex");
   process.env.WHATSAPP_VERIFY_TOKEN=verify;
   const calls: string[]=[];
+  let syncTimeout=false;
   let coexistence=true, phone="+502 3117 4640";
   const waba="1786565612453704", phoneId="123456789012345", fakeToken="test-token-never-issued-by-meta";
   // Every Graph call is intercepted. No real authorization, send or registration occurs.
@@ -35,6 +37,7 @@ test("onboarding consumes nonce once, validates number and coexistence, encrypts
     if(url.pathname.endsWith(`/${waba}/phone_numbers`)) return Response.json({data:[{id:phoneId,display_phone_number:phone}]});
     if(url.pathname.endsWith(`/${phoneId}`)) return Response.json({is_on_biz_app:coexistence,platform_type:"CLOUD_API"});
     if(url.pathname.endsWith(`/${waba}/subscribed_apps`)) {assert.equal(init?.method,"POST");return Response.json({success:true});}
+    if(url.pathname.endsWith(`/${phoneId}/smb_app_data`)) {if(syncTimeout)throw new Error("Ambiguous timeout");const b=JSON.parse(String(init?.body));assert.equal(b.messaging_product,"whatsapp");return Response.json({request_id:`request-${b.sync_type}`});}
     throw new Error("Unexpected Graph operation");
   };
   let pendingQuery: Promise<unknown>=Promise.resolve();
@@ -51,7 +54,7 @@ test("onboarding consumes nonce once, validates number and coexistence, encrypts
     const verified=await GET(new NextRequest(`https://www.oktae.tech/api/webhooks/whatsapp?hub.mode=subscribe&hub.verify_token=${verify}&hub.challenge=1234`));
     assert.equal(await verified.text(),"1234");
     const {nonce}=await beginWhatsappOnboarding(userId);
-    const body={nonce,code:"fake-code-for-tests-only",wabaId:waba,event:"FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING"};
+    const body={nonce,code:"fake-code-for-tests-only",wabaId:waba,event:"FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING",syncConsent:true};
     coexistence=false;
     await assert.rejects(()=>finishWhatsappOnboarding(userId,body),/no confirma coexistencia/);
     const countCalls=calls.length;
@@ -64,10 +67,20 @@ test("onboarding consumes nonce once, validates number and coexistence, encrypts
     const third=await beginWhatsappOnboarding(userId);
     assert.deepEqual(await finishWhatsappOnboarding(userId,{...body,nonce:third.nonce}),{linked:true,botActive:false});
     const connection=(await client.query("SELECT token_encrypted,status FROM oktae.whatsapp_connections WHERE id=1")).rows[0];
-    assert.equal(connection.status,"linked_bot_paused");
+    assert.equal(connection.status,"sync_pending");
     assert.equal(connection.token_encrypted.includes(fakeToken),false);
     assert.equal(openToken(connection.token_encrypted,key,waba),fakeToken);
     assert.equal(calls.some(path=>/\/(register|deregister|messages|smb_app_data)$/.test(path)),false);
+    const beforeSync=calls.length;
+    await runWhatsappSync();
+    assert.equal(calls.length,beforeSync+2);
+    assert.equal((await client.query("SELECT status FROM oktae.whatsapp_connections WHERE id=1")).rows[0].status,"linked_bot_paused");
+    await runWhatsappSync();assert.equal(calls.length,beforeSync+2,"accepted sync requests must never repeat");
+    await client.query("UPDATE oktae.whatsapp_sync_requests SET status='pending',request_id=NULL WHERE phone_number_id=$1 AND sync_type='history'",[phoneId]);
+    await client.query("UPDATE oktae.whatsapp_connections SET status='sync_pending' WHERE id=1");
+    syncTimeout=true;await runWhatsappSync();const afterTimeout=calls.length;await runWhatsappSync();
+    assert.equal(calls.length,afterTimeout,"ambiguous synchronization must not retry");
+    assert.equal((await client.query("SELECT status FROM oktae.whatsapp_connections WHERE id=1")).rows[0].status,"sync_review");
     // Signed event receipt is exercised in a nested savepoint, preserving all DB data.
     (globalThis as unknown as {oktaePool:unknown}).oktaePool={query:client.query.bind(client),connect:async()=>({
       query:async(sql:string,values?:unknown[])=>client.query(sql==="BEGIN"?"SAVEPOINT webhook_test":sql==="COMMIT"?"RELEASE SAVEPOINT webhook_test":sql==="ROLLBACK"?"ROLLBACK TO SAVEPOINT webhook_test":sql,values),release:()=>{}
