@@ -49,9 +49,17 @@ export default function WhatsAppConnect({ready, appId, configId, connected}: {re
   function launch() {
     const fb = sdk();
     if (!fb || !pending.current) {setStage("idle"); setError("Recarga la página para preparar la conexión de nuevo."); return;}
+    const attempt=pending.current;
     setError(""); setStage("meta");
+    if(deadline.current)clearTimeout(deadline.current);
+    deadline.current=setTimeout(()=>{
+      if(pending.current!==attempt || attempt.saving)return;
+      pending.current=null;setStage("idle");setError("No recibimos la confirmación de Meta. Si no apareció una ventana, permite las ventanas emergentes de este sitio y vuelve a preparar la conexión.");
+    },8*60*1000);
     // Keep FB.login synchronous with this click so the browser can open its popup.
-    fb.login((response) => {
+    try {fb.login((response) => {
+      if(pending.current!==attempt)return;
+      if(deadline.current)clearTimeout(deadline.current);
       if (!response.authResponse?.code) {pending.current=null; setStage("idle"); setError("La conexión se cerró sin autorizar. Puedes volver a intentarlo."); return;}
       if (!pending.current) return;
       pending.current.code=response.authResponse.code;
@@ -60,6 +68,10 @@ export default function WhatsAppConnect({ready, appId, configId, connected}: {re
         pending.current=null; setStage("idle"); setError("Meta no confirmó el flujo de coexistencia. No registres el número por otra ruta; vuelve a intentar desde aquí.");
       },10000);
     }, {config_id:configId, response_type:"code", override_default_response_type:true, extras:{setup:{},featureType:"whatsapp_business_app_onboarding",sessionInfoVersion:"3"}});
+    }catch{
+      if(deadline.current)clearTimeout(deadline.current);
+      if(pending.current===attempt){pending.current=null;setStage("idle");setError("No se pudo abrir Meta. Permite las ventanas emergentes y vuelve a preparar la conexión.");}
+    }
   }
   const busy=["preparing","meta","saving","done"].includes(stage);
   return <div className="wa-connect">
@@ -71,6 +83,10 @@ export default function WhatsAppConnect({ready, appId, configId, connected}: {re
     <button type="button" className="primary" disabled={!ready || !loaded || !accepted || busy} onClick={stage === "prepared" ? launch : prepare}>
       {stage === "preparing" ? "Preparando conexión…" : stage === "meta" ? "Completa los pasos en Meta…" : stage === "saving" ? "Verificando coexistencia…" : stage === "done" ? "Número vinculado" : stage === "prepared" ? "Continuar con Meta" : connected ? "Renovar conexión con Meta" : "Preparar conexión"}
     </button>
+    {stage === "meta" && <><p role="status">Completa la autorización en la ventana de Meta. Si no apareció ninguna ventana, permite las ventanas emergentes de este sitio y vuelve a intentarlo.</p><p><button type="button" onClick={()=>{
+      if(deadline.current)clearTimeout(deadline.current);
+      pending.current=null;setStage("idle");setError("Vuelve a preparar la conexión y pulsa Continuar con Meta. Usa este reintento solo si no hay una autorización de Meta en curso.");
+    }}>No se abrió Meta: reintentar</button></p></>}
     {error && <p className="crm-error" role="alert">{error}</p>}
     {stage === "prepared" && <p role="status">La conexión está preparada. Continúa con Meta y elige conectar tu cuenta existente. No elimines la cuenta del teléfono.</p>}
   </div>;
