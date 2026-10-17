@@ -1,4 +1,5 @@
 import "server-only";
+import {botConfigured,botEnabled,verifyAgentReady} from "./whatsapp-bot";
 import { createHash, randomBytes } from "node:crypto";
 import { db } from "./db";
 import { HttpError } from "./errors";
@@ -18,13 +19,15 @@ export async function whatsappStatus() {
     db().query("SELECT waba_id,phone_number_id,display_phone_number,token_expires_at,status,connected_at FROM oktae.whatsapp_connections WHERE id=1"),
     db().query("SELECT count(*)::integer AS count FROM oktae.whatsapp_events"),
   ]);
-  return { ...environment, onboardingEnabled: process.env.WHATSAPP_ONBOARDING_ENABLED === "true", webhookVerified: Boolean(setup.rows[0]?.webhook_verified_at), connection: connection.rows[0] ?? null, receivedEvents: events.rows[0].count as number };
+  const replies = await db().query("SELECT count(*) FILTER(WHERE status='answered')::integer AS answered,count(*) FILTER(WHERE status IN ('failed','send_uncertain'))::integer AS review FROM oktae.whatsapp_jobs");
+  return { ...environment, botConfigured:botConfigured(),botEnabled:botEnabled(),answered:replies.rows[0].answered as number,review:replies.rows[0].review as number,onboardingEnabled: process.env.WHATSAPP_ONBOARDING_ENABLED === "true", webhookVerified: Boolean(setup.rows[0]?.webhook_verified_at), connection: connection.rows[0] ?? null, receivedEvents: events.rows[0].count as number };
 }
 export async function beginWhatsappOnboarding(userId: string) {
   const status = await whatsappStatus();
   if (!status.ready) throw new HttpError(503, "Faltan las claves de WhatsApp en el servidor.");
   if (!status.webhookVerified) throw new HttpError(409, "Primero verifica el webhook de WhatsApp en Meta.");
   if (!status.onboardingEnabled) throw new HttpError(409, "La finalización de coexistencia todavía está en preparación. El número no se modificó.");
+  try {await verifyAgentReady();}catch{throw new HttpError(409, "El agente privado de n8n todavía no está listo. Revisa su publicación y clave de acceso antes de vincular el número.");}
   const recent = await db().query("SELECT count(*)::integer AS count FROM oktae.whatsapp_onboarding_attempts WHERE user_id=$1 AND created_at>now()-interval '10 minutes'", [userId]);
   if (recent.rows[0].count >= 5) throw new HttpError(429, "Has abierto varias conexiones. Espera diez minutos antes de reintentar.");
   const nonce = randomBytes(32).toString("hex");

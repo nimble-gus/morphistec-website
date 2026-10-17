@@ -1,7 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse, after } from "next/server";
 import { createHash } from "node:crypto";
 import { db } from "@/lib/crm/db";
 import { equalSecret, validMetaSignature } from "@/lib/crm/whatsapp-protocol";
+import {botEnabled,recordHumanEchoes,runWhatsappBot} from "@/lib/crm/whatsapp-bot";
+export const maxDuration=60;
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
 
@@ -38,12 +40,14 @@ export async function POST(req: NextRequest) {
       const isTest = entry.id === "0";
       for (const change of entry.changes) {
         if (!change || typeof change.field !== "string" || change.field.length > 100 || !change.value || typeof change.value !== "object") throw new Error("Invalid change");
+        if (!isTest && change.field === "smb_message_echoes") await recordHumanEchoes(client,entry.id,change.value);
         const body = JSON.stringify(change.value);
         const eventKey = createHash("sha256").update(`${entry.id}:${change.field}:${body}`).digest("hex");
         await client.query("INSERT INTO oktae.whatsapp_events(event_key,waba_id,field,payload,is_test) VALUES($1,$2,$3,$4::jsonb,$5) ON CONFLICT DO NOTHING", [eventKey, entry.id, change.field, body, isTest]);
       }
     }
     await client.query("COMMIT");
+    if(botEnabled() && payload.entry.some((e:{id:string})=>e.id!=="0")) after(async()=>{try{await runWhatsappBot();}catch{console.error("WhatsApp processing pending");}});
     return new NextResponse("EVENT_RECEIVED");
   } catch {
     await client.query("ROLLBACK");

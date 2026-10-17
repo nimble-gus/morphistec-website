@@ -15,6 +15,9 @@ test("onboarding consumes nonce once, validates number and coexistence, encrypts
   const originalFetch = globalThis.fetch;
   const key=randomBytes(32), secret="test-app-secret", verify=randomBytes(32).toString("hex");
   process.env.WHATSAPP_ONBOARDING_ENABLED="true";
+  process.env.WHATSAPP_BOT_ENABLED="false";
+  process.env.WHATSAPP_N8N_TOKEN=randomBytes(32).toString("hex");
+  process.env.WHATSAPP_N8N_WEBHOOK_URL="https://n8n-production-2af53.up.railway.app/webhook/oktae-whatsapp-ai";
   process.env.META_APP_SECRET=secret;
   process.env.WHATSAPP_ENCRYPTION_KEY=key.toString("hex");
   process.env.WHATSAPP_VERIFY_TOKEN=verify;
@@ -24,6 +27,7 @@ test("onboarding consumes nonce once, validates number and coexistence, encrypts
   // Every Graph call is intercepted. No real authorization, send or registration occurs.
   globalThis.fetch=async (input,init) => {
     const url=new URL(String(input));
+    if(url.href===process.env.WHATSAPP_N8N_WEBHOOK_URL){assert.equal(JSON.parse(String(init?.body)).healthcheck,true);return Response.json({ready:true});}
     assert.equal(url.hostname,"graph.facebook.com");
     calls.push(url.pathname);
     if(url.pathname.endsWith("/oauth/access_token")) return Response.json({access_token:fakeToken,expires_in:3600});
@@ -33,7 +37,9 @@ test("onboarding consumes nonce once, validates number and coexistence, encrypts
     if(url.pathname.endsWith(`/${waba}/subscribed_apps`)) {assert.equal(init?.method,"POST");return Response.json({success:true});}
     throw new Error("Unexpected Graph operation");
   };
-  (globalThis as unknown as {oktaePool:unknown}).oktaePool={query:client.query.bind(client)};
+  let pendingQuery: Promise<unknown>=Promise.resolve();
+  const serializedQuery=(sql:string,values?:unknown[])=>{const task=pendingQuery.then(()=>client.query(sql,values));pendingQuery=task.then(()=>undefined,()=>undefined);return task;};
+  (globalThis as unknown as {oktaePool:unknown}).oktaePool={query:serializedQuery};
   try {
     await client.query("BEGIN");
     const userId=randomUUID();
