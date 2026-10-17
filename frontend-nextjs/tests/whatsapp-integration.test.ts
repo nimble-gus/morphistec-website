@@ -75,6 +75,15 @@ test("onboarding consumes nonce once, validates number and coexistence, encrypts
     assert.equal((await POST(request(signed))).status,200);
     const after=Number((await client.query("SELECT count(*) AS count FROM oktae.whatsapp_events")).rows[0].count);
     assert.equal(after,before+1,"duplicate delivery must not insert another event");
+    const sample = JSON.parse(raw); sample.entry[0].id="0";
+    const sampleRaw=JSON.stringify(sample);
+    const sampleSignature="sha256="+createHmac("sha256",secret).update(sampleRaw).digest("hex");
+    const sampleRequest=(signature:string)=>new NextRequest("https://www.oktae.tech/api/webhooks/whatsapp",{method:"POST",headers:{"x-hub-signature-256":signature},body:sampleRaw});
+    assert.equal((await POST(sampleRequest("sha256="+"0".repeat(64)))).status,403);
+    assert.equal((await POST(sampleRequest(sampleSignature))).status,200);
+    const savedSample=await client.query("SELECT is_test FROM oktae.whatsapp_events WHERE waba_id='0' AND payload->'messages'->0->>'id'=$1",[sample.entry[0].changes[0].value.messages[0].id]);
+    assert.equal(savedSample.rows[0].is_test,true);
+
   } finally {
     globalThis.fetch=originalFetch;
     await client.query("ROLLBACK");
