@@ -21,17 +21,18 @@ export function parseEmbeddedSignupEvent(origin: string, value: unknown): Embedd
   let event: unknown;
   try { event = typeof value === "string" ? JSON.parse(value) : value; } catch { return null; }
   if (!event || typeof event !== "object") return null;
-  const e = event as { type?: string; event?: string; data?: { waba_id?: string; error_id?: unknown } };
+  const e = event as { type?: string; event?: string; data?: { waba_id?: string; error_code?: unknown; error_id?: unknown; error_message?: unknown } };
   if (e.type !== "WA_EMBEDDED_SIGNUP") return null;
   if (e.event === COEXISTENCE_EVENT && metaId(e.data?.waba_id)) return {kind:"connected", wabaId:e.data.waba_id};
-  if (e.event === "CANCEL") return {kind:"cancelled"};
-  if (e.event === "FINISH" || e.event === "FINISH_ONLY_WABA") return {kind:"different_flow"};
-  if (e.event === "ERROR") {
+  if (["FINISH", "FINISH_ONLY_WABA", "FINISH_OBO_MIGRATION", "FINISH_GRANT_ONLY_API_ACCESS"].includes(e.event ?? "")) return {kind:"different_flow"};
+  // Meta also reports user-reported errors with event CANCEL and data.error_code.
+  if (e.event === "ERROR" || (e.event === "CANCEL" && (e.data?.error_code !== undefined || typeof e.data?.error_message === "string"))) {
     // Keep only a bounded numeric reference. Raw messages can contain private account data.
-    const rawCode = e.data?.error_id;
+    const rawCode = e.data?.error_code ?? e.data?.error_id;
     const code = (typeof rawCode === "number" && Number.isSafeInteger(rawCode)) || typeof rawCode === "string" ? String(rawCode) : "";
     return /^[0-9]{1,12}$/.test(code) ? {kind:"error",code} : {kind:"error"};
   }
+  if (e.event === "CANCEL") return {kind:"cancelled"};
   return null;
 }
 

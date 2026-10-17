@@ -50,8 +50,10 @@ test("Meta failure diagnostics never accept another flow as coexistence or expos
   for(const code of ["EAA_PRIVATE_TOKEN","12345 token",-1,1.5,NaN,"1234567890123",{},null]) {
     assert.deepEqual(parseEmbeddedSignupEvent(origin,{...payload,data:{...payload.data,error_id:code}}),{kind:"error"});
   }
-  assert.deepEqual(parseEmbeddedSignupEvent(origin,{...payload,event:"CANCEL"}),{kind:"cancelled"});
-  for(const event of ["FINISH","FINISH_ONLY_WABA"]) {
+  assert.deepEqual(parseEmbeddedSignupEvent(origin,{type:"WA_EMBEDDED_SIGNUP",event:"CANCEL",data:{current_step:"PHONE_NUMBER_SETUP"}}),{kind:"cancelled"});
+  assert.deepEqual(parseEmbeddedSignupEvent(origin,{type:"WA_EMBEDDED_SIGNUP",event:"CANCEL",data:{error_code:"524126",error_message:"private account data",session_id:"private-session"}}),{kind:"error",code:"524126"});
+  assert.deepEqual(parseEmbeddedSignupEvent(origin,{type:"WA_EMBEDDED_SIGNUP",event:"CANCEL",data:{error_code:"secret",error_message:"private account data"}}),{kind:"error"});
+  for(const event of ["FINISH","FINISH_ONLY_WABA","FINISH_OBO_MIGRATION","FINISH_GRANT_ONLY_API_ACCESS"]) {
     assert.deepEqual(parseEmbeddedSignupEvent(origin,{...payload,event}),{kind:"different_flow"});
     assert.equal(parseCoexistenceEvent(origin,{...payload,event}),null);
   }
