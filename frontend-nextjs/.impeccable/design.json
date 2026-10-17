@@ -1,6 +1,6 @@
 {
   "schemaVersion": 2,
-  "generatedAt": "2026-10-16T19:15:34.276227+00:00",
+  "generatedAt": "2026-10-17T04:19:21.610408+00:00",
   "title": "Design System: Oktae CRM privado",
   "extensions": {
     "colorMeta": {
@@ -350,6 +350,14 @@
       "description": "Compact row pairing identity and explicit stage.",
       "html": "<button class=\"ds-contact\"><span class=\"ds-avatar\">P</span><span class=\"ds-info\"><strong>Prospecto</strong><span>Empresa</span></span><span class=\"ds-contact-stage\">Demostración</span></button>",
       "css": ".ds-contact{font-family:var(--font-sans, 'Poppins', sans-serif);font-size:14px;line-height:1.5;display:flex;align-items:center;text-align:left;gap:12px;width:100%;background:#edf0fc;border:0;border-bottom:1px solid #e8ebf1;padding:18px 20px;color:#242832;cursor:pointer}.ds-contact:hover{background:#f7f8fd}.ds-contact:focus-visible{outline:3px solid #9aa8ed;outline-offset:3px;}.ds-avatar{display:grid;place-items:center;flex-shrink:0;width:36px;height:36px;border-radius:50%;background:#eceef5;color:#4b5671;font-weight:500}.ds-info{display:flex;flex-direction:column;gap:3px;min-width:0;flex:1}.ds-info strong{font-size:13px;font-weight:600;overflow-wrap:anywhere}.ds-info>span{font-size:12px;color:#5e6574}.ds-contact-stage{font-size:10px;border-radius:4px;padding:4px 7px;white-space:nowrap;background:#e9edff;color:#3849a5}"
+    },
+    {
+      "name": "Connection checklist",
+      "kind": "custom",
+      "refersTo": "panel",
+      "description": "Private WhatsApp setup keeps server keys, webhook receipt, coexistence preparation, linked number, and automatic replies as five separate text states. Linking does not imply an active bot.",
+      "html": "<section class=\"ds-wa-panel\" aria-label=\"Conexión con Meta\"><h2 class=\"ds-wa-title\">Conexión con Meta</h2><dl class=\"ds-wa-checklist\"><div><dt>Claves del servidor</dt><dd>Pendientes</dd></div><div><dt>Recepción de eventos</dt><dd>Pendiente de verificar en Meta</dd></div><div><dt>Finalización de coexistencia</dt><dd>Pendiente de preparar sincronización y n8n</dd></div><div><dt>Número de WhatsApp</dt><dd>Pendiente de vincular</dd></div><div><dt>Respuestas automáticas</dt><dd>Pendientes de conectar y probar en n8n</dd></div></dl></section>",
+      "css": ".ds-wa-panel{background:white;color:var(--crm-ink,#242832);border:1px solid var(--crm-line,#dce0e8);border-radius:10px;padding:24px;font-family:Poppins,ui-sans-serif,system-ui,sans-serif;font-size:14px;line-height:1.5}.ds-wa-title{margin:0;font-size:19px;font-weight:600;line-height:1.4}.ds-wa-checklist{margin:24px 0}.ds-wa-checklist>div{display:flex;justify-content:space-between;gap:24px;padding:14px 0;border-bottom:1px solid var(--crm-line,#dce0e8)}.ds-wa-checklist dt{color:var(--crm-muted,#5e6574)}.ds-wa-checklist dd{margin:0;font-weight:500;text-align:right}@media(max-width:650px){.ds-wa-panel{padding:18px}.ds-wa-checklist>div{flex-direction:column;gap:6px}.ds-wa-checklist dd{text-align:left}}"
     }
   ],
   "narrative": {

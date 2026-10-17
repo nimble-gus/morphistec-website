@@ -30,6 +30,7 @@ try {
       "utf8",
     ),
   );
+  await db.query(await readFile(new URL("../db/migrations/004_whatsapp.sql", import.meta.url), "utf8"));
   await db.query("COMMIT");
   console.log("Esquema CRM oktae actualizado.");
 } catch (e) {

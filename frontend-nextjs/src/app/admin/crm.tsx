@@ -335,6 +335,7 @@ export default function Crm({
             <Settings size={18} />
             Configuración
           </button>
+          <Link href="/admin/whatsapp" className="crm-nav-link"><MessageCircle size={18} /> WhatsApp</Link>
         </nav>
         <div className="crm-account">
           <span className="private-tag">

@@ -794,3 +794,34 @@
   margin-bottom: 0;
   grid-template-columns: 100px 1fr;
 }
+
+/* WhatsApp extends the private CRM's working surfaces and controls. */
+.wa-page { max-width: 980px; margin: 0 auto; padding: 36px 28px 64px; }
+.wa-back { display: inline-flex; align-items: center; gap: 8px; margin-bottom: 28px; }
+.wa-heading { display: flex; justify-content: space-between; align-items: flex-start; gap: 24px; margin-bottom: 28px; }
+.wa-heading p { color: var(--crm-muted); margin-top: 10px; max-width: 65ch; }
+.wa-heading .private-tag { color: var(--crm-muted); white-space: nowrap; }
+.wa-panel { background: white; border: 1px solid var(--crm-line); border-radius: 10px; padding: 24px; margin-bottom: 24px; }
+.wa-panel-title { display: flex; align-items: center; gap: 12px; }
+.wa-panel > p, .wa-connect > p { margin-top: 16px; max-width: 70ch; overflow-wrap: anywhere; }
+.wa-checklist { margin: 24px 0; }
+.wa-checklist > div { display: flex; justify-content: space-between; gap: 24px; padding: 14px 0; border-bottom: 1px solid var(--crm-line); }
+.wa-checklist dt { color: var(--crm-muted); }
+.wa-checklist dd { margin: 0; font-weight: 500; text-align: right; }
+.ok-admin .wa-consent { display: flex; flex-direction: row; align-items: flex-start; gap: 12px; font-size: 14px; margin: 24px 0; max-width: 70ch; }
+.ok-admin .wa-consent input { width: 18px; height: 18px; min-height: 18px; flex-shrink: 0; margin-top: 3px; accent-color: var(--crm-primary); }
+.wa-missing { margin: 16px 0; padding-left: 24px; }
+.wa-missing li { margin-bottom: 8px; }
+.wa-endpoint { overflow-wrap: anywhere; font-weight: 500; }
+.wa-next { padding: 8px 0; }
+.wa-next p { color: var(--crm-muted); max-width: 70ch; margin-top: 14px; }
+.ok-admin .crm-sidebar .crm-nav-link { display: inline-flex; align-items: center; gap: 8px; padding: 12px; color: #c9cedb; font-size: 13px; text-decoration: none; border-radius: 7px; }
+.ok-admin .crm-sidebar .crm-nav-link:hover { background: #353a46; }
+@media(max-width:650px) {
+ .wa-page { padding: 24px 16px 40px; }
+ .wa-heading { flex-direction: column; gap: 14px; }
+ .wa-panel { padding: 18px; }
+ .wa-checklist > div { flex-direction: column; gap: 6px; }
+ .wa-checklist dd { text-align: left; }
+ .wa-connect > button { width: 100%; }
+}

@@ -177,6 +177,15 @@ The sidebar uses labeled Lucide outline icons, quiet text, and an indigo-slate a
 ### Contact rows and follow-up detail
 A circular initial, name, secondary contact information, optional follow-up date, and stage label form a selectable row. The selected fill links the row to its detail panel. Detail sections are separated by top borders; notes preserve line breaks, and their dates sit underneath. Monetary values use tabular numerals.
 
+### WhatsApp connection extension
+The private `/admin/whatsapp` screen inherits the CRM palette, Poppins hierarchy, bordered white panels, modest corners, and primary button. Its checklist presents five separately labeled states: server keys, webhook receipt, coexistence preparation, linked number, and automatic replies. Status text remains visible; a linked number does not imply an active bot.
+
+The centered reading flow keeps the CRM return link and private-access label above setup panels. On mobile, state rows stack label above value, the heading stacks, and the connection action spans the panel width. Supporting copy and callback addresses wrap within the panels.
+
+The connection action remains disabled until keys, verified webhook, and `WHATSAPP_ONBOARDING_ENABLED` are ready; SDK availability, explicit consent, and an idle action state also gate interaction. Preparation and continuation in Meta use separate clicks, with visible progress, retryable errors, and a confirmation status. Configuration names may be shown, never secret values. The page explicitly separates linking, event receipt, and the pending n8n bot work.
+
+Evidence: `src/app/admin/whatsapp/page.tsx`, `connect.tsx`, the WhatsApp extension in `src/app/admin/admin.css`, and the CRM navigation link in `crm.tsx`; desktop/mobile captures `whatsapp-portal-privado.png` and `whatsapp-portal-movil.png` in the task outputs. No new global tokens are established by this extension.
+
 ## Do's and Don'ts
 
 ### Do:

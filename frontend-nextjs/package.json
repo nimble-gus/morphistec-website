@@ -13,7 +13,9 @@
     "admin:create": "tsx scripts/create-admin.ts",
     "test:crm": "tsx --test tests/crm.test.ts tests/messenger.test.ts && node --conditions=react-server --import tsx --test tests/recurrente.test.ts",
     "test:crm:integration": "node scripts/test-crm-integration.mjs",
-    "test:messenger:integration": "tsx scripts/test-messenger-sync.ts"
+    "test:messenger:integration": "tsx scripts/test-messenger-sync.ts",
+    "test:whatsapp": "node --import tsx --test tests/whatsapp.test.ts",
+    "test:whatsapp:integration": "node --conditions=react-server --import tsx --test tests/whatsapp-integration.test.ts"
   },
   "dependencies": {
     "@radix-ui/react-slot": "^1.2.4",
