@@ -1,4 +1,5 @@
 import { test } from "node:test";
+import { parseEmbeddedSignupEvent } from "../src/lib/crm/whatsapp-shared";
 import assert from "node:assert/strict";
 import { createHmac, randomBytes } from "node:crypto";
 import { encryptionKey, sealToken, openToken, validMetaSignature, equalSecret, expectedCoexistencePhone, parseCoexistenceEvent } from "../src/lib/crm/whatsapp-protocol";
@@ -40,4 +41,24 @@ test("popup events reject lookalike domains and conventional migration flows",()
   assert.equal(parseCoexistenceEvent("https://www.facebook.com",{...event,event:"FINISH"}),null);
   assert.equal(parseCoexistenceEvent("https://www.facebook.com","not-json"),null);
   assert.equal(parseCoexistenceEvent("https://www.facebook.com",{...event,data:{waba_id:"../../oauth"}}),null);
+});
+
+test("Meta failure diagnostics never accept another flow as coexistence or expose raw details",()=>{
+  const origin="https://www.facebook.com";
+  const payload={type:"WA_EMBEDDED_SIGNUP",event:"ERROR",data:{error_id:12345,error_message:"private token and account details",waba_id:"1786565612453704"}};
+  assert.deepEqual(parseEmbeddedSignupEvent(origin,JSON.stringify(payload)),{kind:"error",code:"12345"});
+  for(const code of ["EAA_PRIVATE_TOKEN","12345 token",-1,1.5,NaN,"1234567890123",{},null]) {
+    assert.deepEqual(parseEmbeddedSignupEvent(origin,{...payload,data:{...payload.data,error_id:code}}),{kind:"error"});
+  }
+  assert.deepEqual(parseEmbeddedSignupEvent(origin,{...payload,event:"CANCEL"}),{kind:"cancelled"});
+  for(const event of ["FINISH","FINISH_ONLY_WABA"]) {
+    assert.deepEqual(parseEmbeddedSignupEvent(origin,{...payload,event}),{kind:"different_flow"});
+    assert.equal(parseCoexistenceEvent(origin,{...payload,event}),null);
+  }
+  for(const badOrigin of ["https://evilfacebook.com","https://facebook.com.attacker.invalid","http://www.facebook.com"]) {
+    assert.equal(parseEmbeddedSignupEvent(badOrigin,payload),null);
+  }
+  assert.equal(parseEmbeddedSignupEvent(origin,{...payload,type:"OTHER"}),null);
+  assert.equal(parseEmbeddedSignupEvent(origin,{...payload,event:"UNRECOGNIZED"}),null);
+  assert.equal(parseEmbeddedSignupEvent(origin,{...payload,event:"FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING",data:{waba_id:"invalid"}}),null);
 });

@@ -10,12 +10,32 @@ export function metaId(value: unknown): value is string {
 export function expectedCoexistencePhone(phone: { display_phone_number?: string; is_on_biz_app?: boolean; platform_type?: string }) {
   return phone.display_phone_number?.replace(/\D/g, "") === WHATSAPP_NUMBER && phone.is_on_biz_app === true && phone.platform_type === "CLOUD_API";
 }
-export function parseCoexistenceEvent(origin: string, value: unknown): { wabaId: string } | null {
+export type EmbeddedSignupEvent =
+  | { kind: "connected"; wabaId: string }
+  | { kind: "cancelled" }
+  | { kind: "error"; code?: string }
+  | { kind: "different_flow" };
+
+export function parseEmbeddedSignupEvent(origin: string, value: unknown): EmbeddedSignupEvent | null {
   if (!["https://www.facebook.com", "https://web.facebook.com", "https://business.facebook.com"].includes(origin)) return null;
   let event: unknown;
   try { event = typeof value === "string" ? JSON.parse(value) : value; } catch { return null; }
   if (!event || typeof event !== "object") return null;
-  const e = event as { type?: string; event?: string; data?: { waba_id?: string } };
-  if (e.type !== "WA_EMBEDDED_SIGNUP" || e.event !== COEXISTENCE_EVENT || !metaId(e.data?.waba_id)) return null;
-  return { wabaId: e.data!.waba_id! };
+  const e = event as { type?: string; event?: string; data?: { waba_id?: string; error_id?: unknown } };
+  if (e.type !== "WA_EMBEDDED_SIGNUP") return null;
+  if (e.event === COEXISTENCE_EVENT && metaId(e.data?.waba_id)) return {kind:"connected", wabaId:e.data.waba_id};
+  if (e.event === "CANCEL") return {kind:"cancelled"};
+  if (e.event === "FINISH" || e.event === "FINISH_ONLY_WABA") return {kind:"different_flow"};
+  if (e.event === "ERROR") {
+    // Keep only a bounded numeric reference. Raw messages can contain private account data.
+    const rawCode = e.data?.error_id;
+    const code = (typeof rawCode === "number" && Number.isSafeInteger(rawCode)) || typeof rawCode === "string" ? String(rawCode) : "";
+    return /^[0-9]{1,12}$/.test(code) ? {kind:"error",code} : {kind:"error"};
+  }
+  return null;
+}
+
+export function parseCoexistenceEvent(origin: string, value: unknown): { wabaId: string } | null {
+  const result = parseEmbeddedSignupEvent(origin,value);
+  return result?.kind === "connected" ? {wabaId:result.wabaId} : null;
 }

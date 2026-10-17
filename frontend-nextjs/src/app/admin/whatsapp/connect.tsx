@@ -1,7 +1,7 @@
 "use client";
 import Script from "next/script";
 import { useEffect, useRef, useState } from "react";
-import { COEXISTENCE_EVENT, GRAPH_VERSION, parseCoexistenceEvent } from "@/lib/crm/whatsapp-shared";
+import { COEXISTENCE_EVENT, GRAPH_VERSION, parseEmbeddedSignupEvent } from "@/lib/crm/whatsapp-shared";
 type MetaSDK = {
   init(options: Record<string, unknown>): void;
   login(callback: (response: { authResponse?: { code?: string } }) => void, options: Record<string, unknown>): void;
@@ -33,10 +33,21 @@ export default function WhatsAppConnect({ready, appId, configId, connected}: {re
   };
   useEffect(() => {
     const listener = (event: MessageEvent) => {
-      const result = parseCoexistenceEvent(event.origin, event.data);
-      if (!result || !pending.current) return;
-      pending.current.wabaId = result.wabaId;
-      completeRef.current();
+      const result = parseEmbeddedSignupEvent(event.origin, event.data);
+      if (!result || !pending.current || pending.current.saving) return;
+      if (result.kind === "connected") {
+        pending.current.wabaId = result.wabaId;
+        completeRef.current();
+        return;
+      }
+      if (deadline.current) clearTimeout(deadline.current);
+      pending.current = null;
+      setStage("idle");
+      setError(result.kind === "cancelled"
+        ? "Se canceló la conexión en Meta. Puedes preparar la conexión de nuevo cuando quieras continuar."
+        : result.kind === "different_flow"
+          ? "Meta finalizó un flujo distinto al de conectar tu WhatsApp Business existente. Vuelve a preparar la conexión y elige conservar la aplicación del teléfono."
+          : `Meta interrumpió la conexión${result.code ? ` (código ${result.code})` : ""}. Revisa el aviso de la ventana de Meta antes de volver a intentarlo.`);
     };
     window.addEventListener("message", listener);
     return () => {window.removeEventListener("message", listener); if (deadline.current) clearTimeout(deadline.current);};
@@ -65,8 +76,8 @@ export default function WhatsAppConnect({ready, appId, configId, connected}: {re
       pending.current.code=response.authResponse.code;
       completeRef.current();
       if (!pending.current?.saving) deadline.current=setTimeout(() => {
-        pending.current=null; setStage("idle"); setError("Meta no confirmó el flujo de coexistencia. No registres el número por otra ruta; vuelve a intentar desde aquí.");
-      },10000);
+        pending.current=null; setStage("idle"); setError("Meta autorizó el acceso, pero no confirmó la conexión de WhatsApp Business. Comprueba si completaste la vinculación del número en la ventana de Meta. Si solo elegiste cuentas y permisos, falta el alta de coexistencia.");
+      },30000);
     }, {config_id:configId, response_type:"code", override_default_response_type:true, extras:{setup:{},featureType:"whatsapp_business_app_onboarding",sessionInfoVersion:"3"}});
     }catch{
       if(deadline.current)clearTimeout(deadline.current);
