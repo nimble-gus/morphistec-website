@@ -1,3 +1,4 @@
+import {salesDetails} from "./sales-protocol";
 export const AGENT_ORIGIN = "https://n8n-production-2af53.up.railway.app";
 export const AGENT_PATH = "/webhook/oktae-whatsapp-ai";
 export function allowedAgentUrl(value: string | undefined) {
@@ -32,5 +33,5 @@ export function parseAgentAnswer(value:unknown) {
   const answer=value as Record<string,unknown>;
   if(typeof answer.reply!=="string" || !answer.reply.trim() || answer.reply.length>1500 || /wa\.me\/\+?50231174640/i.test(answer.reply)) throw new Error("Invalid reply");
   const q=(answer.qualification&&typeof answer.qualification==="object"?answer.qualification:{}) as Record<string,unknown>;
-  return {reply:answer.reply.trim(),qualified:q.businessFit===true&&q.commercialIntent===true&&Boolean(bounded(q.interest,500)),interest:bounded(q.interest,500),name:bounded(q.name,200),company:bounded(q.company,200),handoff:q.handoff===true};
+  return {...salesDetails(answer),reply:answer.reply.trim(),qualified:q.businessFit===true&&q.commercialIntent===true&&Boolean(bounded(q.interest,500)),interest:bounded(q.interest,500),name:bounded(q.name,200),company:bounded(q.company,200),handoff:q.handoff===true};
 }

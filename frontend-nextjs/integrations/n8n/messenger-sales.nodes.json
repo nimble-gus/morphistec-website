@@ -1,0 +1,86 @@
+{
+  "nodes": [
+    {
+      "id": "1039b5b8-f1c5-4cee-bdd8-b4031a78c2b6",
+      "name": "Contexto comercial Messenger",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1080,
+        -100
+      ],
+      "credentials": {
+        "postgres": {
+          "name": "Postgres account"
+        }
+      },
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT l.*, $2::text AS output FROM leads l WHERE psid=$1::text AND page_id='1248689791655149';",
+        "options": {
+          "queryReplacement": "={{ [ $('Edit Fields').first().json.psid, $('AI Agent').first().json.output ] }}"
+        }
+      }
+    },
+    {
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "credentials": {
+        "httpHeaderAuth": {
+          "name": "Header Auth account 2"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000,
+      "id": "2f11d044-8f92-44c5-a265-857bcf3dd364",
+      "name": "Guardar conversación y referencia CRM",
+      "position": [
+        1320,
+        -100
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://www.oktae.tech/api/integrations/messenger/sales",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { psid: $('Edit Fields').first().json.psid, source_message_id: $('Webhook1').first().json.body.entry[0].messaging[0].message.mid, text: $('Edit Fields').first().json.text, output: $json.output, lead: $json } }}",
+        "options": {
+          "timeout": 20000
+        }
+      }
+    },
+    {
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "credentials": {
+        "httpHeaderAuth": {
+          "name": "Header Auth account 2"
+        }
+      },
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000,
+      "id": "88cc005f-8589-47e5-8e33-98a1c130f477",
+      "name": "Confirmar mensaje Messenger en CRM",
+      "position": [
+        1800,
+        -100
+      ],
+      "parameters": {
+        "method": "POST",
+        "url": "https://www.oktae.tech/api/integrations/messenger/sales",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { action:'ack', psid: $('Edit Fields').first().json.psid, source_message_id: $('Webhook1').first().json.body.entry[0].messaging[0].message.mid, message_id: $json.message_id } }}",
+        "options": {
+          "timeout": 20000
+        }
+      }
+    }
+  ]
+}

@@ -1,9 +1,10 @@
+import {linkMessengerContext,salesContext,saveSalesReply} from "./whatsapp-sales";
 import "server-only";
 import {randomUUID} from "node:crypto";
 import type {PoolClient} from "pg";
 import {db} from "./db";
 import {encryptionKey,openToken,GRAPH_VERSION} from "./whatsapp-protocol";
-import {allowedAgentUrl,incomingTexts,humanEchoPeers,parseAgentAnswer} from "./whatsapp-bot-protocol";
+import {allowedAgentUrl,incomingTexts,humanEchoPeers,parseAgentAnswer,freshTimestamp} from "./whatsapp-bot-protocol";
 export function botConfigured() {
  return allowedAgentUrl(process.env.WHATSAPP_N8N_WEBHOOK_URL)&&Boolean(process.env.WHATSAPP_N8N_TOKEN&&process.env.WHATSAPP_N8N_TOKEN.length>=32);
 }
@@ -12,8 +13,16 @@ export async function recordHumanEchoes(client:Pick<PoolClient,"query">,wabaId:s
  const linked=await client.query("SELECT phone_number_id FROM oktae.whatsapp_connections WHERE id=1 AND waba_id=$1",[wabaId]);
  const metadata=value.metadata as {phone_number_id?:string}|undefined;
  if(!linked.rowCount || metadata?.phone_number_id!==linked.rows[0].phone_number_id) return;
- for(const sender of humanEchoPeers(value)) await client.query(`INSERT INTO oktae.whatsapp_conversations(waba_id,sender_id,paused_until,pause_reason)
+ for(const sender of humanEchoPeers(value)) {
+  await client.query(`INSERT INTO oktae.whatsapp_conversations(waba_id,sender_id,paused_until,pause_reason)
  VALUES($1,$2,now()+interval '6 hours','human') ON CONFLICT(waba_id,sender_id) DO UPDATE SET paused_until=now()+interval '6 hours',pause_reason='human'`,[wabaId,sender]);
+  const echoes=(Array.isArray(value.message_echoes)?value.message_echoes:Array.isArray(value.messages)?value.messages:[]) as Array<{id?:string;to?:string;timestamp?:string;text?:{body?:string};type?:string}>;
+  for(const echo of echoes)if(echo.to===sender&&typeof echo.id==="string"&&echo.id.length<=512&&freshTimestamp(echo.timestamp)){
+   await client.query(`INSERT INTO oktae.conversation_messages(id,contact_id,waba_id,sender_id,channel,direction,body,created_at)
+    SELECT $1,c.contact_id,$2,$3,'whatsapp','human',$4,$5 FROM oktae.whatsapp_conversations c WHERE c.waba_id=$2 AND c.sender_id=$3 ON CONFLICT DO NOTHING`,
+    ['wa:human:'+echo.id,wabaId,sender,echo.text?.body?.slice(0,5000)||'[Mensaje '+(echo.type||'multimedia')+']',new Date(Number(echo.timestamp)*1000)]);
+  }
+ }
 }
 async function ingestEvents() {
  const client=await db().connect();
@@ -29,6 +38,9 @@ async function ingestEvents() {
     if(event.field==="messages") for(const m of incomingTexts(event.payload)) {
      await client.query(`INSERT INTO oktae.whatsapp_conversations(waba_id,sender_id,profile_name,last_customer_at)
       VALUES($1,$2,$3,$4) ON CONFLICT(waba_id,sender_id) DO UPDATE SET profile_name=CASE WHEN EXCLUDED.profile_name<>'' THEN EXCLUDED.profile_name ELSE oktae.whatsapp_conversations.profile_name END,last_customer_at=GREATEST(oktae.whatsapp_conversations.last_customer_at,EXCLUDED.last_customer_at)`,[connection.waba_id,m.sender,m.profile,m.date]);
+     await linkMessengerContext(client,connection.waba_id,m.sender,m.text);
+     await client.query(`INSERT INTO oktae.conversation_messages(id,contact_id,waba_id,sender_id,channel,direction,body,created_at)
+      SELECT $1,c.contact_id,$2,$3,'whatsapp','customer',$4,$5 FROM oktae.whatsapp_conversations c WHERE c.waba_id=$2 AND c.sender_id=$3 ON CONFLICT DO NOTHING`,['wa:in:'+m.id,connection.waba_id,m.sender,m.text,m.date]);
      await client.query("INSERT INTO oktae.whatsapp_jobs(message_id,waba_id,sender_id,text_body,received_at) VALUES($1,$2,$3,$4,$5) ON CONFLICT DO NOTHING",[m.id,connection.waba_id,m.sender,m.text,m.date]);
     }
    }
@@ -65,7 +77,7 @@ async function claimJob() {
 async function processOne() {
  const job=await claimJob();if(!job)return false;if(job.skipped)return true;
  try {
-  const ai=await fetch(process.env.WHATSAPP_N8N_WEBHOOK_URL!,{method:"POST",headers:{"Content-Type":"application/json","X-Oktae-WhatsApp-Key":process.env.WHATSAPP_N8N_TOKEN!},body:JSON.stringify({text:job.text_body,session_key:`wa:${job.waba_id}:${job.sender_id}`}),cache:"no-store",redirect:"error",signal:AbortSignal.timeout(20000)});
+  const ai=await fetch(process.env.WHATSAPP_N8N_WEBHOOK_URL!,{method:"POST",headers:{"Content-Type":"application/json","X-Oktae-WhatsApp-Key":process.env.WHATSAPP_N8N_TOKEN!},body:JSON.stringify({text:job.text_body,sales_context:await salesContext(job.waba_id,job.sender_id),session_key:`wa:${job.waba_id}:${job.sender_id}`}),cache:"no-store",redirect:"error",signal:AbortSignal.timeout(20000)});
   if(!ai.ok)throw new Error("Agent unavailable");
   const raw=await ai.text();if(raw.length>15000)throw new Error("Agent response too large");
   const answer=parseAgentAnswer(JSON.parse(raw));
@@ -93,6 +105,7 @@ async function processOne() {
     await client.query("UPDATE oktae.whatsapp_conversations SET contact_id=$3 WHERE waba_id=$1 AND sender_id=$2",[job.waba_id,job.sender_id,contact.id]);
     await client.query("INSERT INTO oktae.notes(contact_id,body,created_by) VALUES($1,$2,$3)",[contact.id,`Interés comercial expresado en WhatsApp: ${answer.interest}`,connection.connected_by]);
    }
+   await saveSalesReply(client,job,answer,connection.connected_by);
    if(answer.handoff)await client.query("UPDATE oktae.whatsapp_conversations SET paused_until=now()+interval '24 hours',pause_reason='handoff' WHERE waba_id=$1 AND sender_id=$2",[job.waba_id,job.sender_id]);
    await client.query("COMMIT");
   }catch(e){await client.query("ROLLBACK");throw e;}finally{client.release();}
