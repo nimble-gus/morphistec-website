@@ -15,7 +15,7 @@ test('private Messenger bridge creates an idempotent handoff and records an assi
  try{await c.query('BEGIN');
  assert.equal((await call({},'wrong')).status,401);
  const body={psid,source_message_id:source,text:'Quiero una demo de tienda',output:'Puedes continuar aquí: https://wa.me/50231174640?text=Hola',lead:{name:'Prueba puente',interest:'Ecommerce para óptica',stage:'qualifying'}};
- const first=await call(body);assert.equal(first.status,200);const output=(await first.json()).output;assert.match(output,/OKTAE-/);
+ const first=await call(body);assert.equal(first.status,200);const output=(await first.json()).output;assert.match(output,/https:\/\/www\.oktae\.tech\/w\/[a-f0-9-]+/);
  const retry=await call(body);assert.equal((await retry.json()).output,output);
  assert.equal((await c.query('SELECT count(*)::int AS n FROM oktae.messenger_handoffs WHERE contact_id IN (SELECT contact_id FROM oktae.messenger_leads WHERE psid=$1)',[psid])).rows[0].n,1);
  const before=await c.query("SELECT delivery FROM oktae.conversation_messages WHERE contact_id IN (SELECT contact_id FROM oktae.messenger_leads WHERE psid=$1) AND direction='assistant'",[psid]);assert.equal(before.rows[0].delivery,'prepared');

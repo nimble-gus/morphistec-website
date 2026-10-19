@@ -186,6 +186,18 @@ The connection action remains disabled until keys, verified webhook, and `WHATSA
 
 Evidence: `src/app/admin/whatsapp/page.tsx`, `connect.tsx`, the WhatsApp extension in `src/app/admin/admin.css`, and the CRM navigation link in `crm.tsx`; desktop/mobile captures `whatsapp-portal-privado.png` and `whatsapp-portal-movil.png` in the task outputs. No new global tokens are established by this extension.
 
+
+### Public WhatsApp launch recovery extension
+
+The public `/w/[code]` utility is a narrowly scoped exception to this document's private CRM boundary. It reuses Poppins, the pale canvas, ink, indigo actions, amber wordmark punctuation, thin separators, and modest control corners. It establishes no new global tokens or public marketing treatment. Its centered reading column is capped at (440px), with a full-width primary action (54px minimum height); recovery actions and disclosure have a minimum height of (44px). The heading scales from (27px) to (34px), body text uses (16px), and recovery copy uses (14px). These are local utility measurements, not replacements for the CRM hierarchy.
+
+**The Launch Keeps a Recovery Path Rule.** Keep the recipient visible above the native-opening anchor and retain the expandable recovery instructions, selectable prepared message, explicit copy feedback, and WhatsApp Web alternative. Mobile makes one automatic native-opening attempt per URL when the reference is valid; the explicit anchor remains available. Invalid, expired, or unavailable references show a notice and direct-contact recovery without automatic launch. There is no timed app-store redirect. Copy failure instructs manual selection, and sending remains the user's action.
+
+The public content exposes the Oktae brand, its fixed number, and a generic prepared message with an expiring reference when valid; it does not display prospect identity or project details. Focus uses a visible outline, buttons retain text alongside outline icons, and reduced-motion preference removes the primary transition. Full surface evidence and local behavior are recorded in `.impeccable/surfaces/whatsapp-launch.design.md`. Actual iPhone native opening and the clipboard payload remain independently unverified.
+
+Not canonized for this extension: the development overlay in QA captures; local heading, notice, and focus values as global tokens; or screenshot copy feedback as proof of native-app or clipboard success.
+
+
 ## Do's and Don'ts
 
 ### Do:

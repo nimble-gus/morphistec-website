@@ -1,11 +1,18 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {handoffCode,transferOutput,salesDetails,supportedDemoTime} from '../src/lib/crm/sales-protocol';
+import {handoffCode,transferOutput,salesDetails,supportedDemoTime,whatsappLaunchUrls} from '../src/lib/crm/sales-protocol';
 const code='73b497c2-41dc-4f01-a238-121345667890';
 test('handoff link carries only a random reference, never customer context or a predictable PSID',()=>{
  const link=transferOutput('Continúa aquí: https://wa.me/50231174640?text=Hola',code);
  const url=new URL(link.slice(link.indexOf('https:')));
- assert.equal(handoffCode(url.searchParams.get('text')!),code);
+ assert.equal(url.origin,'https://www.oktae.tech');
+ assert.equal(url.pathname,'/w/'+code);
+ const launch=whatsappLaunchUrls(code);
+ const native=new URL(launch.nativeUrl);
+ assert.equal(native.protocol,'whatsapp:');
+ assert.equal(native.searchParams.get('phone'),'50231174640');
+ assert.equal(handoffCode(native.searchParams.get('text')!),code);
+ assert.equal(new URL(launch.webUrl).searchParams.get('text'),launch.message);
  assert.equal(handoffCode('OKTAE-12345'),null);
  assert.ok(!url.search.includes('psid'));
 });
@@ -16,4 +23,10 @@ test('demo time must come from customer text; output cannot mark a confirmed app
  assert.equal(supportedDemoTime('', ['hola']),false);
  assert.equal('status' in data,false);
  assert.equal(salesDetails({demo:{requested:'true'}}).demoRequested,false);
+});
+
+test('launcher never accepts another recipient or embeds an invalid reference',()=>{
+ assert.throws(()=>transferOutput('https://wa.me/50231174640','bad'));
+ assert.equal(whatsappLaunchUrls('bad').message,'Hola, vengo de Messenger.');
+ assert.equal(new URL(whatsappLaunchUrls(null).nativeUrl).searchParams.get('phone'),'50231174640');
 });
