@@ -1,0 +1,12 @@
+{{ JSON.stringify((() => {
+ const output = String($json.output || '');
+ const ref = output.match(new RegExp('https://www[.]oktae[.]tech/w/([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})(?![0-9a-z-])', 'i'));
+ let message = {text: output};
+ if (ref) {
+  const clean = output.replace(ref[0], '').replace(/\s+([:,.!?])/g, '$1').trim().replace(/[:\s]+$/, '');
+  const text = clean && clean.length <= 640 ? clean : 'Continúa con Oktae en WhatsApp. Tu consulta conservará el contexto de Messenger.';
+  const url = 'https://wa.me/50231174640?text=' + encodeURIComponent('Hola, vengo de Messenger. OKTAE-' + ref[1]);
+  message = {attachment: {type: 'template', payload: {template_type: 'button', text, buttons: [{type: 'web_url', url, title: 'Ir a WhatsApp'}]}}};
+ }
+ return {recipient: {id: $('Edit Fields').first().json.psid}, messaging_type: 'RESPONSE', message};
+})()) }}
