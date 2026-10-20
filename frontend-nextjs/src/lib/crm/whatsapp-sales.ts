@@ -8,25 +8,37 @@ export async function linkMessengerContext(client:Pick<PoolClient,'query'>,waba:
  WHERE code=$1 AND expires_at>now() AND (claimed_sender IS NULL OR (claimed_sender=$2 AND claimed_waba=$3)) FOR UPDATE`,[code,sender,waba]);
  if(!h.rowCount)return;
  const existing=await client.query('SELECT contact_id FROM oktae.whatsapp_conversations WHERE waba_id=$1 AND sender_id=$2 FOR UPDATE',[waba,sender]);
- if(existing.rows[0]?.contact_id&&existing.rows[0].contact_id!==h.rows[0].contact_id)return;
+ if(h.rows[0].contact_id&&existing.rows[0]?.contact_id&&existing.rows[0].contact_id!==h.rows[0].contact_id)return;
  await client.query('UPDATE oktae.messenger_handoffs SET claimed_sender=$2,claimed_waba=$3 WHERE code=$1',[code,sender,waba]);
- await client.query('UPDATE oktae.whatsapp_conversations SET contact_id=$3,handoff_code=$4 WHERE waba_id=$1 AND sender_id=$2',[waba,sender,h.rows[0].contact_id,code]);
+ await client.query('UPDATE oktae.whatsapp_conversations SET contact_id=COALESCE($3,contact_id),handoff_code=$4 WHERE waba_id=$1 AND sender_id=$2',[waba,sender,h.rows[0].contact_id,code]);
  await client.query('UPDATE oktae.conversation_messages SET contact_id=$3 WHERE waba_id=$1 AND sender_id=$2 AND contact_id IS NULL',[waba,sender,h.rows[0].contact_id]);
 }
 export async function salesContext(waba:string,sender:string){
  const c=(await db().query(`SELECT c.id,c.name,c.company,c.stage,c.source,left(COALESCE(m.interest,i.interest),1500) AS interest FROM oktae.whatsapp_conversations w
  JOIN oktae.contacts c ON c.id=w.contact_id LEFT JOIN oktae.messenger_leads m ON m.contact_id=c.id LEFT JOIN oktae.instagram_leads i ON i.contact_id=c.id
  WHERE w.waba_id=$1 AND w.sender_id=$2`,[waba,sender])).rows[0];
- const messages=c?(await db().query(`SELECT channel,direction,left(body,1000) AS body FROM oktae.conversation_messages
- WHERE contact_id=$1 AND delivery<>'prepared' ORDER BY created_at DESC,id DESC LIMIT 12`,[c.id])).rows.reverse():(await db().query(`SELECT channel,direction,left(body,1000) AS body FROM oktae.conversation_messages WHERE waba_id=$1 AND sender_id=$2 AND delivery<>'prepared' ORDER BY created_at DESC,id DESC LIMIT 12`,[waba,sender])).rows.reverse();
+ const origin=(await db().query(`SELECT h.social_account_id,h.social_sender_id,i.name,i.phone,i.email,i.interest FROM oktae.whatsapp_conversations w
+ JOIN oktae.messenger_handoffs h ON h.code=w.handoff_code
+ JOIN oktae.instagram_leads i ON i.account_id=h.social_account_id AND i.sender_id=h.social_sender_id
+ WHERE w.waba_id=$1 AND w.sender_id=$2 AND h.source_channel='instagram' AND h.claimed_waba=$1 AND h.claimed_sender=$2`,[waba,sender])).rows[0];
+ const messages=(await db().query(`SELECT channel,direction,left(body,800) AS body FROM oktae.conversation_messages
+ WHERE delivery<>'prepared' AND (contact_id=$1 OR (waba_id=$2 AND sender_id=$3) OR (channel='instagram' AND social_account_id=$4 AND social_sender_id=$5))
+ ORDER BY created_at DESC,id DESC LIMIT 16`,[c?.id??null,waba,sender,origin?.social_account_id??null,origin?.social_sender_id??null])).rows.reverse();
  const demos=c?(await db().query('SELECT preferred_time,status FROM oktae.demo_requests WHERE contact_id=$1 ORDER BY created_at DESC LIMIT 1',[c.id])).rows:[];
- return JSON.stringify({now:new Date().toISOString(),timezone:'America/Guatemala',contact:c?{name:c.name,company:c.company,interest:c.interest,stage:c.stage,source:c.source}:null,recent_messages:messages,latest_demo_request:demos[0]??null,booking_policy:'15 minutos. Horario sujeto a confirmación manual de Gustavo. Sin calendario conectado. Pago enviado manualmente después de la demo.'});
+ return JSON.stringify({now:new Date().toISOString(),timezone:'America/Guatemala',contact:c?{name:c.name,company:c.company,interest:c.interest,stage:c.stage,source:c.source}:null,origin_context:origin?{source:'instagram',name:origin.name,phone:origin.phone,email:origin.email,interest:origin.interest}:null,recent_messages:messages,latest_demo_request:demos[0]??null,booking_policy:'15 minutos. Horario sujeto a confirmación manual de Gustavo. Sin calendario conectado. Pago enviado manualmente después de la demo.'});
 }
 export async function saveSalesReply(client:Pick<PoolClient,'query'>,job:{message_id:string;waba_id:string;sender_id:string},answer:ReturnType<typeof parseAgentAnswer>,userId:string){
  const contact=(await client.query('SELECT contact_id FROM oktae.whatsapp_conversations WHERE waba_id=$1 AND sender_id=$2 FOR UPDATE',[job.waba_id,job.sender_id])).rows[0]?.contact_id;
  const archived=await client.query(`INSERT INTO oktae.conversation_messages(id,contact_id,waba_id,sender_id,channel,direction,body,delivery)
  VALUES($1,$2,$3,$4,'whatsapp','assistant',$5,'accepted') ON CONFLICT DO NOTHING RETURNING id`,['wa:out:'+job.message_id,contact,job.waba_id,job.sender_id,answer.reply]);
  if(!archived.rowCount||!contact)return;
+ // Once qualified in WhatsApp, attach the previously unqualified Instagram history to the same opportunity.
+ const origin=(await client.query(`SELECT h.code,h.social_account_id,h.social_sender_id FROM oktae.whatsapp_conversations w JOIN oktae.messenger_handoffs h ON h.code=w.handoff_code WHERE w.waba_id=$1 AND w.sender_id=$2 AND h.source_channel='instagram' AND h.claimed_waba=$1 AND h.claimed_sender=$2 AND h.contact_id IS NULL`,[job.waba_id,job.sender_id])).rows[0];
+ if(origin){
+  const linked=await client.query('UPDATE oktae.instagram_leads SET contact_id=$3 WHERE account_id=$1 AND sender_id=$2 AND contact_id IS NULL RETURNING contact_id',[origin.social_account_id,origin.social_sender_id,contact]);
+  if(linked.rowCount){await client.query('UPDATE oktae.messenger_handoffs SET contact_id=$2 WHERE code=$1',[origin.code,contact]);await client.query("UPDATE oktae.conversation_messages SET contact_id=$3 WHERE channel='instagram' AND social_account_id=$1 AND social_sender_id=$2 AND contact_id IS NULL",[origin.social_account_id,origin.social_sender_id,contact]);}
+ }
+
  await client.query('UPDATE oktae.conversation_messages SET contact_id=$3 WHERE waba_id=$1 AND sender_id=$2 AND contact_id IS NULL',[job.waba_id,job.sender_id,contact]);
  if(answer.summary)await client.query('INSERT INTO oktae.notes(contact_id,body,created_by) VALUES($1,$2,$3)',[contact,'Seguimiento WhatsApp: '+answer.summary,userId]);
  if(answer.demoRequested&&answer.preferredTime){

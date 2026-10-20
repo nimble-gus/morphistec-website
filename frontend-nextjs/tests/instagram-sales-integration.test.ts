@@ -3,7 +3,8 @@ import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 import pg,{type PoolClient} from 'pg';
 import {saveInstagramSales,instagramInput} from '../src/lib/crm/instagram-sales';
-import {linkMessengerContext,salesContext} from '../src/lib/crm/whatsapp-sales';
+import {linkMessengerContext,salesContext,saveSalesReply} from '../src/lib/crm/whatsapp-sales';
+import {parseAgentAnswer} from '../src/lib/crm/whatsapp-bot-protocol';
 import {handoffCode,whatsappLaunchUrls} from '../src/lib/crm/sales-protocol';
 try{process.loadEnvFile('.env');}catch{}
 test('Instagram archives queries without junk leads, qualifies intent, deduplicates and passes scoped context into WhatsApp',async()=>{
@@ -27,6 +28,23 @@ test('Instagram archives queries without junk leads, qualifies intent, deduplica
  await linkMessengerContext(c as unknown as PoolClient,waba,waSender,'Hola, vengo de Instagram. OKTAE-'+code);
  const context=JSON.parse(await salesContext(waba,waSender));assert.equal(context.contact.source,'instagram');assert.match(context.contact.interest,/Plataforma empresarial/);assert.ok(context.recent_messages.some((m:{channel:string;body:string})=>m.channel==='instagram'&&m.body.includes('cotizar')));
  assert.equal(handoffCode('OKTAE-'+code),code);
+ // A missing AI interest field must never remove the context reference or create a junk CRM lead.
+ const pendingSender=sender+'1',pendingWa='50255512347';
+ const pending=await saveInstagramSales(nested(),{...base,psid:pendingSender,source_message_id:mid+'-pending',text:'Ya tengo mis 1000 productos, camas, motos y juguetes',output:'Continuemos en WhatsApp: https://wa.me/50231174640?text=Hola',lead:{interest:null,stage:'handoff_wa'}});
+ assert.equal(pending.qualified,false);assert.ok(pending.output);const pendingCode=pending.output.match(/\/w\/([a-f0-9-]{36})/)?.[1];assert.ok(pendingCode);
+ assert.equal((await c.query('SELECT contact_id FROM oktae.instagram_leads WHERE account_id=$1 AND sender_id=$2',[account,pendingSender])).rows[0].contact_id,null);
+ await saveInstagramSales(nested(),{...base,psid:pendingSender,source_message_id:mid+'-pending',action:'ack',message_id:'receipt-pending'});
+ await c.query('INSERT INTO oktae.whatsapp_conversations(waba_id,sender_id,last_customer_at) VALUES($1,$2,now()),($1,$3,now())',[waba,pendingWa,'50255512348']);
+ await linkMessengerContext(c as unknown as PoolClient,waba,pendingWa,'OKTAE-'+pendingCode);
+ const carried=JSON.parse(await salesContext(waba,pendingWa));assert.equal(carried.contact,null);assert.equal(carried.origin_context.source,'instagram');assert.ok(carried.recent_messages.some((m:{body:string})=>m.body.includes('1000 productos')));
+ await linkMessengerContext(c as unknown as PoolClient,waba,'50255512348','OKTAE-'+pendingCode);
+ const rejected=JSON.parse(await salesContext(waba,'50255512348'));assert.equal(rejected.origin_context,null);assert.equal(rejected.recent_messages.length,0,'a claimed reference cannot reveal context to a different sender');
+ const userId=randomUUID();await c.query("INSERT INTO oktae.users(id,email,password_hash) VALUES($1,$2,'not-a-valid-hash')",[userId,'ig-transfer-'+userId+'@example.invalid']);
+ const qualified=(await c.query("INSERT INTO oktae.contacts(name,phone,source) VALUES('QA qualified',$1,'whatsapp') RETURNING id",[pendingWa])).rows[0].id;
+ await c.query('UPDATE oktae.whatsapp_conversations SET contact_id=$3 WHERE waba_id=$1 AND sender_id=$2',[waba,pendingWa,qualified]);
+ await saveSalesReply(c as unknown as PoolClient,{message_id:mid+'-qualified',waba_id:waba,sender_id:pendingWa},parseAgentAnswer({reply:'Retomamos tu tienda de 1000 productos.',qualification:{businessFit:true,commercialIntent:true,interest:'Tienda variada',handoff:false}}),userId);
+ assert.equal((await c.query('SELECT contact_id FROM oktae.instagram_leads WHERE account_id=$1 AND sender_id=$2',[account,pendingSender])).rows[0].contact_id,qualified);
+ assert.equal((await c.query("SELECT count(*)::int AS n FROM oktae.conversation_messages WHERE channel='instagram' AND social_sender_id=$1 AND contact_id=$2",[pendingSender,qualified])).rows[0].n,2);
  const direct='50255512346';await c.query('INSERT INTO oktae.whatsapp_conversations(waba_id,sender_id,last_customer_at) VALUES($1,$2,now())',[waba,direct]);
  await c.query("INSERT INTO oktae.conversation_messages(id,waba_id,sender_id,channel,direction,body) VALUES($1,$2,$3,'whatsapp','customer','Necesito una app móvil para mi negocio')",[mid+'-direct',waba,direct]);
  const directContext=JSON.parse(await salesContext(waba,direct));assert.equal(directContext.contact,null);assert.equal(directContext.recent_messages.length,1);assert.match(directContext.recent_messages[0].body,/app móvil/);

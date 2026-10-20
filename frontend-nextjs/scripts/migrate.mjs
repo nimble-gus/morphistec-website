@@ -37,6 +37,7 @@ try {
   await db.query(await readFile(new URL("../db/migrations/008_whatsapp_sales.sql", import.meta.url), "utf8"));
   await db.query(await readFile(new URL("../db/migrations/009_whatsapp_clients.sql", import.meta.url), "utf8"));
   await db.query(await readFile(new URL("../db/migrations/010_instagram_sales.sql", import.meta.url), "utf8"));
+  await db.query(await readFile(new URL("../db/migrations/011_instagram_context_handoffs.sql", import.meta.url), "utf8"));
   await db.query("COMMIT");
   console.log("Esquema CRM oktae actualizado.");
 } catch (e) {
