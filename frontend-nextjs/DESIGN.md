@@ -198,6 +198,21 @@ The public content exposes the Oktae brand, its fixed number, and a generic prep
 Not canonized for this extension: the development overlay in QA captures; local heading, notice, and focus values as global tokens; or screenshot copy feedback as proof of native-app or clipboard success.
 
 
+
+### Private WhatsApp client administration extension
+
+The authenticated `/admin/whatsapp-clients` workspace inherits the CRM's Poppins hierarchy, pale canvas, white bordered panels, indigo actions, visible focus, and modest corners. A searchable business directory leads to one client record with four named sections: Agente, WhatsApp, Conversaciones, and Consumo. Active navigation uses indigo text and a thin inset underline; client states retain explicit labels beside their tint. This extension establishes no new global tokens.
+
+**The Current Configuration Rule.** Keep saving, testing, connecting, and activating visibly distinct. Saving configuration invalidates its previous test and pauses the agent. Activation requires the registered number's current connection and a test of the current configuration. Disabled activation retains a visible reason. An owner connection confirmation does not claim an active agent.
+
+Forms use labeled groups, paired fields where space permits, and full-width knowledge textareas. The directory and four-section navigation keep overflow inside their containers. Responsive source stacks form sections below (800px), then fields, record headings, save/invitation rows, and connection facts below (520px). Conversations use a list/detail grid that becomes a single column. These are source-observed behaviors; no fresh mobile capture is claimed.
+
+The owner-only `/connect/whatsapp/[token]` utility reuses the light CRM treatment in a centered reading column. It exposes the invited business and registered phone, an explicit consent checkbox, preparation and Meta continuation as separate clicks, and visible progress/error/completion states. The invitation expires after 30 minutes; staff create and configure the business, test the agent, and activate it. There is no public registration or owner access to the admin workspace.
+
+Surface evidence and local measurements are recorded in `.impeccable/surfaces/whatsapp-clients.design.md`. Finish review disposition: ship, with all three material findings reported resolved. Desktop captures cover directory, agent configuration, connection, conversations, consumption, and owner consent. Fresh mobile capture and a real external-business Meta authorization remain unverified.
+
+Not canonized for this extension: temporary QA records or development overlays; local state tints, widths, and spacing as global tokens; or preview connection feedback as proof of real Meta authorization. No new visual-world prohibition or craft-floor defect becomes a reusable rule.
+
 ## Do's and Don'ts
 
 ### Do:

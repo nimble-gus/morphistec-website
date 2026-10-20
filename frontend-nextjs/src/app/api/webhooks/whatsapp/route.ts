@@ -3,6 +3,7 @@ import { createHash } from "node:crypto";
 import { db } from "@/lib/crm/db";
 import { equalSecret, validMetaSignature } from "@/lib/crm/whatsapp-protocol";
 import {botEnabled,recordHumanEchoes,runWhatsappBot} from "@/lib/crm/whatsapp-bot";
+import {recordClientEchoes,runClientBots} from "@/lib/crm/wa-client-worker";
 export const maxDuration=60;
 export const runtime = "nodejs";
 export const dynamic = "force-dynamic";
@@ -40,15 +41,16 @@ export async function POST(req: NextRequest) {
       const isTest = entry.id === "0";
       for (const change of entry.changes) {
         if (!change || typeof change.field !== "string" || change.field.length > 100 || !change.value || typeof change.value !== "object") throw new Error("Invalid change");
-        if (!isTest && change.field === "smb_message_echoes") await recordHumanEchoes(client,entry.id,change.value);
+        if (!isTest && change.field === "smb_message_echoes") {await recordHumanEchoes(client,entry.id,change.value);await recordClientEchoes(client,entry.id,change.value);}
         if(!isTest && change.field === "account_update" && change.value.event === "PARTNER_REMOVED") await client.query("UPDATE oktae.whatsapp_connections SET status='disconnected' WHERE id=1 AND waba_id=$1",[entry.id]);
+        if(!isTest && change.field === "account_update" && change.value.event === "PARTNER_REMOVED") await client.query("UPDATE oktae.wa_client_connections SET status='disconnected' WHERE waba_id=$1",[entry.id]);
         const body = JSON.stringify(change.value);
         const eventKey = createHash("sha256").update(`${entry.id}:${change.field}:${body}`).digest("hex");
         await client.query("INSERT INTO oktae.whatsapp_events(event_key,waba_id,field,payload,is_test) VALUES($1,$2,$3,$4::jsonb,$5) ON CONFLICT DO NOTHING", [eventKey, entry.id, change.field, body, isTest]);
       }
     }
     await client.query("COMMIT");
-    if(botEnabled() && payload.entry.some((e:{id:string})=>e.id!=="0")) after(async()=>{try{await runWhatsappBot();}catch{console.error("WhatsApp processing pending");}});
+    if(botEnabled() && payload.entry.some((e:{id:string})=>e.id!=="0")) after(async()=>{try{await Promise.allSettled([runWhatsappBot(),runClientBots()]);}catch{console.error("WhatsApp processing pending");}});
     return new NextResponse("EVENT_RECEIVED");
   } catch {
     await client.query("ROLLBACK");

@@ -1,0 +1,458 @@
+.wc-page {
+  max-width: 1240px;
+  margin: auto;
+  padding: 32px 36px 64px;
+}
+.wc-back,
+.wc-list-back {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.wc-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  margin: 24px 0 30px;
+}
+.wc-header p {
+  color: var(--crm-muted);
+  margin-top: 8px;
+}
+.wc-directory,
+.wc-workspace {
+  background: #fff;
+  border: 1px solid var(--crm-line);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.wc-toolbar {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 20px 24px;
+  border-bottom: 1px solid var(--crm-line);
+}
+.wc-search {
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: center;
+  gap: 10px !important;
+  flex: 1;
+  max-width: 440px;
+}
+.wc-search input {
+  border: 0 !important;
+  flex: 1;
+  min-width: 0;
+  padding: 6px !important;
+}
+.wc-table-wrap {
+  overflow: auto;
+}
+.wc-page table {
+  width: 100%;
+  border-collapse: collapse;
+  text-align: left;
+  font-variant-numeric: tabular-nums;
+}
+.wc-page th {
+  font-size: 12px;
+  color: var(--crm-muted);
+  font-weight: 500;
+  padding: 14px 24px;
+  background: #f8f9fb;
+}
+.wc-page td {
+  padding: 18px 24px;
+  border-top: 1px solid var(--crm-line);
+  white-space: nowrap;
+}
+.wc-page td strong,
+.wc-page td > span:not(.wc-state) {
+  display: block;
+}
+.wc-page td > span:not(.wc-state) {
+  font-size: 12px;
+  color: var(--crm-muted);
+  margin-top: 4px;
+}
+.wc-state {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: #edf0f7;
+  color: var(--crm-muted);
+  font-size: 12px;
+  white-space: nowrap;
+}
+.wc-active {
+  background: #e1f1e8;
+  color: #24613b;
+}
+.wc-paused {
+  background: #f6ecd9;
+  color: #765326;
+}
+.wc-testing {
+  background: #e8ebfc;
+  color: #4655be;
+}
+.wc-empty {
+  padding: 58px 24px;
+  text-align: center;
+  color: var(--crm-muted);
+}
+.wc-empty svg {
+  margin: 0 auto 16px;
+  color: var(--crm-primary);
+}
+.wc-empty h2 {
+  color: var(--crm-ink);
+  margin-bottom: 10px;
+}
+.wc-empty p {
+  max-width: 52ch;
+  margin: auto !important;
+}
+.wc-empty button {
+  margin-top: 24px;
+}
+.wc-list-back {
+  margin: 0 0 18px;
+}
+.wc-client-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 24px;
+}
+.wc-client-header p {
+  margin-top: 6px;
+  color: var(--crm-muted);
+}
+.wc-tabs {
+  display: flex;
+  overflow: auto;
+  border-bottom: 1px solid var(--crm-line);
+  padding: 0 24px;
+  gap: 22px;
+}
+.wc-tabs button {
+  border: 0 !important;
+  border-radius: 0 !important;
+  background: none !important;
+  padding: 13px 0 !important;
+  white-space: nowrap;
+  color: var(--crm-muted);
+}
+.wc-tabs button[aria-current] {
+  color: var(--crm-primary);
+  box-shadow: inset 0 -2px var(--crm-primary);
+}
+.wc-form {
+  padding: 0 24px;
+}
+.wc-form-section {
+  display: grid;
+  grid-template-columns: 230px 1fr;
+  gap: 32px;
+  padding: 30px 0;
+  border-bottom: 1px solid var(--crm-line);
+}
+.wc-form-section p,
+.wc-tab-content > p,
+.wc-test > p {
+  color: var(--crm-muted);
+  font-size: 14px;
+  line-height: 1.65;
+  max-width: 70ch;
+}
+.wc-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.wc-wide {
+  grid-column: 1/-1;
+}
+.wc-page :is(input, textarea) {
+  width: 100%;
+  border: 1px solid #cbd0db;
+  border-radius: 6px;
+  padding: 10px 11px;
+  background: white;
+  color: var(--crm-ink);
+  caret-color: var(--crm-primary);
+}
+.wc-page textarea {
+  resize: vertical;
+  line-height: 1.7;
+}
+.wc-save {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 22px 0;
+}
+.wc-save span,
+.wc-muted {
+  font-size: 12px;
+  color: var(--crm-muted);
+}
+.wc-test {
+  border-top: 1px solid var(--crm-line);
+  padding: 28px 0;
+}
+.wc-test label {
+  margin: 18px 0 12px;
+  max-width: 700px;
+}
+.wc-test-reply {
+  margin-top: 20px;
+  background: #f5f6f9;
+  border-radius: 6px;
+  padding: 18px;
+  max-width: 72ch;
+}
+.wc-test-reply p {
+  white-space: pre-wrap;
+  margin-top: 8px;
+}
+.wc-tab-content {
+  padding: 28px 24px 36px;
+}
+.wc-facts {
+  margin: 24px 0 28px;
+  max-width: 800px;
+}
+.wc-facts > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--crm-line);
+}
+.wc-facts dt {
+  color: var(--crm-muted);
+}
+.wc-facts dd {
+  margin: 0;
+  font-weight: 500;
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+.wc-tab-content > .wc-muted {
+  margin-top: 12px;
+}
+.wc-invite {
+  margin-top: 22px;
+  display: flex;
+  align-items: end;
+  gap: 12px;
+  max-width: 800px;
+}
+.wc-invite label {
+  flex: 1;
+  min-width: 0;
+}
+.wc-invite input {
+  font-size: 12px;
+}
+.wc-activation {
+  margin-top: 36px;
+  padding-top: 28px;
+  border-top: 1px solid var(--crm-line);
+}
+.wc-activation p {
+  max-width: 72ch;
+  color: var(--crm-muted);
+  margin-bottom: 18px;
+}
+.wc-conversation-heading {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+.wc-conversation-heading p {
+  color: var(--crm-muted);
+}
+.wc-chat-grid {
+  display: grid;
+  grid-template-columns: 270px 1fr;
+  gap: 24px;
+  margin-top: 24px;
+}
+.wc-chat-list button {
+  width: 100%;
+  display: block;
+  text-align: left;
+  border: 0;
+  border-bottom: 1px solid var(--crm-line);
+  border-radius: 0;
+  padding: 16px 12px;
+}
+.wc-chat-list button[aria-pressed="true"] {
+  background: #edf0fc;
+}
+.wc-chat-list button span {
+  display: block;
+  font-size: 12px;
+  color: var(--crm-muted);
+  margin-top: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.wc-chat-detail {
+  min-width: 0;
+}
+.wc-chat-detail > p {
+  color: var(--crm-muted);
+  margin: 10px 0 16px;
+}
+.wc-message {
+  padding: 18px 0;
+  border-bottom: 1px solid var(--crm-line);
+}
+.wc-message header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  font-size: 12px;
+}
+.wc-message time,
+.wc-message > span {
+  color: var(--crm-muted);
+  font-size: 12px;
+}
+.wc-message p {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  margin-top: 8px !important;
+  max-width: 72ch;
+}
+.wc-message-assistant strong {
+  color: var(--crm-primary);
+}
+.wc-owner-page {
+  max-width: 650px;
+  margin: auto;
+  padding: 60px 24px;
+}
+.wc-owner-page h1 {
+  margin: 25px 0 18px;
+}
+.wc-owner-page p {
+  margin: 14px 0;
+  color: var(--crm-muted);
+  line-height: 1.75;
+}
+.wc-owner-page .wc-owner-consent {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 12px;
+  margin: 24px 0;
+  font-size: 14px;
+}
+.wc-owner-consent input {
+  width: 20px;
+  height: 20px;
+  flex: none;
+  margin-top: 2px;
+}
+.wc-owner-page button {
+  min-height: 44px;
+}
+.wc-page .crm-error,
+.wc-page .crm-notice {
+  margin-bottom: 20px;
+}
+.wc-page button:disabled {
+  cursor: not-allowed;
+}
+.wc-page ::-webkit-scrollbar {
+  height: 8px;
+  width: 8px;
+}
+.wc-page ::-webkit-scrollbar-thumb {
+  background: #cbd0db;
+  border-radius: 4px;
+}
+@media (max-width: 800px) {
+  .wc-page {
+    padding: 24px 18px 40px;
+  }
+  .wc-header {
+    align-items: flex-start;
+  }
+  .wc-header h1 {
+    font-size: 24px;
+  }
+  .wc-header .primary {
+    white-space: nowrap;
+  }
+  .wc-form-section {
+    grid-template-columns: 1fr;
+    gap: 20px;
+  }
+  .wc-chat-grid {
+    grid-template-columns: 1fr;
+  }
+  .wc-chat-list {
+    max-height: 220px;
+    overflow: auto;
+  }
+  .wc-page td,
+  .wc-page th {
+    padding: 14px 18px;
+  }
+}
+@media (max-width: 520px) {
+  .wc-header {
+    flex-direction: column;
+    gap: 18px;
+  }
+  .wc-header button {
+    align-self: flex-start;
+  }
+  .wc-fields {
+    grid-template-columns: 1fr;
+  }
+  .wc-client-header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .wc-tabs {
+    gap: 18px;
+    padding: 0 18px;
+  }
+  .wc-form,
+  .wc-tab-content {
+    padding-left: 18px;
+    padding-right: 18px;
+  }
+  .wc-save,
+  .wc-invite {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .wc-save button {
+    align-self: flex-start;
+  }
+  .wc-facts > div {
+    flex-direction: column;
+    gap: 6px;
+  }
+  .wc-facts dd {
+    text-align: left;
+  }
+  .wc-message header {
+    flex-direction: column;
+    gap: 3px;
+  }
+}

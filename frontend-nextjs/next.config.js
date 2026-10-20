@@ -6,6 +6,7 @@ const nextConfig = {
   distDir: process.env.OKTAE_BUILD_DIR || ".next",
   async headers() {
     return [
+      {source:"/connect/whatsapp/:path*",headers:[{key:"Cache-Control",value:"private, no-store, max-age=0"},{key:"X-Robots-Tag",value:"noindex, nofollow, noarchive"},{key:"Referrer-Policy",value:"no-referrer"}]},
       {source:"/w/:path*",headers:[{key:"Cache-Control",value:"private, no-store, max-age=0"},{key:"X-Robots-Tag",value:"noindex, nofollow, noarchive"},{key:"Referrer-Policy",value:"no-referrer"}]},
       {
         source: "/admin/:path*",
