@@ -104,5 +104,13 @@
         }
       }
     }
+  ],
+  "updatedNodes": [
+    {
+      "name": "enviar_respuesta_instagram",
+      "parameters": {
+        "jsonBody": "={{ { recipient: { id: $('Edit Fields').first().json.psid }, messaging_type: 'RESPONSE', message: { text: $json.output } } }}"
+      }
+    }
   ]
 }
