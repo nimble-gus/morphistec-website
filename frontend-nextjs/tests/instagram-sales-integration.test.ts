@@ -16,11 +16,13 @@ test('Instagram archives queries without junk leads, qualifies intent, deduplica
  try{await c.query('BEGIN');assert.throws(()=>instagramInput({...base,account_id:'111111111111'}));
  await saveInstagramSales(nested(),base);
  let lead=(await c.query('SELECT * FROM oktae.instagram_leads WHERE account_id=$1 AND sender_id=$2',[account,sender])).rows[0];assert.equal(lead.contact_id,null,'a greeting must not create a contact');
- const request={...base,source_message_id:mid+'-2',text:'Quiero cotizar una plataforma empresarial',output:'Podemos continuar por WhatsApp: https://wa.me/50231174640?text=Hola',lead:{name:'',interest:'Plataforma empresarial para inventario',stage:'qualified'}};
+ const incomplete=await saveInstagramSales(nested(),{...base,source_message_id:mid+'-capture',output:'Continúa en https://wa.me/50231174640?text=Hola'});
+ assert.ok(incomplete.output);assert.match(incomplete.output,/cuál es tu nombre/);assert.doesNotMatch(incomplete.output,/https:/);
+ const request={...base,source_message_id:mid+'-2',text:'Quiero cotizar una plataforma empresarial',output:'Podemos continuar por WhatsApp: https://wa.me/50231174640?text=Hola',lead:{name:'Cliente QA',phone:'50255511111',email:'qa@example.invalid',interest:'Plataforma empresarial para inventario',stage:'qualified'}};
  const result=await saveInstagramSales(nested(),request);const replay=await saveInstagramSales(nested(),request);assert.equal(replay.output,result.output);
  lead=(await c.query('SELECT * FROM oktae.instagram_leads WHERE account_id=$1 AND sender_id=$2',[account,sender])).rows[0];assert.ok(lead.contact_id);
  const contact=(await c.query('SELECT source FROM oktae.contacts WHERE id=$1',[lead.contact_id])).rows[0];assert.equal(contact.source,'instagram');
- assert.equal((await c.query("SELECT count(*)::int AS n FROM oktae.conversation_messages WHERE contact_id=$1 AND channel='instagram'",[lead.contact_id])).rows[0].n,4);
+ assert.equal((await c.query("SELECT count(*)::int AS n FROM oktae.conversation_messages WHERE contact_id=$1 AND channel='instagram'",[lead.contact_id])).rows[0].n,6);
  assert.ok(result.output);const code=result.output.match(/\/w\/([a-f0-9-]{36})/)?.[1];assert.ok(code);assert.match(whatsappLaunchUrls(code,'instagram').message,/Instagram/);
  const out=(await c.query("SELECT delivery FROM oktae.conversation_messages WHERE contact_id=$1 AND direction='assistant' ORDER BY created_at DESC,id DESC",[lead.contact_id])).rows;assert.ok(out.every(r=>r.delivery==='prepared'));
  await saveInstagramSales(nested(),{...request,action:'ack',message_id:'meta-receipt-qa'});
@@ -30,7 +32,7 @@ test('Instagram archives queries without junk leads, qualifies intent, deduplica
  assert.equal(handoffCode('OKTAE-'+code),code);
  // A missing AI interest field must never remove the context reference or create a junk CRM lead.
  const pendingSender=sender+'1',pendingWa='50255512347';
- const pending=await saveInstagramSales(nested(),{...base,psid:pendingSender,source_message_id:mid+'-pending',text:'Ya tengo mis 1000 productos, camas, motos y juguetes',output:'Continuemos en WhatsApp: https://wa.me/50231174640?text=Hola',lead:{interest:null,stage:'handoff_wa'}});
+ const pending=await saveInstagramSales(nested(),{...base,psid:pendingSender,source_message_id:mid+'-pending',text:'Ya tengo mis 1000 productos, camas, motos y juguetes',output:'Continuemos en WhatsApp: https://wa.me/50231174640?text=Hola',lead:{name:'Cliente pendiente',phone:'50255511112',email:'pending@example.invalid',interest:null,stage:'handoff_wa'}});
  assert.equal(pending.qualified,false);assert.ok(pending.output);const pendingCode=pending.output.match(/\/w\/([a-f0-9-]{36})/)?.[1];assert.ok(pendingCode);
  assert.equal((await c.query('SELECT contact_id FROM oktae.instagram_leads WHERE account_id=$1 AND sender_id=$2',[account,pendingSender])).rows[0].contact_id,null);
  await saveInstagramSales(nested(),{...base,psid:pendingSender,source_message_id:mid+'-pending',action:'ack',message_id:'receipt-pending'});

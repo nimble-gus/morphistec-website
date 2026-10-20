@@ -18,3 +18,13 @@ export function salesDetails(value:Record<string,unknown>){
 export function supportedDemoTime(preferred:string,customerTexts:string[]){
  return Boolean(preferred)&&customerTexts.some(t=>t.toLocaleLowerCase().includes(preferred.toLocaleLowerCase()));
 }
+
+export function contactCaptureOutput(output:string,lead:{name?:unknown;phone?:unknown;email?:unknown}){
+ if(!/https:\/\/(?:wa\.me\/50231174640|(?:www\.)?oktae\.tech\/w\/)/i.test(output))return output;
+ const value=(v:unknown)=>typeof v==='string'&&!['null','undefined'].includes(v.trim().toLowerCase())?v.trim():'';
+ const name=value(lead.name),phone=value(lead.phone),email=value(lead.email);
+ if(!name)return 'Para continuar por WhatsApp y retomar tu consulta, ¿cuál es tu nombre?';
+ if(!/^\+?[\d\s()-]{8,25}$/.test(phone)||phone.replace(/\D/g,'').length<8)return '¿Qué número de teléfono usamos para dar seguimiento a tu consulta? Incluye el código de país.';
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))return '¿Cuál es tu correo electrónico para el seguimiento de tu consulta?';
+ return output;
+}

@@ -30,3 +30,14 @@ test('launcher never accepts another recipient or embeds an invalid reference',(
  assert.equal(whatsappLaunchUrls('bad').message,'Hola, vengo de Messenger.');
  assert.equal(new URL(whatsappLaunchUrls(null).nativeUrl).searchParams.get('phone'),'50231174640');
 });
+
+import {contactCaptureOutput} from '../src/lib/crm/sales-protocol';
+test('social handoff asks only missing contact fields before exposing a link',()=>{
+ const link='Continúa aquí: https://wa.me/50231174640?text=Hola';
+ assert.match(contactCaptureOutput(link,{}),/nombre/);
+ assert.match(contactCaptureOutput(link,{name:'Ana'}),/teléfono/);
+ assert.match(contactCaptureOutput(link,{name:'Ana',phone:'50255511111'}),/correo/);
+ assert.match(contactCaptureOutput(link,{name:'Ana',phone:'50255511111',email:'inválido'}),/correo/);
+ assert.equal(contactCaptureOutput(link,{name:'Ana',phone:'50255511111',email:'ana@example.com'}),link);
+ assert.equal(contactCaptureOutput('La instalación es US$399.',{}),'La instalación es US$399.');
+});

@@ -3,7 +3,7 @@ import {createHash} from 'node:crypto';
 import {db} from '@/lib/crm/db';
 import {equalSecret} from '@/lib/crm/whatsapp-protocol';
 import {parseMessengerBatch,syncMessengerBatch,messengerPageId} from '@/lib/crm/messenger';
-import {transferOutput} from '@/lib/crm/sales-protocol';
+import {transferOutput,contactCaptureOutput} from '@/lib/crm/sales-protocol';
 export const runtime='nodejs';
 export async function POST(req:NextRequest){
  const key=process.env.WHATSAPP_N8N_TOKEN;
@@ -27,7 +27,8 @@ export async function POST(req:NextRequest){
   await client.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))',[messengerPageId+':'+b.psid]);
   const contact=(await client.query('SELECT contact_id FROM oktae.messenger_leads WHERE page_id=$1 AND psid=$2',[messengerPageId,b.psid])).rows[0]?.contact_id;
   if(!contact)throw new Error('contact');
-  let output=b.output;
+  const savedLead=(await client.query('SELECT name,phone,email FROM oktae.messenger_leads WHERE page_id=$1 AND psid=$2',[messengerPageId,b.psid])).rows[0]??{};
+  let output=contactCaptureOutput(b.output,savedLead);
   if(/https:\/\/wa\.me\/50231174640(?:\?|\b)/.test(output)){
    const h=await client.query('INSERT INTO oktae.messenger_handoffs(contact_id,source_message_id) VALUES($1,$2) ON CONFLICT(source_message_id) DO UPDATE SET source_message_id=EXCLUDED.source_message_id RETURNING code',[contact,source]);
    output=transferOutput(output,h.rows[0].code);

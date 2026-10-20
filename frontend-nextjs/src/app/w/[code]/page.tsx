@@ -4,7 +4,12 @@ import {handoffUuid,whatsappLaunchUrls} from '@/lib/crm/sales-protocol';
 import OpenWhatsApp from './open-whatsapp';
 import './whatsapp-launch.css';
 export const dynamic='force-dynamic';
-export const metadata:Metadata={title:'Continuar en WhatsApp · Oktae',robots:{index:false,follow:false},referrer:'no-referrer'};
+export const metadata:Metadata={
+ title:'Continúa tu consulta · Oktae',description:'Retoma tu conversación con Oktae por WhatsApp.',
+ openGraph:{title:'Continúa tu consulta con Oktae',description:'Retoma tu conversación por WhatsApp.',type:'website',siteName:'Oktae'},
+ twitter:{card:'summary',title:'Continúa tu consulta con Oktae',description:'Retoma tu conversación por WhatsApp.'},
+ alternates:{canonical:null},robots:{index:false,follow:false},referrer:'no-referrer'
+};
 export default async function WhatsAppLaunch({params}:{params:Promise<{code:string}>}){
  const {code}=await params;
  let valid=false,unavailable=false;let source:'messenger'|'instagram'='messenger';
