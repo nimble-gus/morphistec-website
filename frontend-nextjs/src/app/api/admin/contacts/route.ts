@@ -6,8 +6,8 @@ export async function GET(req: NextRequest) {
   try {
     await authorized(req);
     const { rows } = await db().query(
-      `SELECT c.*,m.interest AS messenger_interest,m.stage AS messenger_stage,m.last_contact_at AS messenger_last_contact_at
- FROM oktae.contacts c LEFT JOIN oktae.messenger_leads m ON m.contact_id=c.id ORDER BY c.updated_at DESC LIMIT 1000`,
+      `SELECT c.*,COALESCE(m.interest,i.interest) AS messenger_interest,COALESCE(m.stage,i.stage) AS messenger_stage,COALESCE(m.last_contact_at,i.observed_at) AS messenger_last_contact_at
+ FROM oktae.contacts c LEFT JOIN oktae.messenger_leads m ON m.contact_id=c.id LEFT JOIN oktae.instagram_leads i ON i.contact_id=c.id ORDER BY c.updated_at DESC LIMIT 1000`,
     );
     return NextResponse.json(rows);
   } catch (e) {

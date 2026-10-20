@@ -446,6 +446,7 @@ export default function Crm({
                         <option value="manual">Manual</option>
                         <option value="messenger">Messenger</option>
                         <option value="whatsapp">WhatsApp</option>
+                        <option value="instagram">Instagram</option>
                         <option value="web">Página web</option>
                         <option value="referido">Referido</option>
                       </select>
@@ -584,9 +585,9 @@ export default function Crm({
                       <dt>Origen</dt>
                       <dd>{contact.source}</dd>
                     </dl>
-                    {contact.source === "messenger" && (
+                    {["messenger","instagram"].includes(contact.source) && (
                       <div className="messenger-context">
-                        <h3>Conversación de Messenger</h3>
+                        <h3>Conversación de {contact.source === "instagram" ? "Instagram" : "Messenger"}</h3>
                         {contact.messenger_interest && (
                           <p>{contact.messenger_interest}</p>
                         )}

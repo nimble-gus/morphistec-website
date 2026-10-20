@@ -7,9 +7,9 @@ export const dynamic='force-dynamic';
 export const metadata:Metadata={title:'Continuar en WhatsApp · Oktae',robots:{index:false,follow:false},referrer:'no-referrer'};
 export default async function WhatsAppLaunch({params}:{params:Promise<{code:string}>}){
  const {code}=await params;
- let valid=false,unavailable=false;
- if(handoffUuid.test(code))try{valid=Boolean((await db().query('SELECT 1 FROM oktae.messenger_handoffs WHERE code=$1 AND expires_at>now()',[code])).rowCount);}catch{unavailable=true;}
- const urls=whatsappLaunchUrls(valid?code:null);
+ let valid=false,unavailable=false;let source:'messenger'|'instagram'='messenger';
+ if(handoffUuid.test(code))try{const h=await db().query('SELECT source_channel FROM oktae.messenger_handoffs WHERE code=$1 AND expires_at>now()',[code]);valid=Boolean(h.rowCount);if(h.rows[0]?.source_channel==='instagram')source='instagram';}catch{unavailable=true;}
+ const urls=whatsappLaunchUrls(valid?code:null,source);
  return <main className="wa-launch"><div className="wa-launch-content">
   <a className="wa-launch-brand" href="https://www.oktae.tech" aria-label="Oktae, inicio">oktae<span>.</span></a>
   <h1>Continúa en WhatsApp</h1>

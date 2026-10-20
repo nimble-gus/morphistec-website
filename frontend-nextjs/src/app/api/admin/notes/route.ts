@@ -10,7 +10,7 @@ export async function GET(req: NextRequest) {
       (
         await db().query(
           `SELECT id::text,body,created_at FROM oktae.notes WHERE contact_id=$1
- UNION ALL SELECT id,(CASE channel WHEN 'whatsapp' THEN 'WhatsApp' ELSE 'Messenger' END)||' · '||
+ UNION ALL SELECT id,(CASE channel WHEN 'whatsapp' THEN 'WhatsApp' WHEN 'instagram' THEN 'Instagram' ELSE 'Messenger' END)||' · '||
  (CASE direction WHEN 'customer' THEN 'Cliente' WHEN 'assistant' THEN 'Asistente' ELSE 'Gustavo' END)||': '||body,created_at
  FROM oktae.conversation_messages WHERE contact_id=$1 AND delivery<>'prepared'
  ORDER BY created_at DESC`,

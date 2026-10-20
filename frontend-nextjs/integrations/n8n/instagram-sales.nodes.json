@@ -1,0 +1,108 @@
+{
+  "nodes": [
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "SELECT l.*, $3::text AS output FROM leads l WHERE psid=$1::text AND page_id=$2::text AND channel='instagram';",
+        "options": {
+          "queryReplacement": "={{ [ $('Edit Fields').first().json.psid, $('Edit Fields').first().json.page_id, $('AI Agent').first().json.output ] }}"
+        }
+      },
+      "id": "db786c93-aa7c-4397-813c-285470e2903f",
+      "name": "Contexto comercial Instagram",
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        1080,
+        260
+      ],
+      "credentials": {
+        "postgres": {
+          "name": "Postgres account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://www.oktae.tech/api/integrations/instagram/sales",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { account_id: $('Edit Fields').first().json.page_id, psid: $('Edit Fields').first().json.psid, source_message_id: $('Webhook1').first().json.body.entry[0].messaging[0].message.mid, text: $('Edit Fields').first().json.text, output: $json.output, lead: $json } }}",
+        "options": {
+          "timeout": 20000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000,
+      "id": "7d3e9dec-885d-49e1-818a-7694f4500540",
+      "name": "Guardar Instagram y referencia CRM",
+      "position": [
+        1320,
+        260
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "name": "Header Auth account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://www.oktae.tech/api/integrations/instagram/sales",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ { action:'ack', account_id: $('Edit Fields').first().json.page_id, psid: $('Edit Fields').first().json.psid, source_message_id: $('Webhook1').first().json.body.entry[0].messaging[0].message.mid, message_id: $json.message_id } }}",
+        "options": {
+          "timeout": 20000
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.4,
+      "retryOnFail": true,
+      "maxTries": 3,
+      "waitBetweenTries": 1000,
+      "id": "523f371f-812f-48e5-94ee-88304fcecd25",
+      "name": "Confirmar mensaje Instagram en CRM",
+      "position": [
+        1800,
+        260
+      ],
+      "credentials": {
+        "httpHeaderAuth": {
+          "name": "Header Auth account 2"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "executeQuery",
+        "query": "UPDATE leads\nSET stage = 'handoff_wa', last_contact_at = NOW()\nWHERE psid = $1::text\n  AND channel = $2::text\n  AND $3::boolean\n  AND $4::boolean\nRETURNING stage;",
+        "options": {
+          "queryReplacement": "={{ $('Edit Fields').first().json.psid }}, {{ $('Edit Fields').first().json.channel }}, {{ String(($('AI Agent').first().json.output || '').includes('https://wa.me/50231174640')) }}, {{ String(Boolean($json.message_id)) }}"
+        }
+      },
+      "type": "n8n-nodes-base.postgres",
+      "typeVersion": 2.6,
+      "position": [
+        2040,
+        260
+      ],
+      "id": "086a9057-45b0-4012-8aa7-b03a006a0bc6",
+      "name": "Registrar transferencia desde Instagram",
+      "credentials": {
+        "postgres": {
+          "name": "Postgres account"
+        }
+      }
+    }
+  ]
+}

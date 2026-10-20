@@ -1,9 +1,9 @@
 export const handoffPattern=/\bOKTAE-([a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12})\b/i;
 export function handoffCode(text:string){return text.match(handoffPattern)?.[1].toLowerCase()??null;}
 export const handoffUuid=/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/i;
-export function whatsappLaunchUrls(code:string|null){
+export function whatsappLaunchUrls(code:string|null,source:'messenger'|'instagram'='messenger'){
  const reference=code&&handoffUuid.test(code)?` OKTAE-${code.toLowerCase()}`:'';
- const message=`Hola, vengo de Messenger.${reference}`;
+ const message=`Hola, vengo de ${source==='instagram'?'Instagram':'Messenger'}.${reference}`;
  const query=`phone=50231174640&text=${encodeURIComponent(message)}`;
  return {message,phone:'+502 3117 4640',nativeUrl:`whatsapp://send?${query}`,webUrl:`https://web.whatsapp.com/send?${query}`};
 }

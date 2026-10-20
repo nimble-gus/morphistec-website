@@ -14,13 +14,13 @@ export async function linkMessengerContext(client:Pick<PoolClient,'query'>,waba:
  await client.query('UPDATE oktae.conversation_messages SET contact_id=$3 WHERE waba_id=$1 AND sender_id=$2 AND contact_id IS NULL',[waba,sender,h.rows[0].contact_id]);
 }
 export async function salesContext(waba:string,sender:string){
- const c=(await db().query(`SELECT c.id,c.name,c.company,c.stage,left(m.interest,1500) AS interest FROM oktae.whatsapp_conversations w
- JOIN oktae.contacts c ON c.id=w.contact_id LEFT JOIN oktae.messenger_leads m ON m.contact_id=c.id
+ const c=(await db().query(`SELECT c.id,c.name,c.company,c.stage,c.source,left(COALESCE(m.interest,i.interest),1500) AS interest FROM oktae.whatsapp_conversations w
+ JOIN oktae.contacts c ON c.id=w.contact_id LEFT JOIN oktae.messenger_leads m ON m.contact_id=c.id LEFT JOIN oktae.instagram_leads i ON i.contact_id=c.id
  WHERE w.waba_id=$1 AND w.sender_id=$2`,[waba,sender])).rows[0];
  const messages=c?(await db().query(`SELECT channel,direction,left(body,1000) AS body FROM oktae.conversation_messages
- WHERE contact_id=$1 AND delivery<>'prepared' ORDER BY created_at DESC,id DESC LIMIT 12`,[c.id])).rows.reverse():[];
+ WHERE contact_id=$1 AND delivery<>'prepared' ORDER BY created_at DESC,id DESC LIMIT 12`,[c.id])).rows.reverse():(await db().query(`SELECT channel,direction,left(body,1000) AS body FROM oktae.conversation_messages WHERE waba_id=$1 AND sender_id=$2 AND delivery<>'prepared' ORDER BY created_at DESC,id DESC LIMIT 12`,[waba,sender])).rows.reverse();
  const demos=c?(await db().query('SELECT preferred_time,status FROM oktae.demo_requests WHERE contact_id=$1 ORDER BY created_at DESC LIMIT 1',[c.id])).rows:[];
- return JSON.stringify({now:new Date().toISOString(),timezone:'America/Guatemala',contact:c?{name:c.name,company:c.company,interest:c.interest,stage:c.stage}:null,recent_messages:messages,latest_demo_request:demos[0]??null,booking_policy:'15 minutos. Horario sujeto a confirmación manual de Gustavo. Sin calendario conectado. Pago enviado manualmente después de la demo.'});
+ return JSON.stringify({now:new Date().toISOString(),timezone:'America/Guatemala',contact:c?{name:c.name,company:c.company,interest:c.interest,stage:c.stage,source:c.source}:null,recent_messages:messages,latest_demo_request:demos[0]??null,booking_policy:'15 minutos. Horario sujeto a confirmación manual de Gustavo. Sin calendario conectado. Pago enviado manualmente después de la demo.'});
 }
 export async function saveSalesReply(client:Pick<PoolClient,'query'>,job:{message_id:string;waba_id:string;sender_id:string},answer:ReturnType<typeof parseAgentAnswer>,userId:string){
  const contact=(await client.query('SELECT contact_id FROM oktae.whatsapp_conversations WHERE waba_id=$1 AND sender_id=$2 FOR UPDATE',[job.waba_id,job.sender_id])).rows[0]?.contact_id;
