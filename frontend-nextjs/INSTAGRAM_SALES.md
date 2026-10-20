@@ -14,3 +14,5 @@ Pruebas con rollback y red simulada:
 `NODE_OPTIONS='--conditions=react-server' npx tsx --test tests/instagram-sales-integration.test.ts tests/sales.test.ts tests/whatsapp-bot-integration.test.ts`
 
 La renovación de un token inválido de Instagram debe completarla el administrador en Meta y guardarla en el nodo de envío de n8n. No exportar ni versionar tokens. Las conversaciones históricas anteriores a esta integración no se importan por este endpoint automáticamente.
+
+El flujo filtra `is_echo`, mensajes cuyo remitente es la propia cuenta, eventos sin texto y mensajes eliminados antes de llamar a la IA o registrar conversaciones. El discurso de Messenger/Instagram está en `integrations/n8n/social-system-instructions.txt`; el de WhatsApp, en `integrations/whatsapp/system-instructions.txt`. Ambos explican beneficios, alcance y condiciones comerciales sin divulgar plantillas o procesos internos.

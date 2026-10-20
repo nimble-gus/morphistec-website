@@ -8,7 +8,7 @@
           "queryReplacement": "={{ [ $('Edit Fields').first().json.psid, $('Edit Fields').first().json.page_id, $('AI Agent').first().json.output ] }}"
         }
       },
-      "id": "db786c93-aa7c-4397-813c-285470e2903f",
+      "id": "3ec05843-f5d8-4ea0-9897-8518ac4aabe6",
       "name": "Contexto comercial Instagram",
       "type": "n8n-nodes-base.postgres",
       "typeVersion": 2.6,
@@ -40,7 +40,7 @@
       "retryOnFail": true,
       "maxTries": 3,
       "waitBetweenTries": 1000,
-      "id": "7d3e9dec-885d-49e1-818a-7694f4500540",
+      "id": "975f56a0-d796-4336-b87d-f15f57f196d7",
       "name": "Guardar Instagram y referencia CRM",
       "position": [
         1320,
@@ -70,7 +70,7 @@
       "retryOnFail": true,
       "maxTries": 3,
       "waitBetweenTries": 1000,
-      "id": "523f371f-812f-48e5-94ee-88304fcecd25",
+      "id": "7a49a441-15ed-49cb-834d-4b22fec827c3",
       "name": "Confirmar mensaje Instagram en CRM",
       "position": [
         1800,
@@ -96,13 +96,47 @@
         2040,
         260
       ],
-      "id": "086a9057-45b0-4012-8aa7-b03a006a0bc6",
+      "id": "2f2553dc-61b6-478e-97b3-02aff8c8b670",
       "name": "Registrar transferencia desde Instagram",
       "credentials": {
         "postgres": {
           "name": "Postgres account"
         }
       }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 3
+          },
+          "conditions": [
+            {
+              "id": "73357671-814a-4f9c-a5e0-b5ab02015cb7",
+              "leftValue": "={{ typeof $json.body?.entry?.[0]?.messaging?.[0]?.message?.text === 'string' && $json.body.entry[0].messaging[0].message.text.trim().length > 0 && !$json.body.entry[0].messaging[0].message.is_echo && !$json.body.entry[0].messaging[0].message.is_deleted && String($json.body.entry[0].messaging[0].sender?.id) !== String($json.body.entry[0].id) }}",
+              "rightValue": true,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.3,
+      "position": [
+        -480,
+        140
+      ],
+      "id": "8e5b55c7-a87a-451a-9330-af8f7b4880b4",
+      "name": "Solo mensajes de clientes"
     }
   ],
   "updatedNodes": [
