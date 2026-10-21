@@ -33,6 +33,7 @@ type Contact = {
   messenger_last_contact_at?: string | null;
 };
 type Note = { id: string; body: string; created_at: string };
+type NotePage = {items: Note[]; page: number; page_size: number; total: number; total_pages: number};
 type Payment = {
   id: string;
   contact_id: string;
@@ -153,6 +154,10 @@ export default function Crm({
     [notesLoading, setNotesLoading] = useState(false),
     [copied, setCopied] = useState(""),
     [notice, setNotice] = useState("");
+  const [notesView, setNotesView] = useState({contactId: "", page: 1});
+  const [notesInfo, setNotesInfo] = useState({page:1,total:0,total_pages:1});
+  const [notesRevision, setNotesRevision] = useState(0);
+  const notesPage = notesView.contactId === selected ? notesView.page : 1;
   const [paymentFormOpen, setPaymentFormOpen] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
   const navToggle = useRef<HTMLButtonElement>(null);
@@ -190,11 +195,15 @@ export default function Crm({
   useEffect(() => {
     const version = ++notesVersion.current;
     setNotes([]);
-    if (!selected) return;
+    setNotesInfo({page:1,total:0,total_pages:1});
+    if (!selected) { setNotesLoading(false); return; }
     setNotesLoading(true);
-    api<Note[]>("notes?contact_id=" + selected)
+    api<NotePage>("notes?contact_id=" + selected + "&page=" + notesPage)
       .then((n) => {
-        if (version === notesVersion.current) setNotes(n);
+        if (version === notesVersion.current) {
+          setNotes(n.items);
+          setNotesInfo({page:n.page,total:n.total,total_pages:n.total_pages});
+        }
       })
       .catch((e) => {
         if (version === notesVersion.current) setError(e.message);
@@ -202,7 +211,7 @@ export default function Crm({
       .finally(() => {
         if (version === notesVersion.current) setNotesLoading(false);
       });
-  }, [selected]);
+  }, [selected, notesPage, notesRevision]);
   async function action(fn: () => Promise<void>) {
     setError("");
     setNotice("");
@@ -235,9 +244,10 @@ export default function Crm({
     const body = new FormData(form).get("body");
     const noteVersion = notesVersion.current;
     await action(async () => {
-      const n = await api<Note>("notes", { contact_id: selected, body });
+      await api<Note>("notes", { contact_id: selected, body });
       if (noteVersion === notesVersion.current) {
-        setNotes((old) => [n, ...old]);
+        setNotesView({contactId:selected!,page:1});
+        setNotesRevision(v=>v+1);
         form.reset();
       }
       setNotice("Nota guardada.");
@@ -744,7 +754,7 @@ export default function Crm({
                       <button disabled={busy}>Guardar seguimiento</button>
                     </form>
                     <section>
-                      <h3>Notas de seguimiento</h3>
+                      <h3>Historial y notas</h3>
                       <form onSubmit={addNote}>
                         <label className="sr-only" htmlFor="note">
                           Nueva nota
@@ -768,6 +778,12 @@ export default function Crm({
                           </div>
                         ))
                       )}
+                      {!notesLoading && notesInfo.total_pages > 1 && <nav className="crm-history-pagination" aria-label="Páginas del historial">
+                        <span>{(notesInfo.page-1)*10+1}–{Math.min(notesInfo.page*10,notesInfo.total)} de {notesInfo.total} registros</span>
+                        <div><button type="button" disabled={busy || notesInfo.page<=1} onClick={()=>setNotesView({contactId:contact.id,page:notesInfo.page-1})}>Anterior</button>
+                        <span aria-live="polite">Página {notesInfo.page} de {notesInfo.total_pages}</span>
+                        <button type="button" disabled={busy || notesInfo.page>=notesInfo.total_pages} onClick={()=>setNotesView({contactId:contact.id,page:notesInfo.page+1})}>Siguiente</button></div>
+                      </nav>}
                     </section>
                     <section>
                       <h3>Crear link de pago</h3>

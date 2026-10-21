@@ -883,3 +883,7 @@
 .subscription-detail li { margin: 6px 0 6px 20px; }
 .status.active { background: #e1f1e8; color: #24613b; }
 .status.past_due { background: #fce9e5; color: #8c3f31; }
+
+.crm-history-pagination { display: grid; gap: 10px; padding-top: 16px; font-size: 11px; color: var(--crm-muted); }
+.crm-history-pagination > div { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+.ok-admin .crm-history-pagination button { min-height: 44px; padding: 10px 12px; }

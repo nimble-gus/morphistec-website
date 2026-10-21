@@ -2,22 +2,14 @@ import { jsonBody } from "@/lib/crm/http";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/crm/db";
 import { authorized, failure, text, uuid } from "@/lib/crm/http";
+import { contactHistory, historyPage } from "@/lib/crm/contact-history";
 export async function GET(req: NextRequest) {
   try {
     await authorized(req);
     const id = uuid(req.nextUrl.searchParams.get("contact_id"));
-    return NextResponse.json(
-      (
-        await db().query(
-          `SELECT id::text,body,created_at FROM oktae.notes WHERE contact_id=$1
- UNION ALL SELECT id,(CASE channel WHEN 'whatsapp' THEN 'WhatsApp' WHEN 'instagram' THEN 'Instagram' ELSE 'Messenger' END)||' · '||
- (CASE direction WHEN 'customer' THEN 'Cliente' WHEN 'assistant' THEN 'Asistente' ELSE 'Gustavo' END)||': '||body,created_at
- FROM oktae.conversation_messages WHERE contact_id=$1 AND delivery<>'prepared'
- ORDER BY created_at DESC`,
-          [id],
-        )
-      ).rows,
-    );
+    const result = await contactHistory(id,historyPage(req.nextUrl.searchParams.get("page")));
+    // Older integrations read the array; the CRM requests the paginated envelope.
+    return NextResponse.json(req.nextUrl.searchParams.has("page") ? result : result.items);
   } catch (e) {
     return failure(e);
   }

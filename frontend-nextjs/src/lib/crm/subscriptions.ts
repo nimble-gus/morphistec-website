@@ -23,7 +23,10 @@ async function readSubscription(id: string) {
   return remote;
 }
 async function saveSubscription(client: PoolClient, link: ProviderRecord, remote: ProviderRecord) {
-  if (link.environment !== paymentEnvironment() || (link.subscription_id && link.subscription_id !== remote.id) || remote.checkout?.id !== link.checkout_id)
+  const alreadyLinked = link.subscription_id === remote.id;
+  if (link.environment !== paymentEnvironment() || (link.subscription_id && !alreadyLinked) ||
+      (!alreadyLinked && remote.checkout?.id !== link.checkout_id) ||
+      (alreadyLinked && remote.checkout?.id && remote.checkout.id !== link.checkout_id))
     throw new HttpError(422,"La suscripción no corresponde al enlace registrado.");
   await client.query(`UPDATE oktae.payment_links SET subscription_id=$2,subscription_status=$3,
     next_billing_at=$4,next_payment_attempt_at=$5,last_synced_at=now() WHERE id=$1`,
