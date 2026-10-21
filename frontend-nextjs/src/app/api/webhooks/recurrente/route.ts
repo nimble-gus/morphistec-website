@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import { Webhook } from "svix";
 import { db } from "@/lib/crm/db";
 import { recurrente, paymentEnvironment } from "@/lib/crm/recurrente";
+import { handleSubscriptionEvent } from "@/lib/crm/subscriptions";
 export async function POST(req: NextRequest) {
   const secret = process.env.RECURRENTE_WEBHOOK_SECRET;
   if (!secret)
@@ -22,6 +23,11 @@ export async function POST(req: NextRequest) {
     event = JSON.parse(raw) as Record<string, unknown>;
   } catch {
     return NextResponse.json({ error: "Firma inválida" }, { status: 400 });
+  }
+  try {
+    if (await handleSubscriptionEvent(event, eventId)) return NextResponse.json({received:true});
+  } catch {
+    return NextResponse.json({error:"No se pudo sincronizar la suscripción. Se requiere reintento."},{status:503});
   }
   const kind = String(event.event_type || "");
   const recognized = ["intent.succeeded", "payment_intent.succeeded"];

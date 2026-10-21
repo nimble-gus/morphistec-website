@@ -12,6 +12,7 @@
     "db:migrate": "node scripts/migrate.mjs",
     "admin:create": "tsx scripts/create-admin.ts",
     "test:crm": "tsx --test tests/crm.test.ts tests/messenger.test.ts && node --conditions=react-server --import tsx --test tests/recurrente.test.ts",
+    "test:subscriptions": "node --conditions=react-server --import tsx --test tests/subscriptions-integration.test.ts tests/recurrente.test.ts",
     "test:crm:integration": "node scripts/test-crm-integration.mjs",
     "test:messenger:integration": "tsx scripts/test-messenger-sync.ts",
     "test:whatsapp": "node --import tsx --test tests/whatsapp.test.ts tests/whatsapp-bot.test.ts",

@@ -871,3 +871,15 @@
   .crm-sidebar nav { gap: 18px; }
   .crm-account { gap: 8px; }
 }
+
+.crm-payment-form fieldset { border: 0; padding: 0; margin: 0; display: grid; gap: 14px; min-width: 0; }
+.crm-payment-form label { display: grid; gap: 6px; }
+.crm-new-payment { max-width: 560px; padding-bottom: 28px; margin-bottom: 12px; border-bottom: 1px solid var(--crm-line); }
+.crm-new-payment h2 { margin-bottom: 18px; }
+.subscription-detail { width: 100%; display: flex; align-items: center; gap: 10px 16px; flex-wrap: wrap; }
+.subscription-detail p, .subscription-detail details { width: 100%; margin: 0; }
+.subscription-detail p:empty { display: none; }
+.subscription-detail summary { cursor: pointer; color: var(--crm-primary); padding: 8px 0; }
+.subscription-detail li { margin: 6px 0 6px 20px; }
+.status.active { background: #e1f1e8; color: #24613b; }
+.status.past_due { background: #fce9e5; color: #8c3f31; }

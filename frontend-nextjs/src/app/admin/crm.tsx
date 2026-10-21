@@ -12,6 +12,7 @@ import {
   Search,
   ArrowUpRight,
   Copy,
+  RefreshCw,
   Check,
   MessageCircle,
   ChevronLeft,
@@ -44,6 +45,13 @@ type Payment = {
   checkout_url: string | null;
   created_at: string;
   environment: string;
+  charge_type: "one_time" | "recurring";
+  store_url: string | null;
+  subscription_status: string | null;
+  next_billing_at: string | null;
+  next_payment_attempt_at: string | null;
+  last_synced_at: string | null;
+  billing_history: {amount_in_cents: number; currency: string; paid_at: string}[];
 };
 const stages: Record<string, string> = {
   nuevo: "Nuevo",
@@ -60,6 +68,37 @@ const statuses: Record<string, string> = {
   failed: "Fallido",
   review: "Revisar en Recurrente",
 };
+const subscriptionStatuses: Record<string,string> = {
+  awaiting_authorization: "Por activar", active: "Activa", past_due: "Pago pendiente",
+  paused: "Pausada", cancelled: "Cancelada", expired: "Enlace vencido",
+};
+function PaymentForm({contacts, contactId, busy, environment, onSubmit}: {
+  contacts: Contact[]; contactId?: string; busy: boolean; environment: string;
+  onSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
+}) {
+  const [recurring, setRecurring] = useState(false);
+  return <form onSubmit={onSubmit} className="crm-payment-form">
+    <fieldset disabled={busy}>
+      {contactId ? <input type="hidden" name="contact_id" value={contactId}/> : <label>Cliente
+        <select name="contact_id" required defaultValue=""><option value="" disabled>Selecciona un cliente</option>
+          {contacts.map(c=><option key={c.id} value={c.id}>{c.name}{c.company ? ` · ${c.company}` : ""}</option>)}
+        </select></label>}
+      <label>Tipo de cobro<select name="charge_type" value={recurring ? "recurring" : "one_time"} onChange={e=>setRecurring(e.target.value === "recurring")}>
+        <option value="one_time">Pago único</option><option value="recurring">Suscripción de tienda · US$49/mes</option>
+      </select></label>
+      {recurring ? <>
+        <label>Dirección de la tienda<input name="store_url" type="url" required maxLength={500} placeholder="https://tienda.com"/></label>
+        <p className="form-hint">US$49 al activar la suscripción y luego cada mes. La instalación se cobra por separado. El cliente autoriza los cobros en Recurrente.</p>
+      </> : <>
+        <label>Concepto<input name="concept" required maxLength={160} placeholder="Anticipo · Asistente de IA"/></label>
+        <div className="amount-fields"><label>Importe<input name="amount" type="number" step="0.01" min="1" required inputMode="decimal"/></label>
+          <label>Moneda<select name="currency" defaultValue="USD"><option value="USD">USD</option><option value="GTQ">GTQ</option></select></label></div>
+      </>}
+      <p className="form-hint">{environment === "test" ? "Modo de prueba: no se mueve dinero." : "Generar el enlace no cobra ni envía mensajes al cliente."}</p>
+      <button className="primary" disabled={busy}>{busy ? "Generando…" : recurring ? "Generar enlace de suscripción" : "Generar link de pago"}<ArrowUpRight size={16}/></button>
+    </fieldset>
+  </form>;
+}
 const money = (n: number, c: string) =>
   new Intl.NumberFormat("es-GT", { style: "currency", currency: c }).format(
     n / 100,
@@ -114,6 +153,7 @@ export default function Crm({
     [notesLoading, setNotesLoading] = useState(false),
     [copied, setCopied] = useState(""),
     [notice, setNotice] = useState("");
+  const [paymentFormOpen, setPaymentFormOpen] = useState(false);
   const [navOpen, setNavOpen] = useState(false);
   const navToggle = useRef<HTMLButtonElement>(null);
   const requestKey = useRef<string | null>(null),
@@ -216,7 +256,8 @@ export default function Crm({
     e.preventDefault();
     const f = e.currentTarget,
       b = Object.fromEntries(new FormData(f));
-    const raw = String(b.amount);
+    const recurring = b.charge_type === "recurring";
+    const raw = recurring ? "49" : String(b.amount);
     if (!/^\d+(\.\d{1,2})?$/.test(raw)) {
       setError("Usa un importe con hasta dos decimales.");
       return;
@@ -225,7 +266,9 @@ export default function Crm({
     requestKey.current ??= crypto.randomUUID();
     await action(async () => {
       await api("payments", {
-        contact_id: selected,
+        contact_id: b.contact_id,
+        charge_type: b.charge_type,
+        store_url: b.store_url,
         concept: b.concept,
         currency: b.currency,
         amount_in_cents: cents,
@@ -234,7 +277,8 @@ export default function Crm({
       requestKey.current = null;
       await refresh();
       f.reset();
-      setNotice("Link de pago creado. Puedes copiarlo o preparar el WhatsApp.");
+      setPaymentFormOpen(false);
+      setNotice(recurring ? "Enlace de suscripción creado. Compártelo para que el cliente lo active." : "Link de pago creado. Puedes copiarlo o preparar el WhatsApp.");
     });
   }
   async function copy(p: Payment) {
@@ -248,7 +292,9 @@ export default function Crm({
   }
   function wa(p: Payment) {
     const phone = p.phone.replace(/\D/g, "");
-    const message = `Hola ${p.name}, te comparto el enlace de pago de ${p.concept} por ${money(p.amount_in_cents, p.currency)}: ${p.checkout_url}`;
+    const message = p.charge_type === "recurring"
+      ? `Hola ${p.name}, tu tienda ya está lista. Activa aquí su licenciamiento por US$49 al mes: ${p.checkout_url}. El primer cobro se realiza al completar la activación y después cada mes. La instalación se cobra por separado.`
+      : `Hola ${p.name}, te comparto el enlace de pago de ${p.concept} por ${money(p.amount_in_cents, p.currency)}: ${p.checkout_url}`;
     return "https://wa.me/" + phone + "?text=" + encodeURIComponent(message);
   }
   function paymentRow(p: Payment) {
@@ -256,16 +302,17 @@ export default function Crm({
       <article className="payment-row" key={p.id}>
         <div>
           <strong>{p.concept}</strong>
+          {p.store_url && <span>{p.store_url}</span>}
           <span>
             {p.name} · {date(p.created_at)}
             {p.environment === "test" ? " · Prueba" : ""}
           </span>
         </div>
         <div className="payment-amount">
-          <strong>{money(p.amount_in_cents, p.currency)}</strong>
-          <span className={"status " + p.status}>{statuses[p.status]}</span>
+          <strong>{money(p.amount_in_cents, p.currency)}{p.charge_type === "recurring" ? "/mes" : ""}</strong>
+          <span className={"status " + (p.subscription_status ?? p.status)}>{p.status === "review" ? statuses.review : p.charge_type === "recurring" ? subscriptionStatuses[p.subscription_status || "awaiting_authorization"] : statuses[p.status]}</span>
         </div>
-        {p.checkout_url && (
+        {p.checkout_url && !(p.charge_type === "recurring" && ["active","paused","past_due","cancelled","expired"].includes(p.subscription_status || "")) && (
           <div className="payment-actions">
             <button
               title="Copiar link"
@@ -294,6 +341,13 @@ export default function Crm({
             )}
           </div>
         )}
+        {p.charge_type === "recurring" && <div className="subscription-detail">
+          <p>{p.subscription_status === "active" && p.next_billing_at ? `Próximo cobro: ${date(p.next_billing_at)}` : p.subscription_status === "past_due" && p.next_payment_attempt_at ? `Próximo intento: ${date(p.next_payment_attempt_at)}` : p.subscription_status === "awaiting_authorization" ? "Esperando la activación del cliente." : ""}</p>
+          <button disabled={busy} onClick={()=>action(async()=>{await api("payments/sync",{id:p.id}); await refresh(); setNotice("Estado consultado en Recurrente.");})}><RefreshCw size={14}/>Consultar estado</button>
+          {p.last_synced_at && <span>Actualizado: {date(p.last_synced_at)}</span>}
+          {!!p.billing_history?.length && <details><summary>Últimos cobros ({p.billing_history.length})</summary><ul>{p.billing_history.map((h,i)=><li key={i}>{date(h.paid_at)} · {money(h.amount_in_cents,h.currency)} · Pagado</li>)}</ul></details>}
+          {["active","paused","past_due"].includes(p.subscription_status || "") && <p>Los cambios de tarjeta y la cancelación se gestionan en Recurrente.</p>}
+        </div>}
         {p.status === "review" && (
           <small>Revisa el checkout en Recurrente antes de crear otro.</small>
         )}
@@ -410,9 +464,7 @@ export default function Crm({
               </button>
             )}
             {tab === "payments" && (
-              <button onClick={() => action(refresh)} disabled={busy}>
-                Actualizar estados
-              </button>
+              <button className="primary" disabled={!paymentReady || busy} onClick={()=>setPaymentFormOpen(!paymentFormOpen)}><Plus size={17}/>{paymentFormOpen ? "Cerrar formulario" : "Nuevo cobro"}</button>
             )}
           </div>
           {error && (
@@ -724,46 +776,7 @@ export default function Crm({
                           Falta conectar Recurrente. Revisa Configuración.
                         </p>
                       ) : (
-                        <form onSubmit={createPayment}>
-                          <label>
-                            Concepto
-                            <input
-                              name="concept"
-                              required
-                              maxLength={160}
-                              placeholder="Anticipo · Asistente de IA"
-                            />
-                          </label>
-                          <div className="amount-fields">
-                            <label>
-                              Importe
-                              <input
-                                name="amount"
-                                type="number"
-                                step="0.01"
-                                min="1"
-                                required
-                                inputMode="decimal"
-                              />
-                            </label>
-                            <label>
-                              Moneda
-                              <select name="currency" defaultValue="USD">
-                                <option value="USD">USD</option>
-                                <option value="GTQ">GTQ</option>
-                              </select>
-                            </label>
-                          </div>
-                          <p className="form-hint">
-                            {environment === "test"
-                              ? "Modo de prueba: no se mueve dinero."
-                              : "Crearás un link real de pago único. El cliente decide cuándo pagarlo."}
-                          </p>
-                          <button className="primary" disabled={busy}>
-                            {busy ? "Procesando…" : "Generar link de pago"}
-                            <ArrowUpRight size={16} />
-                          </button>
-                        </form>
+                        <PaymentForm key={contact.id} contacts={contacts} contactId={contact.id} busy={busy} environment={environment} onSubmit={createPayment}/>
                       )}
                       {payments
                         .filter((p) => p.contact_id === contact.id)
@@ -776,6 +789,7 @@ export default function Crm({
           )}
           {tab === "payments" && (
             <section className="crm-payments">
+              {paymentFormOpen && <section className="crm-new-payment"><h2>Nuevo cobro</h2><PaymentForm contacts={contacts} busy={busy} environment={environment} onSubmit={createPayment}/></section>}
               {!webhookReady && (
                 <p className="setup-note">
                   Las confirmaciones automáticas requieren configurar el webhook
