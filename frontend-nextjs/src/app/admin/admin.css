@@ -132,8 +132,10 @@
 }
 .crm-shell {
   display: grid;
-  grid-template-columns: 218px 1fr;
-  min-height: 100vh;
+  grid-template-columns: 244px minmax(0, 1fr);
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
 }
 .crm-sidebar {
   background: #252830;
@@ -141,11 +143,11 @@
   color: #e4e7ef;
   display: flex;
   flex-direction: column;
-  gap: 40px;
+  gap: 32px;
 }
 .crm-sidebar nav {
   display: grid;
-  gap: 6px;
+  gap: 26px;
 }
 .ok-admin .crm-sidebar button {
   justify-content: flex-start;
@@ -180,8 +182,13 @@
 }
 .crm-main {
   min-width: 0;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
 }
 .crm-top {
+  flex-shrink: 0;
   height: 64px;
   padding: 0 36px;
   border-bottom: 1px solid var(--crm-line);
@@ -193,8 +200,13 @@
   background: white;
 }
 .crm-content {
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  overflow-y: auto;
+  overscroll-behavior-y: contain;
   max-width: 1550px;
-  margin: auto;
+  margin: 0 auto;
   padding: 32px 36px 60px;
 }
 .crm-title {
@@ -634,7 +646,7 @@
 }
 @media (max-width: 1100px) {
   .crm-shell {
-    grid-template-columns: 180px 1fr;
+    grid-template-columns: 218px minmax(0, 1fr);
   }
   .crm-content {
     padding: 25px 22px;
@@ -660,7 +672,17 @@
 }
 @media (max-width: 650px) {
   .crm-shell {
+    height: auto;
+    min-height: 100dvh;
+    overflow: visible;
     display: block;
+  }
+  .crm-main {
+    display: block;
+    overflow: visible;
+  }
+  .crm-content {
+    overflow: visible;
   }
   .crm-sidebar {
     padding: 16px;
@@ -815,8 +837,26 @@
 .wa-endpoint { overflow-wrap: anywhere; font-weight: 500; }
 .wa-next { padding: 8px 0; }
 .wa-next p { color: var(--crm-muted); max-width: 70ch; margin-top: 14px; }
-.ok-admin .crm-sidebar .crm-nav-link { display: inline-flex; align-items: center; gap: 8px; padding: 12px; color: #c9cedb; font-size: 13px; text-decoration: none; border-radius: 7px; }
-.ok-admin .crm-sidebar .crm-nav-link:hover { background: #353a46; }
+.crm-nav-group { display: grid; gap: 4px; min-width: 0; }
+.ok-admin .crm-nav-group h2 { color: #b5bdce; font-size: 12px; font-weight: 500; line-height: 1.5; margin: 0 10px 5px; }
+.ok-admin .crm-sidebar nav button,
+.ok-admin .crm-sidebar .crm-nav-link { display: flex; align-items: center; justify-content: flex-start; gap: 10px; width: 100%; min-height: 44px; padding: 11px 10px; color: #d2d7e2; font-size: 13px; line-height: 1.45; text-align: left; text-decoration: none; border: 0; border-radius: 7px; }
+.crm-sidebar nav svg { flex-shrink: 0; }
+.crm-sidebar nav span { min-width: 0; }
+.ok-admin .crm-sidebar nav button:not(.active):hover,
+.ok-admin .crm-sidebar .crm-nav-link:hover { background: #303540; color: #fff; }
+.ok-admin .crm-sidebar nav button.active { background: #414a74; color: #fff; }
+.ok-admin .crm-sidebar .crm-nav-toggle { display: none; }
+@media(max-width:650px) {
+ .ok-admin .crm-sidebar .crm-nav-toggle { display: inline-flex; min-height: 44px; gap: 7px; padding: 10px; border: 1px solid #505866; font-size: 13px; }
+ .crm-sidebar nav { display: none; grid-template-columns: repeat(2,minmax(0,1fr)); align-items: start; column-gap: 12px; row-gap: 24px; padding: 6px 0 4px; }
+ .crm-sidebar nav[data-open="true"] { display: grid; }
+ .crm-nav-group:last-child { grid-column: 1 / -1; grid-template-columns: repeat(2,minmax(0,1fr)); gap: 4px 12px; }
+ .crm-nav-group:last-child h2 { grid-column: 1 / -1; }
+ .ok-admin .crm-sidebar nav button { flex: initial; justify-content: flex-start; }
+ .crm-sidebar { gap: 12px; }
+ .crm-sidebar .crm-account { margin-left: auto; }
+}
 @media(max-width:650px) {
  .wa-page { padding: 24px 16px 40px; }
  .wa-heading { flex-direction: column; gap: 14px; }
@@ -824,4 +864,10 @@
  .wa-checklist > div { flex-direction: column; gap: 6px; }
  .wa-checklist dd { text-align: left; }
  .wa-connect > button { width: 100%; }
+}
+
+@media (min-width: 651px) and (max-height: 720px) {
+  .crm-sidebar { padding-top: 20px; padding-bottom: 16px; gap: 20px; }
+  .crm-sidebar nav { gap: 18px; }
+  .crm-account { gap: 8px; }
 }

@@ -3,6 +3,8 @@ import Link from "next/link";
 import { useEffect, useState, useCallback, useRef } from "react";
 import {
   Users,
+  Bot,
+  Menu,
   ReceiptText,
   Settings,
   LogOut,
@@ -112,6 +114,8 @@ export default function Crm({
     [notesLoading, setNotesLoading] = useState(false),
     [copied, setCopied] = useState(""),
     [notice, setNotice] = useState("");
+  const [navOpen, setNavOpen] = useState(false);
+  const navToggle = useRef<HTMLButtonElement>(null);
   const requestKey = useRef<string | null>(null),
     notesVersion = useRef(0);
   const contact = contacts.find((c) => c.id === selected);
@@ -310,33 +314,45 @@ export default function Crm({
         <Link href="/admin" className="crm-brand">
           oktae<span>.</span>
         </Link>
-        <nav aria-label="Administración">
-          <button
-            className={tab === "contacts" ? "active" : ""}
-            onClick={() => {
-              setTab("contacts");
-              setSelected(null);
-            }}
-          >
-            <Users size={18} />
-            Prospectos
-          </button>
-          <button
-            className={tab === "payments" ? "active" : ""}
-            onClick={() => setTab("payments")}
-          >
-            <ReceiptText size={18} />
-            Cobros
-          </button>
-          <button
-            className={tab === "settings" ? "active" : ""}
-            onClick={() => setTab("settings")}
-          >
-            <Settings size={18} />
-            Configuración
-          </button>
-          <Link href="/admin/whatsapp-clients" className="crm-nav-link"><MessageCircle size={18} /> Clientes WhatsApp IA</Link>
-          <Link href="/admin/whatsapp" className="crm-nav-link"><MessageCircle size={18} /> WhatsApp</Link>
+        <button
+          className="crm-nav-toggle"
+          ref={navToggle}
+          aria-expanded={navOpen}
+          aria-controls="crm-primary-nav"
+          onClick={() => setNavOpen(!navOpen)}
+        ><Menu size={18} aria-hidden="true" />Menú</button>
+        <nav id="crm-primary-nav" aria-label="Administración" data-open={navOpen}
+          onKeyDown={(event) => { if(event.key === 'Escape') { setNavOpen(false); navToggle.current?.focus(); } }}>
+          <section className="crm-nav-group" aria-labelledby="crm-nav-sales">
+            <h2 id="crm-nav-sales">Gestión comercial</h2>
+            <button
+              className={tab === "contacts" ? "active" : ""}
+              aria-current={tab === "contacts" ? "page" : undefined}
+              onClick={() => { setTab("contacts"); setSelected(null); setNavOpen(false); }}
+            ><Users size={18} aria-hidden="true" /><span>Prospectos</span></button>
+            <button
+              className={tab === "payments" ? "active" : ""}
+              aria-current={tab === "payments" ? "page" : undefined}
+              onClick={() => { setTab("payments"); setNavOpen(false); }}
+            ><ReceiptText size={18} aria-hidden="true" /><span>Cobros</span></button>
+          </section>
+          <section className="crm-nav-group" aria-labelledby="crm-nav-chat">
+            <h2 id="crm-nav-chat">Oktae Chat</h2>
+            <Link href="/admin/whatsapp-clients" className="crm-nav-link">
+              <Bot size={18} aria-hidden="true" /><span>Agentes de clientes</span>
+            </Link>
+          </section>
+          <section className="crm-nav-group" aria-labelledby="crm-nav-admin">
+            <h2 id="crm-nav-admin">Administración</h2>
+            <Link href="/admin/whatsapp" className="crm-nav-link">
+              <MessageCircle size={18} aria-hidden="true" /><span>WhatsApp de Oktae</span>
+            </Link>
+            <button
+              className={tab === "settings" ? "active" : ""}
+              aria-current={tab === "settings" ? "page" : undefined}
+              onClick={() => { setTab("settings"); setNavOpen(false); }}
+            ><Settings size={18} aria-hidden="true" /><span>Configuración</span></button>
+          </section>
         </nav>
         <div className="crm-account">
           <span className="private-tag">
