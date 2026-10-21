@@ -51,3 +51,6 @@ next-env.d.ts
 .next-crm*/
 
 .next-whatsapp/
+
+# Builds locales de Next (QA, social, etc.). No van al repo.
+.next-*/
