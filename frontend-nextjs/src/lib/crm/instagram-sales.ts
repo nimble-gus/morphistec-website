@@ -1,4 +1,5 @@
 import 'server-only';
+import {normalizeContactPhone,phoneCountry} from './contact-phone';
 import type {PoolClient} from 'pg';
 import {createHash} from 'node:crypto';
 import {transferOutput,contactCaptureOutput} from './sales-protocol';
@@ -19,7 +20,7 @@ export async function saveInstagramSales(c:PoolClient,b:Record<string,unknown>){
  }
  if(typeof b.text!=='string'||!b.text.trim()||b.text.length>5000||typeof b.output!=='string'||!b.output.trim()||b.output.length>10000)throw new HttpError(400,'Mensaje inválido.');
  const l=(b.lead&&typeof b.lead==='object'?b.lead:{}) as Record<string,unknown>;
- const name=clean(l.name,200),phone=clean(l.phone,100),email=clean(l.email,254),interest=clean(l.interest,1500),stage=clean(l.stage,80)||'new';
+ const name=clean(l.name,200),phone=normalizeContactPhone(clean(l.phone,100),phoneCountry(l)),email=clean(l.email,254),interest=clean(l.interest,1500),stage=clean(l.stage,80)||'new';
 
  await c.query('BEGIN');try{
   await c.query('SELECT pg_advisory_xact_lock(hashtextextended($1,0))',['instagram:'+account+':'+sender]);

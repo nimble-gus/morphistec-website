@@ -41,3 +41,15 @@ test('social handoff asks only missing contact fields before exposing a link',()
  assert.equal(contactCaptureOutput(link,{name:'Ana',phone:'50255511111',email:'ana@example.com'}),link);
  assert.equal(contactCaptureOutput('La instalación es US$399.',{}),'La instalación es US$399.');
 });
+
+import {normalizeContactPhone} from '../src/lib/crm/contact-phone';
+test('local phones default to 502 while explicit foreign numbers keep their country',()=>{
+ assert.equal(normalizeContactPhone('54164264'),'50254164264');
+ assert.equal(normalizeContactPhone('5416 4264'),'50254164264');
+ assert.equal(normalizeContactPhone('50254164264'),'50254164264');
+ assert.equal(normalizeContactPhone('+502 5416-4264'),'50254164264');
+ assert.equal(normalizeContactPhone('+52 5512345678'),'525512345678');
+ assert.equal(normalizeContactPhone('00525512345678'),'525512345678');
+ assert.equal(normalizeContactPhone('54164264','foreign'),'54164264');
+ assert.equal(normalizeContactPhone(''),'');
+});

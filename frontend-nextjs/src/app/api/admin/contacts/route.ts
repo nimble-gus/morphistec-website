@@ -1,3 +1,4 @@
+import {normalizeContactPhone} from "@/lib/crm/contact-phone";
 import { jsonBody } from "@/lib/crm/http";
 import { NextRequest, NextResponse } from "next/server";
 import { db } from "@/lib/crm/db";
@@ -21,14 +22,14 @@ export async function POST(req: NextRequest) {
     const name = text(b.name, 120, true),
       company = text(b.company, 160),
       email = text(b.email, 254),
-      phone = text(b.phone, 30),
+      phone = normalizeContactPhone(text(b.phone, 30),typeof b.phone_country==='string'?b.phone_country:'GT'),
       source = text(b.source, 80);
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
       throw new HttpError(400, "Revisa el correo.");
     if (phone && !/^\+?[0-9 ()-]{7,30}$/.test(phone))
       throw new HttpError(
         400,
-        "Revisa el teléfono e incluye el código de país.",
+        "Revisa el teléfono.",
       );
     const { rows } = await db().query(
       "INSERT INTO oktae.contacts(name,company,email,phone,source) VALUES($1,$2,$3,$4,$5) RETURNING *",
@@ -65,7 +66,7 @@ export async function PATCH(req: NextRequest) {
     const name = text(b.name, 120, true),
       company = text(b.company, 160),
       email = text(b.email, 254),
-      phone = text(b.phone, 30);
+      phone = normalizeContactPhone(text(b.phone, 30),typeof b.phone_country==='string'?b.phone_country:'GT');
     if (email && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
       throw new HttpError(400, "Revisa el correo.");
     if (phone && !/^\+?[0-9 ()-]{7,30}$/.test(phone))

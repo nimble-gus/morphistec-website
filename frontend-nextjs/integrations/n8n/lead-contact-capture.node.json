@@ -1,0 +1,10 @@
+{
+  "name": "actualizar_lead",
+  "parameters": {
+    "query": "UPDATE leads SET\n name=COALESCE(NULLIF(NULLIF($2,''),'null'),name),\n phone=CASE WHEN $3::text IN ('','null') THEN phone\n WHEN length(regexp_replace($3::text,'[^0-9]','','g'))=8 AND $3::text NOT LIKE '+%' AND $3::text NOT LIKE '00%' AND COALESCE(NULLIF(NULLIF($8::text,''),'null'),metadata->>'phone_country','GT')='GT'\n THEN '502'||regexp_replace($3::text,'[^0-9]','','g')\n ELSE regexp_replace(regexp_replace($3::text,'^00',''),'[^0-9]','','g') END,\n email=COALESCE(NULLIF(NULLIF($4,''),'null'),email),interest=COALESCE(NULLIF(NULLIF($5,''),'null'),interest),stage=COALESCE(NULLIF(NULLIF($6,''),'null'),stage),\n metadata=COALESCE(metadata,'{}'::jsonb)||CASE WHEN $8::text IN ('GT','foreign') THEN jsonb_build_object('phone_country',$8::text) ELSE '{}'::jsonb END,last_contact_at=NOW()\n WHERE psid=$1::text AND channel=$7::text RETURNING *;",
+    "options": {
+      "queryReplacement": "={{ [ $('Edit Fields').first().json.psid, $fromAI('nombre','Nombre proporcionado, o null','string'), $fromAI('telefono','Solo dígitos; ocho dígitos locales llevan 502. Preserva números extranjeros explícitos. Desconocido: null.','string'), $fromAI('correo','Correo proporcionado, o null','string'), $fromAI('interes','Servicio y necesidad explícita, o null','string'), $fromAI('etapa','new, qualifying o qualified. Conserva handoff_wa si ya existe.','string'), $('Edit Fields').first().json.channel, $fromAI('pais_telefono','GT por defecto. foreign solo si indicó que el número es extranjero; conserva esa excepción del contexto.','string') ] }}"
+    },
+    "toolDescription": "Guarda los datos explícitos del prospecto y su necesidad; una llamada por turno. Nombre, teléfono y correo antes de compartir WhatsApp. Ocho dígitos locales llevan 502 automáticamente sin preguntarlo. pais_telefono=GT por defecto, foreign únicamente si lo indicó el cliente; conserva esa excepción. No inventes datos ni marques handoff_wa: el flujo lo registra al enviar la transferencia."
+  }
+}

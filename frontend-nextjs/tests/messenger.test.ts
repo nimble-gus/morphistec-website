@@ -54,3 +54,10 @@ test("Solo importa la página de Oktae y rechaza duplicados, fechas e identifica
     ),
   );
 });
+
+test('Messenger defaults local phone numbers to Guatemala and respects explicit foreign context',()=>{
+ const parse=(phone:string,metadata={})=>parseMessengerBatch({observed_at,leads:[{...lead,phone,metadata}]},Date.parse(observed_at)).leads[0].phone;
+ assert.equal(parse('54164264'),'50254164264');
+ assert.equal(parse('+52 5512345678'),'525512345678');
+ assert.equal(parse('54164264',{phone_country:'foreign'}),'54164264');
+});

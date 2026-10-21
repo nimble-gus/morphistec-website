@@ -1,3 +1,4 @@
+import {normalizeContactPhone,phoneCountry} from "./contact-phone";
 import { timingSafeEqual, createHash } from "node:crypto";
 import type { PoolClient } from "pg";
 import { HttpError } from "./errors";
@@ -75,7 +76,7 @@ export function parseMessengerBatch(
       psid,
       page_id,
       name: clean(l.name, 500),
-      phone: clean(l.phone, 100),
+      phone: normalizeContactPhone(clean(l.phone, 100),phoneCountry(l)),
       email: clean(l.email, 500),
       interest: clean(l.interest, 10000),
       stage: clean(l.stage, 80) || "new",
